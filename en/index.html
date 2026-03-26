@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGIS — Turn Every AI Conversation Into Growth</title>
+    <meta name="description" content="AEGIS empowers your AI customer interactions, transforming Chatbase dialogues into actionable intelligence for SEO, content strategy, and business growth.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f7ff', 100: '#ebf0fe', 200: '#ced9fb', 300: '#adc0f7',
+                            400: '#8ca7f4', 500: '#5e6ad2', 600: '#4b55a8', 700: '#38407e',
+                            800: '#252a54', 900: '#13152a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans TC"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'premium': '0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06)',
+                        'premium-hover': '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 8s linear infinite',
+                        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+                        'hero-zoom': 'hero-zoom 20s ease-out forwards',
+                    },
+                    transitionDuration: {
+                        DEFAULT: '600ms',
+                        '800': '800ms',
+                        '1000': '1000ms',
+                    },
+                    transitionTimingFunction: {
+                        DEFAULT: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                        'brand': 'cubic-bezier(0.25, 1, 0.5, 1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-white text-slate-900 font-sans antialiased; }
+        }
+        @layer components {
+            .glass-nav { @apply bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50; }
+            .section-padding { @apply py-24 sm:py-32; }
+        }
+    </style>
+    <style>
+        /* Custom scrollbar for an elite feel */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Optical styling adjustment for typography */
+        body { 
+            text-rendering: optimizeLegibility; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Animations & Reveal */
+        @keyframes hero-zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Cursor */
+        @media (pointer: fine) {
+            body { cursor: none; }
+            a, button, input, textarea, [role="button"] { cursor: none; }
+            #custom-cursor-dot {
+                position: fixed; top: 0; left: 0; width: 6px; height: 6px; 
+                background: #5e6ad2; border-radius: 50%; pointer-events: none; z-index: 9999;
+                transform: translate(-50%, -50%);
+            }
+            #custom-cursor-ring {
+                position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+                border: 2px solid rgba(94, 106, 210, 0.4); border-radius: 50%; 
+                pointer-events: none; z-index: 9998;
+                transform: translate(-50%, -50%);
+                transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
+            }
+            #custom-cursor-ring.hover {
+                width: 60px; height: 60px; background-color: rgba(94, 106, 210, 0.1); border-color: transparent;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased tracking-[0.02em] selection:bg-brand-500 selection:text-white">
+    <!-- Custom Cursor -->
+    <div id="custom-cursor-dot" class="hidden md:block"></div>
+    <div id="custom-cursor-ring" class="hidden md:block"></div>
+    <nav class="glass-nav">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-black tracking-tighter text-slate-900">AEGIS<span class="text-brand-500">.</span></a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-sm font-semibold text-slate-900 hover:text-brand-500 transition-colors" data-i18n="nav.links.0">Home</a>
+                        <a href="about.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors" data-i18n="nav.links.1">About Us</a>
+                        <a href="#services" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors" data-i18n="nav.links.2">Services</a>
+                        <a href="../index.html" class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-colors" data-i18n="nav.lang_toggle">ZH</a>
+                        <a href="contact.html" class="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-slate-800 transition-all active:scale-95" data-i18n="nav.cta">Book Free Consultation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative isolate overflow-hidden bg-white">
+        <svg class="absolute inset-0 -z-10 h-full w-full stroke-slate-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]" aria-hidden="true">
+            <defs>
+                <pattern id="hero-pattern" width="200" height="200" x="50%" y="-1" patternUnits="userSpaceOnUse">
+                    <path d="M.5 200V.5H200" fill="none" />
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" stroke-width="0" fill="url(#hero-pattern)" />
+        </svg>
+        <div class="mx-auto max-w-7xl px-6 pb-24 pt-16 sm:pb-32 lg:flex lg:px-8 lg:pt-32">
+            <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0">
+                <div class="mt-24 sm:mt-32 lg:mt-16">
+                    <a href="#" class="inline-flex space-x-6">
+                        <span class="rounded-full bg-brand-500/10 px-3 py-1 text-sm font-semibold leading-6 text-brand-600 ring-1 ring-inset ring-brand-500/20" data-i18n="ai_to_ai.badge">AI-to-AI Interfacing</span>
+                        <span class="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-slate-600">
+                            <span>v1.0.4 Released</span>
+                            <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+                <h1 class="mt-10 text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl" data-i18n="hero.title">Turn Every Conversation Into<br/><span class="text-brand-500">Actionable Growth</span></h1>
+                <p class="mt-6 text-lg leading-8 text-slate-600" data-i18n="hero.subtitle">AEGIS transforms your AI customer service into a powerful business engine. We analyze interaction data to consistently improve AI responses while extracting vital market insights.</p>
+                <div class="mt-10 flex items-center gap-x-6">
+                    <a href="contact.html" class="rounded-full bg-brand-500 px-8 py-3.5 text-lg font-bold text-white shadow-xl hover:bg-brand-600 transition-all hover:scale-105 active:scale-95" data-i18n="hero.cta_primary">Book Free Consultation</a>
+                    <a href="#how-it-works" class="text-lg font-bold leading-6 text-slate-900 group" data-i18n="hero.cta_secondary">Learn More <span class="inline-block transition-transform group-hover:translate-x-1" aria-hidden="true">→</span></a>
+                </div>
+            </div>
+            <div class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
+                <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
+                    <div class="-m-2 rounded-xl bg-slate-900/5 p-2 ring-1 ring-inset ring-slate-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000" alt="AEGIS AI Technology" width="2432" height="1442" class="w-[76rem] rounded-md shadow-2xl ring-1 ring-slate-900/10">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo Cloud — Marquee -->
+    <div class="bg-white py-16 sm:py-20 border-y border-slate-100 overflow-hidden">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <h2 class="text-center text-sm font-bold uppercase tracking-widest text-slate-400 mb-10">Trusted by Global Industry Leaders</h2>
+        </div>
+        <style>
+            @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+            .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+            .marquee-track:hover { animation-play-state: paused; }
+        </style>
+        <div class="relative">
+            <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10"></div>
+            <div class="marquee-track">
+                <!-- 12 logos × 2 (duplicated for seamless loop) -->
+                <div class="flex items-center gap-16 px-8 shrink-0">
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Google</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Microsoft</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Amazon</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Meta</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Apple</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Samsung</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">TSMC</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">NVIDIA</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Intel</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Salesforce</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">Oracle</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">IBM</span>
+                </div>
+                <div class="flex items-center gap-16 px-8 shrink-0" aria-hidden="true">
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Google</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Microsoft</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Amazon</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Meta</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Apple</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Samsung</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">TSMC</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">NVIDIA</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Intel</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Salesforce</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">Oracle</span>
+                    <span class="text-2xl font-black tracking-tighter text-slate-300 select-none whitespace-nowrap">IBM</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Grid -->
+    <section id="services" class="bg-slate-50 py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl lg:text-center mb-16">
+                <h2 class="text-base font-semibold leading-7 text-brand-600">Four Core AI Service Modules</h2>
+                <p class="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Tailored AI Solutions for Your Enterprise</p>
+                <p class="mt-6 text-lg leading-8 text-slate-600">From data-driven conversation analytics to automated content generation, driving comprehensive digital growth.</p>
+            </div>
+
+            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-6 lg:max-w-none lg:grid-cols-4">
+                <!-- 001 - AI Enterprise System -->
+                <div class="group flex flex-col bg-white rounded-xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2">
+                    <div class="text-xs font-semibold text-slate-400 mb-12">001</div>
+                    <div class="flex justify-center items-center h-32 mb-12">
+                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500 animate-spin-slow">
+                            <circle cx="50" cy="50" r="40" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <ellipse cx="50" cy="50" rx="40" ry="15" stroke-width="0.5" />
+                            <ellipse cx="50" cy="50" rx="15" ry="40" stroke-width="0.5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">AI Enterprise Growing & Intelligence System</h3>
+                    <p class="text-sm leading-relaxed text-slate-600">Complete AI framework from data to strategy for digital growth</p>
+                </div>
+
+                <!-- 002 - AI Chatbot -->
+                <div class="group flex flex-col bg-white rounded-xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2">
+                    <div class="text-xs font-semibold text-slate-400 mb-12">002</div>
+                    <div class="flex justify-center items-center h-32 mb-12">
+                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
+                            <circle cx="50" cy="50" r="10" stroke-width="1" />
+                            <circle cx="50" cy="50" r="20" stroke-width="0.5" />
+                            <circle cx="50" cy="50" r="30" stroke-width="0.5" />
+                            <circle cx="50" cy="50" r="40" stroke-width="0.5" stroke-dasharray="4 4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">AI Chatbot+ Conversation Analytics</h3>
+                    <p class="text-sm leading-relaxed text-slate-600">Automates responses while analyzing dialogues for market insights</p>
+                </div>
+
+                <!-- 003 - Social Engine -->
+                <div class="group flex flex-col bg-white rounded-xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2">
+                    <div class="text-xs font-semibold text-slate-400 mb-12">003</div>
+                    <div class="flex justify-center items-center h-32 mb-12">
+                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500 group-hover:rotate-12 transform transition-transform">
+                            <path d="M50 10 L90 80 L10 80 Z" stroke-width="0.5" />
+                            <path d="M50 10 L50 80" stroke-width="0.5" />
+                            <path d="M10 80 L50 64 L90 80" stroke-width="0.5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">Social Content Engine</h3>
+                    <p class="text-sm leading-relaxed text-slate-600">Industry-specific social posts and articles</p>
+                </div>
+
+                <!-- 004 - GEO Audit -->
+                <div class="group flex flex-col bg-white rounded-xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2">
+                    <div class="text-xs font-semibold text-slate-400 mb-12">004</div>
+                    <div class="flex justify-center items-center h-32 mb-12">
+                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
+                            <rect x="25" y="25" width="30" height="30" stroke-width="0.5" />
+                            <rect x="45" y="45" width="30" height="30" stroke-width="0.5" />
+                            <line x1="25" y1="25" x2="45" y2="45" stroke-width="0.5" />
+                            <line x1="55" y1="25" x2="75" y2="45" stroke-width="0.5" />
+                            <line x1="25" y1="55" x2="45" y2="75" stroke-width="0.5" />
+                            <line x1="55" y1="55" x2="75" y2="75" stroke-width="0.5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">GEO Optimization Audit</h3>
+                    <p class="text-sm leading-relaxed text-slate-600">Diagnoses site performance in search engines and AI-generated search</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Combined Stats + Experience Block -->
+    <div class="bg-slate-950 py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <!-- AEGIS Case Metrics -->
+            <div class="mx-auto max-w-2xl lg:max-w-none">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Extract Real Business Value from Dialogue</h2>
+                    <p class="mt-4 text-lg leading-8 text-slate-400">The data speak for themselves; AEGIS generates significant digital growth for enterprises.</p>
+                </div>
+                <dl id="metrics-container" class="grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4 mb-24">
+                    <!-- Populated by JS -->
+                </dl>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-slate-800 mb-20"></div>
+
+            <!-- Experience Counters -->
+            <dl class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-3 text-center">
+                <div class="stat-item flex flex-col items-center" data-target="500" data-suffix="+">
+                    <dt class="text-sm font-semibold leading-6 text-slate-400 tracking-widest uppercase mb-3">Brand Websites Built</dt>
+                    <dd class="order-first">
+                        <span class="stat-number text-6xl font-black tracking-tight text-white">0</span>
+                        <span class="text-6xl font-black tracking-tight text-brand-400">+</span>
+                    </dd>
+                </div>
+                <div class="stat-item flex flex-col items-center" data-target="25" data-suffix="+">
+                    <dt class="text-sm font-semibold leading-6 text-slate-400 tracking-widest uppercase mb-3">Years of Experience</dt>
+                    <dd class="order-first">
+                        <span class="stat-number text-6xl font-black tracking-tight text-white">0</span>
+                        <span class="text-6xl font-black tracking-tight text-brand-400">+</span>
+                    </dd>
+                </div>
+                <div class="stat-item flex flex-col items-center" data-target="180" data-suffix="+">
+                    <dt class="text-sm font-semibold leading-6 text-slate-400 tracking-widest uppercase mb-3">Global Clients Served</dt>
+                    <dd class="order-first">
+                        <span class="stat-number text-6xl font-black tracking-tight text-white">0</span>
+                        <span class="text-6xl font-black tracking-tight text-brand-400">+</span>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+    <script>
+        (function () {
+            function animateCounter(el) {
+                const target = parseInt(el.closest('.stat-item').dataset.target);
+                const duration = 1800;
+                const start = performance.now();
+                const easeOut = t => 1 - Math.pow(1 - t, 3);
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    el.textContent = Math.floor(easeOut(progress) * target);
+                    if (progress < 1) requestAnimationFrame(update);
+                    else el.textContent = target;
+                }
+                requestAnimationFrame(update);
+            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
+        })();
+    </script>
+
+    <!-- AI to AI Highlight -->
+    <div class="overflow-hidden bg-slate-950 py-24 sm:py-32 text-white border-t border-slate-800">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 items-center">
+                <div class="lg:pr-8 lg:pt-4">
+                    <div class="lg:max-w-lg">
+                        <h2 class="text-base font-semibold leading-7 text-brand-400" data-i18n="ai_to_ai.badge">World's First</h2>
+                        <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl" data-i18n="ai_to_ai.title">The World's First AI-to-AI Business Consultation</p>
+                        <p class="mt-6 text-lg leading-8 text-slate-300" data-i18n="ai_to_ai.desc">When potential clients or procurement teams use ChatGPT, Perplexity, or other AI search tools to query your products, AEGIS-deployed AI systems can proactively interface with these tools. Seamless AI-to-AI dialogue ensures your product specs and quotes are represented optimally in AI-generated results.</p>
+                    </div>
+                </div>
+                <div class="flex items-start justify-end lg:order-last">
+                    <div class="w-[48rem] max-w-none rounded-xl bg-slate-900 shadow-2xl ring-1 ring-white/10 p-8">
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="h-10 w-10 shrink-0 rounded-full bg-slate-800 flex items-center justify-center font-bold text-xs text-slate-400">AI</div>
+                                <div class="rounded-2xl rounded-tl-none bg-slate-800 p-4 text-sm text-slate-300 border border-slate-700">"We are looking for an industrial-grade SSD solution with 24/7 support. Does your product fit?"</div>
+                            </div>
+                            <div class="flex items-start gap-4 flex-row-reverse">
+                                <div class="h-10 w-10 shrink-0 rounded-full bg-brand-500 flex items-center justify-center font-bold text-xs text-white">AEGIS</div>
+                                <div class="rounded-2xl rounded-tr-none bg-brand-900/50 p-4 text-sm text-brand-100 border border-brand-500/30 font-medium">"Yes, our PRO series meets industrial standards with power-loss protection, suitable for 24/7 harsh environments."</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How it Works — Milestone Timeline Design -->
+    <div id="how-it-works" class="bg-white py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl lg:text-center">
+                <h2 class="text-base font-semibold leading-7 text-brand-600">How AEGIS Works</h2>
+                <p class="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">A simple 3-step process to build your AI-driven growth flywheel.</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="mx-auto mt-20 max-w-3xl">
+                <!-- Step 1 -->
+                <div class="relative flex gap-8 pb-16">
+                    <div class="flex flex-col items-center">
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-500 text-white font-black text-lg shadow-lg shadow-brand-500/30 ring-4 ring-brand-500/10">1</div>
+                        <div class="mt-4 flex-1 w-px bg-gradient-to-b from-brand-500 to-slate-200"></div>
+                    </div>
+                    <div class="pb-4 pt-1.5 flex-1">
+                        <p class="text-xs font-bold uppercase tracking-widest text-brand-500 mb-2">Step 1</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Connect AI Chatbot</h3>
+                        <p class="text-base leading-relaxed text-slate-600">Deploy a dedicated Chatbase on the client side, providing 24/7 automated customer service and transforming all chats into analytical assets.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative flex gap-8 pb-16">
+                    <div class="flex flex-col items-center">
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-500 text-white font-black text-lg shadow-lg shadow-brand-500/30 ring-4 ring-brand-500/10">2</div>
+                        <div class="mt-4 flex-1 w-px bg-gradient-to-b from-brand-500 to-slate-200"></div>
+                    </div>
+                    <div class="pb-4 pt-1.5 flex-1">
+                        <p class="text-xs font-bold uppercase tracking-widest text-brand-500 mb-2">Step 2</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">AI Deep Analytics</h3>
+                        <p class="text-base leading-relaxed text-slate-600">The intelligence engine deeply analyzes dialogue data, discovers blind spots, and identifies real user pain points.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative flex gap-8">
+                    <div class="flex flex-col items-center">
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white font-black text-lg shadow-lg ring-4 ring-slate-900/10">3</div>
+                    </div>
+                    <div class="pt-1.5 flex-1">
+                        <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Step 3</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Strategy Output</h3>
+                        <p class="text-base leading-relaxed text-slate-600">Translate insights into actionable SEO, FAQ, and social content optimization recommendations to drive your next revenue cycle.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Snippet -->
+    <div class="bg-white py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="rounded-3xl bg-slate-950 px-6 py-24 text-center shadow-2xl sm:px-16 sm:py-32">
+                <h2 class="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl" data-i18n="about.title">About RefineLab / AEGIS</h2>
+                <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300" data-i18n="about.desc">We don’t just build AI chatbots; we provide complete, AI-driven digital growth solutions. With Ivan Chen's 20+ years of expertise handling over 380 projects, AEGIS assists global enterprises in building solid competitive advantages for the AI era.</p>
+                <div class="mt-10 flex items-center justify-center gap-x-6">
+                    <a href="about.html" class="rounded-full bg-white px-8 py-3.5 text-lg font-bold text-slate-900 shadow-sm hover:bg-slate-100 transition-all active:scale-95" data-i18n="about.cta">Learn About Our Team →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100">
+        <div class="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+            <div class="flex justify-center space-x-6 md:order-2">
+                <p class="text-sm font-semibold text-slate-900" data-i18n="footer.cta_title">Ready to fuel your enterprise growth with AI?</p>
+                <a href="contact.html" class="text-brand-600 hover:text-brand-500 font-bold" data-i18n="footer.cta_btn">Contact Us →</a>
+            </div>
+            <div class="mt-8 md:order-1 md:mt-0">
+                <p class="text-center text-xs leading-5 text-slate-500" data-i18n="footer.copyright">&copy; 2026 RefineLab / AEGIS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Script -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPageData('en', 'home');
+        });
+    </script>
+</body>
+</html>

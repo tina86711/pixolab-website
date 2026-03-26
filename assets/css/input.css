@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    @apply antialiased;
+  }
+  body {
+    @apply bg-white text-slate-900 font-sans;
+  }
+}
+
+@layer components {
+  /* Premium Glass Effect */
+  .glass-nav {
+    @apply bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50;
+  }
+
+  /* Shared Button component */
+  .btn-premium {
+    @apply inline-flex items-center justify-center rounded-lg px-6 py-2.5 text-sm font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+  
+  .btn-premium-primary {
+    @apply btn-premium bg-brand-500 text-white shadow-sm hover:bg-brand-600 focus-visible:outline-brand-500 active:scale-[0.98];
+  }
+
+  .btn-premium-secondary {
+    @apply btn-premium bg-white text-slate-900 border border-slate-200 shadow-sm hover:bg-slate-50 active:scale-[0.98];
+  }
+
+  /* Card and Panel accents */
+  .card-premium {
+    @apply rounded-2xl border border-slate-200 bg-white p-8 shadow-premium transition-all duration-300 hover:shadow-premium-hover hover:-translate-y-1;
+  }
+}

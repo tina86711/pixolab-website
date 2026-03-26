@@ -1,0 +1,408 @@
+/*
+ * ============================================================
+ *  AEGIS Design Tokens — Linear.app Inspired
+ *  Architecture: Reference → System → Component
+ *  DO NOT use ref-* tokens inside component styles.
+ * ============================================================
+ */
+
+:root {
+
+  /* ============================================================
+   *  LAYER 1 — REFERENCE TOKENS (ref)
+   *  Raw, named values. Never use directly in components.
+   * ============================================================ */
+
+  /* Color Primitives */
+  --ref-color-white:          #ffffff;
+  --ref-color-black:          #000000;
+
+  /* Gray Scale */
+  --ref-color-gray-50:        #fafafa;
+  --ref-color-gray-100:       #f5f5f5;
+  --ref-color-gray-150:       #efefef;
+  --ref-color-gray-200:       #e8e8e8;
+  --ref-color-gray-300:       #d4d4d4;
+  --ref-color-gray-400:       #a3a3a3;
+  --ref-color-gray-500:       #737373;
+  --ref-color-gray-600:       #525252;
+  --ref-color-gray-700:       #404040;
+  --ref-color-gray-800:       #262626;
+  --ref-color-gray-900:       #171717;
+
+  /* Accent — Linear Indigo/Violet */
+  --ref-color-accent-50:      #eef0fb;
+  --ref-color-accent-100:     #dde2f7;
+  --ref-color-accent-200:     #bac5f0;
+  --ref-color-accent-300:     #8fa1e6;
+  --ref-color-accent-400:     #6d7fda;
+  --ref-color-accent-500:     #5e6ad2;   /* Linear brand signature */
+  --ref-color-accent-600:     #4f5ab8;
+  --ref-color-accent-700:     #3d469e;
+  --ref-color-accent-800:     #2e3480;
+  --ref-color-accent-900:     #1e2260;
+
+  /* Success */
+  --ref-color-success-500:    #4caf82;
+  --ref-color-success-100:    #d8f3e9;
+
+  /* Warning */
+  --ref-color-warning-500:    #f0a030;
+  --ref-color-warning-100:    #fdefd6;
+
+  /* Danger */
+  --ref-color-danger-500:     #e5484d;
+  --ref-color-danger-100:     #ffe0e0;
+
+  /* Typography Scale */
+  --ref-font-family-sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ref-font-family-mono:     'JetBrains Mono', 'Fira Code', monospace;
+
+  --ref-font-size-10:         0.625rem;   /* 10px */
+  --ref-font-size-11:         0.6875rem;  /* 11px */
+  --ref-font-size-12:         0.75rem;    /* 12px */
+  --ref-font-size-13:         0.8125rem;  /* 13px */
+  --ref-font-size-14:         0.875rem;   /* 14px */
+  --ref-font-size-15:         0.9375rem;  /* 15px */
+  --ref-font-size-16:         1rem;       /* 16px */
+  --ref-font-size-18:         1.125rem;   /* 18px */
+  --ref-font-size-20:         1.25rem;    /* 20px */
+  --ref-font-size-24:         1.5rem;     /* 24px */
+  --ref-font-size-28:         1.75rem;    /* 28px */
+  --ref-font-size-32:         2rem;       /* 32px */
+  --ref-font-size-40:         2.5rem;     /* 40px */
+  --ref-font-size-48:         3rem;       /* 48px */
+  --ref-font-size-56:         3.5rem;     /* 56px */
+  --ref-font-size-64:         4rem;       /* 64px */
+
+  --ref-font-weight-regular:  400;
+  --ref-font-weight-medium:   500;
+  --ref-font-weight-semibold: 600;
+  --ref-font-weight-bold:     700;
+  --ref-font-weight-extrabold:800;
+
+  /* Line Height */
+  --ref-line-height-tight:    1.2;
+  --ref-line-height-snug:     1.35;
+  --ref-line-height-normal:   1.5;
+  --ref-line-height-relaxed:  1.65;
+  --ref-line-height-loose:    1.8;
+
+  /* Letter Spacing */
+  --ref-tracking-tight:       -0.03em;
+  --ref-tracking-snug:        -0.015em;
+  --ref-tracking-normal:      0em;
+  --ref-tracking-wide:        0.02em;
+  --ref-tracking-wider:       0.05em;
+
+  /* Spacing Scale */
+  --ref-space-0:    0px;
+  --ref-space-1:    0.125rem;   /* 2px */
+  --ref-space-2:    0.25rem;    /* 4px */
+  --ref-space-3:    0.375rem;   /* 6px */
+  --ref-space-4:    0.5rem;     /* 8px */
+  --ref-space-5:    0.625rem;   /* 10px */
+  --ref-space-6:    0.75rem;    /* 12px */
+  --ref-space-7:    0.875rem;   /* 14px */
+  --ref-space-8:    1rem;       /* 16px */
+  --ref-space-10:   1.25rem;    /* 20px */
+  --ref-space-12:   1.5rem;     /* 24px */
+  --ref-space-14:   1.75rem;    /* 28px */
+  --ref-space-16:   2rem;       /* 32px */
+  --ref-space-20:   2.5rem;     /* 40px */
+  --ref-space-24:   3rem;       /* 48px */
+  --ref-space-32:   4rem;       /* 64px */
+  --ref-space-40:   5rem;       /* 80px */
+  --ref-space-48:   6rem;       /* 96px */
+  --ref-space-56:   7rem;       /* 112px */
+  --ref-space-64:   8rem;       /* 128px */
+  --ref-space-80:   10rem;      /* 160px */
+  --ref-space-96:   12rem;      /* 192px */
+
+  /* Border Radius */
+  --ref-radius-0:   0px;
+  --ref-radius-2:   2px;
+  --ref-radius-4:   4px;
+  --ref-radius-6:   6px;
+  --ref-radius-8:   8px;
+  --ref-radius-10:  10px;
+  --ref-radius-12:  12px;
+  --ref-radius-16:  16px;
+  --ref-radius-20:  20px;
+  --ref-radius-24:  24px;
+  --ref-radius-full: 9999px;
+
+  /* Border Width */
+  --ref-border-0:   0px;
+  --ref-border-1:   1px;
+  --ref-border-2:   2px;
+
+  /* Shadow */
+  --ref-shadow-xs:   0 1px 2px rgba(0,0,0,0.04);
+  --ref-shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --ref-shadow-md:   0 4px 6px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.04);
+  --ref-shadow-lg:   0 10px 15px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.03);
+  --ref-shadow-xl:   0 20px 25px rgba(0,0,0,0.06), 0 8px 10px rgba(0,0,0,0.04);
+  --ref-shadow-2xl:  0 25px 50px rgba(0,0,0,0.08);
+  --ref-shadow-accent-sm: 0 0 0 3px rgba(94,106,210,0.15);
+  --ref-shadow-accent-md: 0 0 0 4px rgba(94,106,210,0.20);
+
+  /* Transition */
+  --ref-duration-fast:    100ms;
+  --ref-duration-normal:  150ms;
+  --ref-duration-slow:    250ms;
+  --ref-duration-slower:  400ms;
+  --ref-ease-default:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ref-ease-in:          cubic-bezier(0.4, 0, 1, 1);
+  --ref-ease-out:         cubic-bezier(0, 0, 0.2, 1);
+
+  /* Z-index */
+  --ref-z-below:   -1;
+  --ref-z-base:     0;
+  --ref-z-raised:  10;
+  --ref-z-overlay: 20;
+  --ref-z-modal:   30;
+  --ref-z-nav:     40;
+  --ref-z-tooltip: 50;
+
+
+  /* ============================================================
+   *  LAYER 2 — SYSTEM TOKENS (sys)
+   *  Semantic, purpose-driven aliases of ref tokens.
+   *  These define the MEANING, not the value.
+   * ============================================================ */
+
+  /* -- Background -- */
+  --sys-bg-canvas:          var(--ref-color-white);
+  --sys-bg-surface:         var(--ref-color-gray-50);
+  --sys-bg-elevated:        var(--ref-color-white);
+  --sys-bg-sunken:          var(--ref-color-gray-100);
+  --sys-bg-overlay:         rgba(255,255,255,0.85);
+
+  /* -- Border -- */
+  --sys-border-default:     var(--ref-color-gray-200);
+  --sys-border-subtle:      var(--ref-color-gray-150);
+  --sys-border-strong:      var(--ref-color-gray-300);
+  --sys-border-focus:       var(--ref-color-accent-500);
+
+  /* -- Text -- */
+  --sys-text-primary:       var(--ref-color-gray-900);
+  --sys-text-secondary:     var(--ref-color-gray-600);
+  --sys-text-tertiary:      var(--ref-color-gray-400);
+  --sys-text-disabled:      var(--ref-color-gray-300);
+  --sys-text-on-accent:     var(--ref-color-white);
+  --sys-text-on-dark:       var(--ref-color-white);
+  --sys-text-link:          var(--ref-color-accent-600);
+  --sys-text-link-hover:    var(--ref-color-accent-700);
+
+  /* -- Accent (Primary Action) -- */
+  --sys-accent-default:     var(--ref-color-accent-500);
+  --sys-accent-hover:       var(--ref-color-accent-600);
+  --sys-accent-active:      var(--ref-color-accent-700);
+  --sys-accent-subtle:      var(--ref-color-accent-50);
+  --sys-accent-muted:       var(--ref-color-accent-100);
+
+  /* -- State -- */
+  --sys-state-success-bg:   var(--ref-color-success-100);
+  --sys-state-success-text: var(--ref-color-success-500);
+  --sys-state-warning-bg:   var(--ref-color-warning-100);
+  --sys-state-warning-text: var(--ref-color-warning-500);
+  --sys-state-danger-bg:    var(--ref-color-danger-100);
+  --sys-state-danger-text:  var(--ref-color-danger-500);
+
+  /* -- Elevation (Shadow) -- */
+  --sys-shadow-low:         var(--ref-shadow-sm);
+  --sys-shadow-mid:         var(--ref-shadow-md);
+  --sys-shadow-high:        var(--ref-shadow-xl);
+  --sys-shadow-focus:       var(--ref-shadow-accent-sm);
+
+  /* -- Spacing Roles -- */
+  --sys-space-inset-xs:     var(--ref-space-4);
+  --sys-space-inset-sm:     var(--ref-space-6);
+  --sys-space-inset-md:     var(--ref-space-8);
+  --sys-space-inset-lg:     var(--ref-space-12);
+  --sys-space-inset-xl:     var(--ref-space-16);
+  --sys-space-inset-2xl:    var(--ref-space-24);
+  --sys-space-gap-xs:       var(--ref-space-2);
+  --sys-space-gap-sm:       var(--ref-space-4);
+  --sys-space-gap-md:       var(--ref-space-8);
+  --sys-space-gap-lg:       var(--ref-space-12);
+  --sys-space-gap-xl:       var(--ref-space-16);
+  --sys-space-gap-2xl:      var(--ref-space-24);
+  --sys-space-section-sm:   var(--ref-space-40);
+  --sys-space-section-md:   var(--ref-space-56);
+  --sys-space-section-lg:   var(--ref-space-80);
+  --sys-space-section-xl:   var(--ref-space-96);
+
+  /* -- Radius Roles -- */
+  --sys-radius-sm:          var(--ref-radius-4);
+  --sys-radius-md:          var(--ref-radius-6);
+  --sys-radius-lg:          var(--ref-radius-8);
+  --sys-radius-xl:          var(--ref-radius-12);
+  --sys-radius-2xl:         var(--ref-radius-16);
+  --sys-radius-3xl:         var(--ref-radius-24);
+  --sys-radius-pill:        var(--ref-radius-full);
+
+  /* -- Typography Roles -- */
+  --sys-font-body:          var(--ref-font-family-sans);
+  --sys-font-mono:          var(--ref-font-family-mono);
+
+  --sys-text-size-label:    var(--ref-font-size-11);
+  --sys-text-size-caption:  var(--ref-font-size-12);
+  --sys-text-size-sm:       var(--ref-font-size-13);
+  --sys-text-size-body:     var(--ref-font-size-14);
+  --sys-text-size-md:       var(--ref-font-size-15);
+  --sys-text-size-ui:       var(--ref-font-size-16);
+  --sys-text-size-h4:       var(--ref-font-size-18);
+  --sys-text-size-h3:       var(--ref-font-size-24);
+  --sys-text-size-h2:       var(--ref-font-size-32);
+  --sys-text-size-h1:       var(--ref-font-size-48);
+  --sys-text-size-display:  var(--ref-font-size-64);
+
+  --sys-text-weight-regular:  var(--ref-font-weight-regular);
+  --sys-text-weight-medium:   var(--ref-font-weight-medium);
+  --sys-text-weight-semibold: var(--ref-font-weight-semibold);
+  --sys-text-weight-bold:     var(--ref-font-weight-bold);
+  --sys-text-weight-extrabold:var(--ref-font-weight-extrabold);
+
+  --sys-leading-tight:      var(--ref-line-height-tight);
+  --sys-leading-body:       var(--ref-line-height-normal);
+  --sys-leading-relaxed:    var(--ref-line-height-relaxed);
+
+  --sys-tracking-heading:   var(--ref-tracking-tight);
+  --sys-tracking-body:      var(--ref-tracking-normal);
+  --sys-tracking-label:     var(--ref-tracking-wide);
+  --sys-tracking-caps:      var(--ref-tracking-wider);
+
+  /* -- Motion -- */
+  --sys-transition-fast:    var(--ref-duration-fast) var(--ref-ease-default);
+  --sys-transition-normal:  var(--ref-duration-normal) var(--ref-ease-default);
+  --sys-transition-slow:    var(--ref-duration-slow) var(--ref-ease-default);
+
+  /* -- Z-index -- */
+  --sys-z-nav:              var(--ref-z-nav);
+  --sys-z-overlay:          var(--ref-z-overlay);
+  --sys-z-modal:            var(--ref-z-modal);
+
+
+  /* ============================================================
+   *  LAYER 3 — COMPONENT TOKENS (comp)
+   *  Component-specific design decisions that map to sys tokens.
+   * ============================================================ */
+
+  /* --- Button --- */
+  --comp-btn-radius:              var(--sys-radius-md);
+  --comp-btn-font-size:           var(--sys-text-size-body);
+  --comp-btn-font-weight:         var(--sys-text-weight-medium);
+  --comp-btn-transition:          var(--sys-transition-normal);
+
+  --comp-btn-sm-px:               var(--ref-space-6);
+  --comp-btn-sm-py:               var(--ref-space-2);
+  --comp-btn-sm-font-size:        var(--sys-text-size-sm);
+
+  --comp-btn-md-px:               var(--ref-space-8);
+  --comp-btn-md-py:               var(--ref-space-4);
+
+  --comp-btn-lg-px:               var(--ref-space-12);
+  --comp-btn-lg-py:               var(--ref-space-6);
+  --comp-btn-lg-font-size:        var(--sys-text-size-md);
+
+  /* Primary Button */
+  --comp-btn-primary-bg:          var(--sys-text-primary);
+  --comp-btn-primary-bg-hover:    var(--ref-color-gray-800);
+  --comp-btn-primary-bg-active:   var(--ref-color-gray-700);
+  --comp-btn-primary-text:        var(--ref-color-white);
+  --comp-btn-primary-shadow:      var(--sys-shadow-low);
+
+  /* Secondary Button */
+  --comp-btn-secondary-bg:        var(--ref-color-white);
+  --comp-btn-secondary-bg-hover:  var(--sys-bg-surface);
+  --comp-btn-secondary-text:      var(--sys-text-primary);
+  --comp-btn-secondary-border:    var(--sys-border-default);
+  --comp-btn-secondary-shadow:    var(--sys-shadow-low);
+
+  /* Accent Button */
+  --comp-btn-accent-bg:           var(--sys-accent-default);
+  --comp-btn-accent-bg-hover:     var(--sys-accent-hover);
+  --comp-btn-accent-text:         var(--sys-text-on-accent);
+  --comp-btn-accent-shadow:       0 2px 8px rgba(94,106,210,0.25);
+
+  /* Ghost Button */
+  --comp-btn-ghost-text:          var(--sys-text-secondary);
+  --comp-btn-ghost-bg-hover:      var(--sys-bg-sunken);
+
+  /* --- Nav --- */
+  --comp-nav-bg:                  rgba(255,255,255,0.85);
+  --comp-nav-backdrop:            blur(12px) saturate(180%);
+  --comp-nav-border:              var(--sys-border-subtle);
+  --comp-nav-height:              3.5rem;
+  --comp-nav-z:                   var(--sys-z-nav);
+  --comp-nav-link-color:          var(--sys-text-secondary);
+  --comp-nav-link-hover:          var(--sys-text-primary);
+  --comp-nav-logo-size:           var(--sys-text-size-ui);
+
+  /* --- Card --- */
+  --comp-card-bg:                 var(--sys-bg-elevated);
+  --comp-card-border:             var(--sys-border-default);
+  --comp-card-radius:             var(--sys-radius-xl);
+  --comp-card-shadow:             var(--sys-shadow-low);
+  --comp-card-shadow-hover:       var(--sys-shadow-mid);
+  --comp-card-padding:            var(--sys-space-inset-2xl);
+  --comp-card-transition:         var(--sys-transition-slow);
+
+  /* --- Badge / Label --- */
+  --comp-badge-radius:            var(--sys-radius-pill);
+  --comp-badge-font-size:         var(--sys-text-size-label);
+  --comp-badge-font-weight:       var(--sys-text-weight-medium);
+  --comp-badge-px:                var(--ref-space-5);
+  --comp-badge-py:                var(--ref-space-1);
+  --comp-badge-tracking:          var(--sys-tracking-label);
+
+  /* --- Section --- */
+  --comp-section-py-sm:           var(--sys-space-section-sm);
+  --comp-section-py-md:           var(--sys-space-section-md);
+  --comp-section-py-lg:           var(--sys-space-section-lg);
+  --comp-section-max-w:           80rem;
+  --comp-section-px:              var(--ref-space-8);
+
+  /* --- Logo Wall --- */
+  --comp-logo-size:               9rem;
+  --comp-logo-radius:             var(--sys-radius-pill);
+  --comp-logo-bg:                 var(--ref-color-white);
+  --comp-logo-border:             var(--sys-border-subtle);
+  --comp-logo-shadow:             var(--sys-shadow-low);
+  --comp-logo-shadow-hover:       var(--sys-shadow-mid);
+
+  /* --- Metric Card --- */
+  --comp-metric-bg:               var(--sys-bg-elevated);
+  --comp-metric-border:           var(--sys-border-subtle);
+  --comp-metric-radius:           var(--sys-radius-2xl);
+  --comp-metric-shadow:           var(--sys-shadow-low);
+  --comp-metric-num-color:        var(--sys-accent-default);
+  --comp-metric-num-size:         var(--ref-font-size-48);
+  --comp-metric-num-weight:       var(--sys-text-weight-extrabold);
+
+  /* --- Input --- */
+  --comp-input-bg:                var(--ref-color-white);
+  --comp-input-border:            var(--sys-border-default);
+  --comp-input-border-hover:      var(--sys-border-strong);
+  --comp-input-border-focus:      var(--sys-border-focus);
+  --comp-input-radius:            var(--sys-radius-md);
+  --comp-input-font-size:         var(--sys-text-size-body);
+  --comp-input-px:                var(--ref-space-8);
+  --comp-input-py:                var(--ref-space-5);
+  --comp-input-shadow-focus:      var(--sys-shadow-focus);
+  --comp-input-placeholder-color: var(--sys-text-tertiary);
+
+  /* --- Divider --- */
+  --comp-divider-color:           var(--sys-border-subtle);
+  --comp-divider-width:           var(--ref-border-1);
+
+  /* --- Tooltip --- */
+  --comp-tooltip-bg:              var(--sys-text-primary);
+  --comp-tooltip-text:            var(--ref-color-white);
+  --comp-tooltip-radius:          var(--sys-radius-sm);
+  --comp-tooltip-font-size:       var(--sys-text-size-caption);
+  --comp-tooltip-px:              var(--ref-space-6);
+  --comp-tooltip-py:              var(--ref-space-3);
+}

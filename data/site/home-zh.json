@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "title": "AEGIS — 讓每一次 AI 對話，成為企業成長的驅動力",
+    "description": "AEGIS 企業智能整合系統，透過分析 Chatbase 對話數據找出回答盲點，並從中挖掘用戶真實需求，提供 SEO 與社群策展洞察。"
+  },
+  "nav": {
+    "logo": "AEGIS",
+    "links": [
+      { "label": "首頁", "url": "index.html" },
+      { "label": "關於我們", "url": "about.html" },
+      { "label": "服務項目", "url": "index.html#services" },
+      { "label": "最新優惠", "url": "news.html", "hidden": true }
+    ],
+    "cta": "預約免費諮詢",
+    "lang_toggle": {
+      "label": "EN",
+      "url": "en/index.html"
+    }
+  },
+  "hero": {
+    "title": "讓每一次 AI 對話，<br/><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400\">成為企業成長的驅動力</span>",
+    "subtitle": "AEGIS 將 AI 智能客服升級為商業決策引擎。深度分析客戶互動數據，持續精準化 AI 回答，並為 SEO、社群內容及銷售策略提供最真實的市場洞察。",
+    "cta_primary": "預約免費諮詢",
+    "cta_secondary": "了解 AEGIS",
+    "cta_secondary_url": "#how-it-works"
+  },
+  "logo_wall": {
+    "title": "Trusted by Global Industry Leaders",
+    "logos": [
+      "ASE Technology", "Toshiba", "Hisense", "ZEON Properties", "AIXIA", "AGI Technology"
+    ]
+  },
+  "metrics": {
+    "title": "從對話中提煉真實的商業價值",
+    "cards": [
+      {
+        "metric": "+30.7%",
+        "label": "用戶成長",
+        "source": "ASE 案例成效"
+      },
+      {
+        "metric": "+633%",
+        "label": "工作階段 Session 成長",
+        "source": "Npartner 案例成效"
+      },
+      {
+        "metric": "+256%",
+        "label": "新用戶增長",
+        "source": "半導體企業客戶案例"
+      },
+      {
+        "metric": "6 個",
+        "label": "國際品牌 AI 客服部署",
+        "source": "AEGIS 實際導入數"
+      }
+    ]
+  },
+  "how_it_works": {
+    "title": "運作流程",
+    "subtitle": "只需三步驟，輕鬆建立 AI 驅動的商業成長飛輪。",
+    "steps": [
+      {
+        "step": "步驟 1",
+        "title": "串接 AI 客服",
+        "desc": "部署專屬 Chatbase 於客戶網站，提供 24/7 自動化客戶服務。"
+      },
+      {
+        "step": "步驟 2",
+        "title": "AI 督導分析",
+        "desc": "督導系統深度分析所有對話數據，找出回覆盲點與用戶真實痛點。"
+      },
+      {
+        "step": "步驟 3",
+        "title": "輸出策略報告",
+        "desc": "將分析結果轉化為實用的 SEO、FAQ 或社群內容優化建議。"
+      }
+    ]
+  },
+  "services": {
+    "title": "四大核心 AI 服務模組",
+    "description": "我們提供量身定制的 AI 解決方案，從數據驅動的對話分析到自動化內容產出，全方位驅動企業數位成長。",
+    "items": [
+      {
+        "id": "aegis-core",
+        "name": "AEGIS AI企業智能整合系統",
+        "subtitle": "從數據到策略，一套完整的 AI 驅動數位成長框架",
+        "desc": "建立具備「成長意識」的智能大腦，整合數據與決策路徑。",
+        "url": "contact.html"
+      },
+      {
+        "id": "customer-ai",
+        "name": "AI智能客服 × 對話數據分析",
+        "subtitle": "自動回應客戶詢問，同時分析對話累積市場洞察",
+        "desc": "將 24/7 的對話轉化為高價值的市場趨勢與用戶痛點分析。",
+        "url": "contact.html"
+      },
+      {
+        "id": "social-engine",
+        "name": "社群內容經營系統",
+        "subtitle": "依照產業脈絡與競品動態，規劃社群貼文與文章",
+        "desc": "根據產業熱點自動生成具備轉換力的社群內容與深度文章。",
+        "url": "contact.html"
+      },
+      {
+        "id": "seo-audit",
+        "name": "GEO優化評測",
+        "subtitle": "診斷網站在搜尋引擎與 AI 生成式搜尋的曝光表現",
+        "desc": "佈局 AI 搜尋引擎時代（GEO），確保品牌在智慧回覆中被優先推薦。",
+        "url": "contact.html"
+      }
+    ]
+  },
+  "ai_to_ai": {
+    "badge": "全球首創",
+    "title": "The World's First AI-to-AI Business Consultation",
+    "subtitle": "AI 對 AI 無縫接軌洽詢功能",
+    "desc": "當潛在客戶或採購人員使用 ChatGPT、Perplexity 等 AI 工具來查詢您的產品時，AEGIS 部署的 AI 客服系統已具備主動與這些 AI 工具對接的能力。雙方 AI 直接互動對答，確保您的產品資訊與報價建議在 AI 生成搜尋結果中獲得正確且最佳的展現，讓商業洽詢 24 小時不中斷。"
+  },
+  "about": {
+    "title": "關於 RefineLab / AEGIS",
+    "desc": "不只是建立 AI 客服，我們提供的是 AI 驅動的數位成長解決方案。憑藉 Ivan Chen 超過 20 年、執行超過 380 個專案的深厚經驗，AEGIS 致力協助房地產、半導體、網路與電子製造業的國內外上市櫃公司，在 AI 時代建立堅實的競爭優勢。",
+    "cta": "了解更多團隊背景",
+    "cta_url": "about.html"
+  },
+  "footer": {
+    "cta_title": "準備好讓 AI 為您的企業創造成長了嗎？",
+    "cta_btn": "立即聯絡我們",
+    "copyright": "© 2026 RefineLab / AEGIS. All rights reserved."
+  }
+}

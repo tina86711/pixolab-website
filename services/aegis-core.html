@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGIS Core | 企業智能整合系統</title>
+    <meta name="description" content="AEGIS Core：從對話數據到商業策略，為企業打造一站式的 AI 驅動數位成長框架。">
+    <!-- Styles (Tailwind CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 900: '#14532d' },
+              dark: { 800: '#1e293b', 900: '#0f172a' }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style type="text/tailwindcss">
+      @layer base {
+        html { scroll-behavior: smooth; }
+        body { @apply text-slate-800 bg-white font-sans antialiased; }
+      }
+    </style>
+</head>
+<body class="text-slate-800 bg-white font-sans antialiased">
+    
+    <!-- Navbar (Fixed) -->
+    <nav id="main-nav" class="fixed w-full z-50 top-0 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm py-4 text-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="../index.html" class="text-2xl font-black tracking-tighter text-indigo-600">AEGIS</a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center font-medium">
+                    <a href="../index.html" class="hover:text-indigo-600 transition-colors">首頁</a>
+                    <a href="../about.html" class="hover:text-indigo-600 transition-colors">關於我們</a>
+                    <a href="../index.html#services" class="hover:text-indigo-600 transition-colors">服務項目</a>
+                    <!-- CTA -->
+                    <a href="../contact.html" class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 shadow shadow-indigo-200 transition-all">預約免費諮詢</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="pt-40 pb-20 bg-slate-900 border-b border-indigo-900 overflow-hidden relative text-white">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-slate-900 opacity-50"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-indigo-500/20 text-indigo-300 font-semibold tracking-wider text-sm mb-6 border border-indigo-500/30">AEGIS Core</span>
+            <h1 class="text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">AI 企業智能整合系統</h1>
+            <p class="text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto mb-10">
+                一套完整的 AI 驅動數位成長框架，從數據分析到行銷決策，全盤掌握市場脈絡。
+            </p>
+            <a href="../contact.html" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-full text-slate-900 bg-white hover:bg-slate-100 transition-all shadow-xl">
+                立即導入系統
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section (GEO / SEO optimized) -->
+    <section class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6">什麼是 AEGIS Core？</h2>
+                    <p class="text-slate-600 text-lg mb-6 leading-relaxed">
+                        您的網站可能正在流失寶貴的客戶數據。許多企業導入 AI 客服只為了回答重複的問題，卻忽略了「他們正在問什麼」才是行銷的核心。
+                    </p>
+                    <p class="text-slate-600 text-lg mb-8 leading-relaxed">
+                        AEGIS Core 能全天候監控、分析所有對話，並將顧客的詢問與痛點，直接轉換為您的行銷武器：自動優化 SEO 關鍵字、提出產品改善建議，讓每一次對話，都成為提升轉換率的燃料。
+                    </p>
+                    
+                    <ul class="space-y-4 text-slate-700 font-medium">
+                        <li class="flex items-start">
+                            <span class="text-indigo-600 mr-3 mt-1">✔</span>
+                            <span>自動識別客戶真實痛點與需求缺口</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-indigo-600 mr-3 mt-1">✔</span>
+                            <span>從語意庫生成 SEO 與內容行銷策略</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-indigo-600 mr-3 mt-1">✔</span>
+                            <span>全景式的商業智慧轉換報告</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-indigo-100 rounded-[2rem] p-8 lg:p-12 relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-64 h-64 bg-white/40 rounded-full blur-3xl"></div>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-indigo-50 mb-4">
+                        <div class="text-sm font-semibold text-indigo-500 mb-1">對話數據分析</div>
+                        <div class="text-2xl font-bold text-slate-800">發現 42% 的新用戶詢問「客製化方案」</div>
+                    </div>
+                    <!-- decorative arrow -->
+                    <div class="flex justify-center my-4 text-indigo-400">
+                        <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+                    <div class="bg-indigo-600 rounded-2xl p-6 shadow-xl relative z-10 text-white">
+                        <div class="text-sm font-semibold text-indigo-200 mb-1">智能策略輸出</div>
+                        <div class="text-xl font-bold mb-2">自動生成 SEO  Landing Page 架構</div>
+                        <p class="text-indigo-100/80 text-sm">"為客製化方案建立專屬頁面，並針對企業用戶調整文案與報價流程。"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-24 bg-white border-t border-slate-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-12 text-center">常見問題 (FAQ)</h2>
+            <div class="space-y-6">
+                <!-- FAQ Item -->
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">AEGIS Core 適合哪些產業？</h4>
+                    <p class="text-slate-600">特別適合 B2B 企業、科技製造業、軟體服務商與高單價房地產。這些產業的客戶通常會詢問深入的技術細節，我們能從中萃取最高價值的商業洞察。</p>
+                </div>
+                <!-- FAQ Item -->
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">與一般的 AI 客服有什麼不同？</h4>
+                    <p class="text-slate-600">一般 AI 客服僅止於「回覆」。AEGIS Core 不只回覆，還具備「督導分析系統」，它會閱讀雙方互動，分析 AI 的回答品質與顧客的隱藏需求，幫助行銷團隊優化策略。</p>
+                </div>
+                <!-- FAQ Item -->
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="text-lg font-bold text-slate-900 mb-2">導入需要多久時間？</h4>
+                    <p class="text-slate-600">根據企業現有資料庫的完整度，通常需要 2 到 4 週進行客製化模型訓練與測試，確保符合您的品牌語氣與產品規格。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-16 pb-12 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-slate-400 font-medium">&copy; 2026 RefineLab / AEGIS. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

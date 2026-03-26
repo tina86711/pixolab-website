@@ -1,0 +1,13 @@
+{
+  "name": "pixolab-website",
+  "version": "1.0.0",
+  "description": "AEGIS Website V2",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/main.css --watch",
+    "build": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/main.css --minify",
+    "start": "npx serve ."
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  }
+}

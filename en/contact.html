@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | AEGIS</title>
+    <meta name="description" content="Book a free consultation and discover how AEGIS can help you build your enterprise's AI growth flywheel.">
+    
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f7ff', 100: '#ebf0fe', 200: '#ced9fb', 300: '#adc0f7',
+                            400: '#8ca7f4', 500: '#5e6ad2', 600: '#4b55a8', 700: '#38407e',
+                            800: '#252a54', 900: '#13152a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .glass-nav { @apply bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50; }
+            .form-input { @apply block w-full rounded-md border-0 py-2.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:text-sm sm:leading-6 transition-all; }
+            .form-label { @apply block text-sm font-semibold leading-6 text-slate-900; }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased h-full">
+    
+    <!-- Navbar -->
+    <nav class="glass-nav">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-black tracking-tighter text-slate-900">AEGIS<span class="text-brand-500">.</span></a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">Home</a>
+                        <a href="about.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">About Us</a>
+                        <a href="index.html#services" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">Services</a>
+                        <a href="../contact.html" class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-colors">ZH</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Start Your AI Transformation</h2>
+            <p class="mt-2 text-lg leading-8 text-slate-600">Book a free consultation today and learn how AEGIS builds your 24/7 intelligent growth engine.</p>
+        </div>
+        <form id="contact-form" class="mx-auto mt-16 max-w-xl sm:mt-20">
+            <div id="form-message" class="hidden mb-6 p-4 rounded-lg"></div>
+            <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                <div>
+                    <label for="name" class="form-label">Full Name *</label>
+                    <div class="mt-2.5">
+                        <input type="text" name="name" id="name" required class="form-input">
+                    </div>
+                </div>
+                <div>
+                    <label for="company" class="form-label">Company Name *</label>
+                    <div class="mt-2.5">
+                        <input type="text" name="company" id="company" required class="form-input">
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <div class="mt-2.5">
+                        <input type="email" name="email" id="email" required class="form-input">
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <div class="mt-2.5">
+                        <input type="tel" name="phone" id="phone" class="form-input">
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="service" class="form-label">Requested Service</label>
+                    <div class="mt-2.5">
+                        <select id="service" name="service" class="form-input appearance-none bg-white">
+                            <option value="">Please select a service...</option>
+                            <option value="aegis-core">AEGIS Core - Enterprise AI Integration</option>
+                            <option value="customer-ai">AEGIS Customer AI - Intelligent Chat</option>
+                            <option value="social-engine">AEGIS Social Engine - Content Generation</option>
+                            <option value="seo-audit">AEGIS SEO Audit - Optimization & Review</option>
+                            <option value="other">Other Inquiries</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="message" class="form-label">Message</label>
+                    <div class="mt-2.5">
+                        <textarea name="message" id="message" rows="4" class="form-input"></textarea>
+                    </div>
+                </div>
+                <!-- Honeypot -->
+                <div class="hidden">
+                    <label for="website">Website (Leave blank)</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                </div>
+            </div>
+            <div class="mt-10">
+                <button type="submit" id="submit-btn" class="block w-full rounded-md bg-brand-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 transition-all active:scale-95">Send My Inquiry</button>
+            </div>
+            <p class="text-center text-xs text-slate-400 mt-4">We will get back to you within 1-2 business days.</p>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100">
+        <div class="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+            <div class="mt-8 md:order-1 md:mt-0">
+                <p class="text-center text-xs leading-5 text-slate-500">&copy; 2026 RefineLab / AEGIS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const msgBox = document.getElementById('form-message');
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                company: document.getElementById('company').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                service: document.getElementById('service').value,
+                message: document.getElementById('message').value,
+                website: document.getElementById('website').value
+            };
+
+            btn.disabled = true;
+            btn.innerHTML = 'Sending...';
+            msgBox.classList.add('hidden');
+
+            try {
+                // Point to existing root API
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    msgBox.className = 'mb-6 p-4 rounded-lg bg-green-50 border border-green-200 text-green-800 font-medium text-sm text-center';
+                    msgBox.innerHTML = 'Sent successfully! We will contact you soon.';
+                    document.getElementById('contact-form').reset();
+                } else {
+                    throw new Error(result.error || 'Failed to send, please try again.');
+                }
+            } catch (error) {
+                msgBox.className = 'mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-800 font-medium text-sm text-center';
+                msgBox.innerHTML = error.message;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Send My Inquiry';
+                msgBox.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
