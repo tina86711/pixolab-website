@@ -29,31 +29,6 @@
       "ASE Technology", "Toshiba", "Hisense", "ZEON Properties", "AIXIA", "AGI Technology"
     ]
   },
-  "metrics": {
-    "title": "Extracting Real Business Value from Dialogues",
-    "cards": [
-      {
-        "metric": "+30.7%",
-        "label": "User Growth",
-        "source": "ASE Case Study"
-      },
-      {
-        "metric": "+633%",
-        "label": "Session Increases",
-        "source": "Npartner Case Study"
-      },
-      {
-        "metric": "+256%",
-        "label": "New User Acquisition",
-        "source": "Semiconductor Enterprise"
-      },
-      {
-        "metric": "6+",
-        "label": "Global Brands Deployed",
-        "source": "AEGIS Live Implementations"
-      }
-    ]
-  },
   "how_it_works": {
     "title": "How AEGIS Works",
     "subtitle": "A simple 3-step process to build your AI-driven growth flywheel.",
