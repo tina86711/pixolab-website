@@ -6,15 +6,14 @@
   "nav": {
     "logo": "AEGIS",
     "links": [
-      { "label": "首頁", "url": "index.html" },
-      { "label": "關於我們", "url": "about.html" },
-      { "label": "服務項目", "url": "index.html#services" },
-      { "label": "最新優惠", "url": "news.html", "hidden": true }
+      { "label": "首頁" },
+      { "label": "關於我們" },
+      { "label": "服務項目" },
+      { "label": "最新優惠", "hidden": true }
     ],
     "cta": "預約免費諮詢",
     "lang_toggle": {
-      "label": "EN",
-      "url": "en/index.html"
+      "label": "EN"
     }
   },
   "hero": {
@@ -119,8 +118,7 @@
   "about": {
     "title": "關於 RefineLab / AEGIS",
     "desc": "不只是建立 AI 客服，我們提供的是 AI 驅動的數位成長解決方案。憑藉 Ivan Chen 超過 20 年、執行超過 380 個專案的深厚經驗，AEGIS 致力協助房地產、半導體、網路與電子製造業的國內外上市櫃公司，在 AI 時代建立堅實的競爭優勢。",
-    "cta": "了解更多團隊背景",
-    "cta_url": "about.html"
+    "cta": "了解更多團隊背景"
   },
   "footer": {
     "cta_title": "準備好讓 AI 為您的企業創造成長了嗎？",

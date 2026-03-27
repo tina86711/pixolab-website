@@ -45,10 +45,10 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="index.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">首頁</a>
-                        <a href="about.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">關於我們</a>
-                        <a href="index.html#services" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">服務項目</a>
-                        <a href="en/contact.html" class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-colors">EN</a>
+                        <a href="index.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors" data-i18n="nav.links.0">首頁</a>
+                        <a href="about.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors" data-i18n="nav.links.1">關於我們</a>
+                        <a href="index.html#services" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors" data-i18n="nav.links.2">服務項目</a>
+                        <a href="en/contact.html" class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-colors" data-i18n="nav.lang_toggle">EN</a>
                     </div>
                 </div>
             </div>
@@ -175,6 +175,13 @@
                 btn.innerHTML = '送出諮詢內容';
                 msgBox.classList.remove('hidden');
             }
+        });
+    </script>
+    <!-- Main Script -->
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPageData('zh', 'home');
         });
     </script>
 </body>

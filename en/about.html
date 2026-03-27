@@ -43,11 +43,11 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="index.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">Home</a>
-                        <a href="about.html" class="text-sm font-semibold text-brand-500 transition-colors">About Us</a>
-                        <a href="index.html#services" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors">Services</a>
-                        <a href="../about.html" class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-colors">ZH</a>
-                        <a href="contact.html" class="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-slate-800 transition-all active:scale-95">Book Consultation</a>
+                        <a href="index.html" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors" data-i18n="nav.links.0">Home</a>
+                        <a href="about.html" class="text-sm font-semibold text-brand-500 transition-colors" data-i18n="nav.links.1">About Us</a>
+                        <a href="index.html#services" class="text-sm font-semibold text-slate-600 hover:text-brand-500 transition-colors" data-i18n="nav.links.2">Services</a>
+                        <a href="../about.html" class="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-50 transition-colors" data-i18n="nav.lang_toggle">ZH</a>
+                        <a href="contact.html" class="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-slate-800 transition-all active:scale-95" data-i18n="nav.cta">Book Consultation</a>
                     </div>
                 </div>
             </div>
@@ -96,6 +96,12 @@
                 <p class="text-center text-xs leading-5 text-slate-500">&copy; 2026 RefineLab / AEGIS. All rights reserved.</p>
             </div>
         </div>
-    </footer>
+    <!-- Main Script -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPageData('en', 'home');
+        });
+    </script>
 </body>
 </html>

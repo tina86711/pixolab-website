@@ -6,15 +6,14 @@
   "nav": {
     "logo": "AEGIS",
     "links": [
-      { "label": "Home", "url": "en/index.html" },
-      { "label": "About Us", "url": "en/about.html" },
-      { "label": "Services", "url": "en/index.html#services" },
-      { "label": "News", "url": "en/news.html", "hidden": true }
+      { "label": "Home" },
+      { "label": "About Us" },
+      { "label": "Services" },
+      { "label": "News", "hidden": true }
     ],
     "cta": "Book a Free Consultation",
     "lang_toggle": {
-      "label": "ZH",
-      "url": "index.html"
+      "label": "ZH"
     }
   },
   "hero": {
@@ -119,8 +118,7 @@
   "about": {
     "title": "About RefineLab / AEGIS",
     "desc": "We don’t just build AI chatbots; we provide a complete, AI-driven digital growth solution. Backed by Ivan Chen’s 20+ years of expertise spanning 380+ projects, AEGIS helps listed companies across Real Estate, Semiconductor, Internet, and Electronics industries secure a solid competitive edge in the AI era.",
-    "cta": "Learn About Our Team",
-    "cta_url": "en/about.html"
+    "cta": "Learn About Our Team"
   },
   "footer": {
     "cta_title": "Ready to fuel your enterprise growth with AI?",
