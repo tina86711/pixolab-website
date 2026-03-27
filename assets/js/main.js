@@ -1,4 +1,184 @@
 /**
+ * Hero Slider Class - Handles the cinematic full-screen background slider
+ */
+class HeroSlider {
+    constructor(slides) {
+        console.log("HeroSlider: Initializing with slides:", slides);
+        this.slides = slides;
+        this.currentIndex = 0;
+        this.isPlaying = true;
+        this.duration = 8000; // 8 seconds per slide
+        this.startTime = null;
+        this.requestID = null;
+
+        // Elements
+        this.wrapper = document.getElementById('slides-wrapper');
+        this.category = document.getElementById('slide-category');
+        this.title = document.getElementById('slide-title');
+        this.subtitle = document.getElementById('slide-subtitle');
+        this.cta = document.getElementById('slide-cta');
+        this.progressRing = document.getElementById('slider-progress-ring');
+        this.playPauseBtn = document.getElementById('slider-play-pause');
+        this.pauseIcon = document.getElementById('pause-icon');
+        this.playIcon = document.getElementById('play-icon');
+        this.nextTeaser = document.getElementById('next-teaser-title');
+        this.followingTeaser = document.getElementById('following-teaser-title');
+        this.teasers = document.querySelectorAll('.slider-nav-teaser');
+
+        if (!this.wrapper) {
+            console.error("HeroSlider: #slides-wrapper not found!");
+            return;
+        }
+
+        window.heroSlider = this; // For global debugging
+        this.init();
+    }
+
+    init() {
+        console.log("HeroSlider: Starting UI setup...");
+        this.renderSlides();
+        this.updateContent(true); // first run immediate
+        this.bindEvents();
+        this.startAutoplay();
+    }
+
+    renderSlides() {
+        if (!this.wrapper) return;
+        this.wrapper.innerHTML = '';
+        this.slides.forEach((slide, index) => {
+            const div = document.createElement('div');
+            // Ensure background covers and centers
+            div.className = `absolute inset-0 transition-all duration-1000 ease-in-out transform-gpu scale-100 opacity-0 bg-cover bg-center`;
+            div.style.backgroundImage = `url('${slide.image}')`;
+            div.style.backgroundSize = 'cover';
+            div.style.backgroundPosition = 'center';
+            
+            if (index === 0) {
+                div.classList.add('opacity-100', 'scale-110');
+            }
+            this.wrapper.appendChild(div);
+        });
+        this.slideElements = this.wrapper.children;
+    }
+
+    updateContent(immediate = false) {
+        const slide = this.slides[this.currentIndex];
+        console.log(`HeroSlider: Switching to slide ${this.currentIndex}:`, slide.tag);
+        
+        // Staggered Fade effect for text
+        const content = document.getElementById('active-slide-content');
+        if (!content) return;
+
+        if (!immediate) content.classList.remove('active');
+        
+        const updateText = () => {
+            if (this.category) this.category.innerHTML = slide.tag;
+            if (this.title) this.title.innerHTML = slide.title;
+            if (this.subtitle) this.subtitle.innerHTML = slide.subtitle;
+            if (this.cta) {
+                this.cta.innerHTML = slide.cta;
+                if (slide.link) this.cta.setAttribute('href', slide.link);
+            }
+            content.classList.add('active');
+            this.updateTeasers();
+        };
+
+        if (immediate) {
+            updateText();
+        } else {
+            setTimeout(updateText, 500);
+        }
+
+        // Background transition
+        if (this.slideElements) {
+            Array.from(this.slideElements).forEach((el, index) => {
+                if (index === this.currentIndex) {
+                    el.classList.add('opacity-100', 'scale-110');
+                    el.classList.remove('opacity-0', 'scale-100');
+                } else {
+                    el.classList.remove('opacity-100', 'scale-110');
+                    el.classList.add('opacity-0', 'scale-100');
+                }
+            });
+        }
+    }
+
+    updateTeasers() {
+        const nextIndex = (this.currentIndex + 1) % this.slides.length;
+        const followingIndex = (this.currentIndex + 2) % this.slides.length;
+
+        if (this.nextTeaser) this.nextTeaser.innerText = this.slides[nextIndex].tag || this.slides[nextIndex].title;
+        if (this.followingTeaser) this.followingTeaser.innerText = this.slides[followingIndex].tag || this.slides[followingIndex].title;
+    }
+
+    bindEvents() {
+        this.playPauseBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.togglePlayPause();
+        });
+        
+        this.teasers.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = btn.getAttribute('data-slide-target');
+                if (target === 'next') this.nextSlide();
+                else if (target === 'following') {
+                    this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+                    this.nextSlide();
+                }
+            });
+        });
+    }
+
+    startAutoplay() {
+        this.startTime = Date.now();
+        this.animate();
+    }
+
+    animate() {
+        if (!this.isPlaying) return;
+
+        const now = Date.now();
+        const elapsed = now - this.startTime;
+        const progress = Math.min(elapsed / this.duration, 1);
+
+        // Update Progress Ring (301.6 is circumference of r=48)
+        const offset = 301.6 * (1 - progress);
+        if (this.progressRing) this.progressRing.style.strokeDashoffset = offset;
+
+        if (progress >= 1) {
+            this.nextSlide();
+        } else {
+            this.requestID = requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    nextSlide() {
+        this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+        this.updateContent();
+        this.startTime = Date.now();
+        if (this.isPlaying) {
+            cancelAnimationFrame(this.requestID);
+            this.animate();
+        }
+    }
+
+    togglePlayPause() {
+        this.isPlaying = !this.isPlaying;
+        console.log("HeroSlider: Autoplay toggled:", this.isPlaying);
+        this.pauseIcon?.classList.toggle('hidden', !this.isPlaying);
+        this.playIcon?.classList.toggle('hidden', this.isPlaying);
+
+        if (this.isPlaying) {
+            this.startTime = Date.now() - (this.startTime ? (Date.now() - this.startTime) % this.duration : 0);
+            this.animate();
+        } else {
+            cancelAnimationFrame(this.requestID);
+        }
+    }
+}
+
+/**
  * AEGIS Core Frontend Logic - Tailwind Redesign Version
  * 
  * This version uses Tailwind CSS utility classes exclusively for all dynamic 
@@ -62,133 +242,77 @@ function populateDOM(data) {
     }
   });
 
-  // 2. Logo Wall (Tailwind UI Logo Cloud Style)
+  // 2. Logo Wall (Marquee Style)
   if (data.logo_wall && data.logo_wall.logos) {
-      const logoContainer = document.getElementById('logo-wall-container');
-      if (logoContainer) {
-          logoContainer.innerHTML = '';
-          data.logo_wall.logos.forEach(logoName => {
-              const div = document.createElement('div');
-              div.className = 'col-span-1 flex justify-center py-8 px-8 bg-slate-50/50 rounded-xl hover:bg-slate-50 transition-colors duration-300 ring-1 ring-inset ring-slate-900/5 group';
-              div.innerHTML = `<span class="text-lg font-bold text-slate-400 group-hover:text-brand-500 transition-colors duration-300 tracking-tight">${logoName}</span>`; 
-              logoContainer.appendChild(div);
-          });
+      const marqueeTrack = document.getElementById('logo-wall-marquee');
+      if (marqueeTrack) {
+          const content = data.logo_wall.logos.map(logoName => `
+              <span class="text-2xl font-black tracking-tighter text-slate-300 hover:text-slate-500 transition-colors select-none whitespace-nowrap">${logoName}</span>
+          `).join('');
+          // Populate both original and duplicated for seamless marquee
+          marqueeTrack.innerHTML = `
+              <div class="flex items-center gap-16 px-8 shrink-0">${content}</div>
+              <div class="flex items-center gap-16 px-8 shrink-0" aria-hidden="true">${content}</div>
+          `;
       }
   }
 
-  // 3. Metrics (High-impact Stats)
+  // 3. Metrics (High-impact Stats - Big 7xl Number Style)
   if (data.metrics && data.metrics.cards) {
-      const metricsContainer = document.getElementById('metrics-container');
+      const metricsContainer = document.getElementById('metrics-grid');
       if (metricsContainer) {
           metricsContainer.innerHTML = '';
-          data.metrics.cards.forEach(card => {
-              const dl = document.createElement('div');
-              dl.className = 'flex flex-col bg-slate-400/5 p-8 border border-slate-100 hover:border-brand-100 transition-colors duration-300';
-              dl.innerHTML = `
-                  <dt class="text-sm font-semibold leading-6 text-slate-600">${card.label}</dt>
-                  <dd class="order-first text-4xl font-extrabold tracking-tight text-slate-900 metric-number" data-target="${card.metric}">0</dd>
-                  <dt class="mt-2 text-xs text-slate-400 italic">${card.source}</dt>
+          data.metrics.cards.forEach((card, index) => {
+              const div = document.createElement('div');
+              div.className = 'stat-item flex flex-col reveal-up';
+              div.style.transitionDelay = `${index * 0.1}s`;
+              div.innerHTML = `
+                  <dt class="text-sm font-bold leading-6 text-slate-400 tracking-[0.2em] uppercase mb-4">${card.label}</dt>
+                  <dd class="order-first flex items-baseline gap-1">
+                      <span class="stat-number text-7xl font-black tracking-tighter text-white metric-number" data-target="${card.metric}">0</span>
+                      <span class="text-4xl font-black text-brand-400">+</span>
+                  </dd>
+                  <dt class="mt-4 text-xs text-slate-500 italic opacity-60">${card.source}</dt>
               `;
-              metricsContainer.appendChild(dl);
+              metricsContainer.appendChild(div);
           });
+          // Initialize scroll reveal for newly added elements
+          if (typeof initScrollReveal === 'function') initScrollReveal();
       }
       setTimeout(initNumberAnimation, 100);
   }
 
-  // 4. Steps (Process cards)
+  // 4. Steps (Premium Process Cards)
   if (data.how_it_works && data.how_it_works.steps) {
-      const stepsContainer = document.getElementById('steps-container');
+      const stepsContainer = document.getElementById('how-it-works-grid');
       if (stepsContainer) {
           stepsContainer.innerHTML = '';
           data.how_it_works.steps.forEach((step, index) => {
               const div = document.createElement('div');
-              div.className = 'relative flex flex-col gap-6 p-8 rounded-2xl bg-white ring-1 ring-slate-200 shadow-sm hover:shadow-md transition-shadow group';
+              div.className = 'reveal-up';
+              div.style.transitionDelay = `${index * 0.1 + 0.1}s`;
               div.innerHTML = `
-                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-500 group-hover:bg-brand-600 transition-colors">
-                    <span class="text-white font-bold text-sm">${index + 1}</span>
+                  <div class="h-20 w-20 rounded-[2rem] ${index === 2 ? 'bg-brand-50 text-brand-600 border border-brand-200' : (index === 1 ? 'bg-slate-900 text-white' : 'bg-brand-500 text-white')} flex items-center justify-center text-2xl font-black shadow-xl mb-10">
+                    ${index + 1}
                   </div>
-                  <div>
-                    <h3 class="text-base font-semibold leading-7 text-slate-900">${step.title}</h3>
-                    <p class="mt-2 text-sm leading-7 text-slate-600">${step.desc}</p>
-                  </div>
+                  <h3 class="text-2xl font-bold text-slate-900 mb-4">${step.title}</h3>
+                  <p class="text-lg text-slate-500 leading-relaxed font-medium">${step.desc}</p>
               `;
               stepsContainer.appendChild(div);
           });
+          if (typeof initScrollReveal === 'function') initScrollReveal();
       }
   }
 
-  // 5. Services (4-column cards - Refine-Lab Style)
-  if (data.services && data.services.items) {
-      const servicesContainer = document.getElementById('services-container');
-      if (servicesContainer) {
-          servicesContainer.innerHTML = '';
-          
-          // Abstract Geometric Wireframe Icons (Inspired by Refine-Lab)
-          const wireframes = [
-            // 001 - Sphere/Orbit (AI Enterprise System)
-            `<svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-300 fill-none group-hover:stroke-brand-500 transition-colors duration-500 animate-spin-slow">
-              <circle cx="50" cy="50" r="40" stroke-width="0.5" stroke-dasharray="2 2" />
-              <ellipse cx="50" cy="50" rx="40" ry="15" stroke-width="1" />
-              <ellipse cx="50" cy="50" rx="15" ry="40" stroke-width="1" />
-              <circle cx="50" cy="50" r="4" fill="currentColor" class="text-brand-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </svg>`,
-            // 002 - Concentric Circles (Chatbot + Analytics)
-            `<svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-300 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
-              <circle cx="50" cy="50" r="10" stroke-width="1" class="group-hover:animate-ping-slow" />
-              <circle cx="50" cy="50" r="20" stroke-width="0.8" opacity="0.6" />
-              <circle cx="50" cy="50" r="30" stroke-width="0.6" opacity="0.4" />
-              <circle cx="50" cy="50" r="40" stroke-width="0.4" opacity="0.2" />
-              <line x1="50" y1="10" x2="50" y2="90" stroke-width="0.2" stroke-dasharray="4 4" />
-              <line x1="10" y1="50" x2="90" y2="50" stroke-width="0.2" stroke-dasharray="4 4" />
-            </svg>`,
-            // 003 - Pyramid/Crystal (Social Content)
-            `<svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-300 fill-none group-hover:stroke-brand-500 transition-colors duration-500 group-hover:scale-110 transform transition-transform">
-              <path d="M50 10 L90 80 L10 80 Z" stroke-width="1" />
-              <path d="M50 10 L50 80" stroke-width="0.5" />
-              <path d="M10 80 L50 60 L90 80" stroke-width="0.5" />
-              <circle cx="50" cy="10" r="2" fill="currentColor" class="text-brand-500 opacity-0 group-hover:opacity-100" />
-            </svg>`,
-            // 004 - Cube/Structure (GEO Audit)
-            `<svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-300 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
-              <rect x="20" y="20" width="40" height="40" stroke-width="1" class="group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-700" />
-              <rect x="40" y="40" width="40" height="40" stroke-width="1" />
-              <line x1="20" y1="20" x2="40" y2="40" stroke-width="1" />
-              <line x1="60" y1="20" x2="80" y2="40" stroke-width="1" />
-              <line x1="20" y1="60" x2="40" y2="80" stroke-width="1" />
-              <line x1="60" y1="60" x2="80" y2="80" stroke-width="1" />
-            </svg>`
-          ];
+    // Re-init switcher after items are created (if they were dynamic) or just once
+    initServiceBackgroundSwitcher();
 
-          data.services.items.forEach((item, index) => {
-              const num = (index + 1).toString().padStart(3, '0');
-              const div = document.createElement('div');
-              div.className = 'service-card flex flex-col bg-white rounded-[2.5rem] p-10 ring-1 ring-slate-100 hover:ring-brand-500/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 group relative hover:-translate-y-2 overflow-hidden items-center text-center';
-              div.setAttribute('data-service-index', index);
-              div.innerHTML = `
-                  <div class="absolute top-8 left-8 text-xs font-medium text-slate-300 tracking-widest">${num}</div>
-                  <div class="flex items-center justify-center h-48 mb-8">
-                    ${wireframes[index]}
-                  </div>
-                  <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-500 transition-colors duration-300 font-serif">${item.name}</h3>
-                  <p class="mt-4 text-sm font-semibold text-brand-600">${item.subtitle}</p>
-                  <p class="mt-4 text-sm leading-relaxed text-slate-500 max-w-[280px]">${item.desc}</p>
-                  <div class="mt-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0 flex-grow flex items-end">
-                    <a href="${item.url}" class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-900">
-                      Learn More
-                      <div class="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-brand-500 group-hover:text-white transition-all duration-300">
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-                      </div>
-                    </a>
-                  </div>
-              `;
-              servicesContainer.appendChild(div);
-          });
-
-          // Re-init switcher after items are created
-          initServiceBackgroundSwitcher();
-      }
-  }
+    // Init Hero Slider if data exists
+    if (data.hero && data.hero.slides) {
+        new HeroSlider(data.hero.slides);
+    }
 }
+
 
 /**
  * Handles number counting animation with easing and IntersectionObserver.

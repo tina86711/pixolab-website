@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth h-full">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS — Turn Every AI Conversation Into Growth</title>
-    <meta name="description" content="AEGIS empowers your AI customer interactions, transforming Chatbase dialogues into actionable intelligence for SEO, content strategy, and business growth.">
-    
-    <!-- Tailwind Play CDN (Immediate visibility for development) -->
+    <title data-i18n="meta.title">AEGIS — Turn Every AI Conversation Into Strategy</title>
+    <meta name="description" content="" data-i18n="meta.description">
+
+    <!-- Tailwind Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,8 +22,7 @@
                     },
                     fontFamily: {
                         sans: ['"Inter"', '"Noto Sans TC"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Cormorant Infant"', '"Noto Serif TC"', 'serif'],
-                        script: ['"Pinyon Script"', 'cursive']
+                        serif: ['"Cormorant Infant"', '"Noto Serif TC"', 'serif']
                     },
                     boxShadow: {
                         'premium': '0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06)',
@@ -45,15 +45,12 @@
             body { @apply bg-[#f8fafc] text-slate-900 font-sans relative overflow-x-hidden; }
             h1, h2, h3, h4 { @apply font-serif tracking-tight text-slate-900 leading-[1.15]; }
             
-            /* Big Typography Scale */
             .display-1 { font-size: clamp(3rem, 10vw, 8.5rem); @apply font-bold leading-[0.9] tracking-tighter; }
             .display-2 { font-size: clamp(2.2rem, 6vw, 5rem); @apply font-bold leading-[1] tracking-tight; }
         }
         @layer components {
             .section-narrative { @apply py-[8vw] px-6 lg:px-[8vw] relative overflow-hidden; }
-            .glass-nav { @apply bg-white/70 backdrop-blur-xl border-b border-slate-200/40 sticky top-0 z-50; }
             
-            /* Reveal Up Animation */
             .reveal-up { 
                 opacity: 0; 
                 transform: translateY(50px) skewY(2deg); 
@@ -61,319 +58,197 @@
             }
             .reveal-up.active { opacity: 1; transform: translateY(0) skewY(0); }
 
-            /* Buttons */
             .btn-premium { @apply inline-flex items-center justify-center rounded-full px-10 py-4 text-base font-bold transition-all duration-300; }
             .btn-premium-primary { @apply btn-premium bg-slate-900 text-white hover:bg-brand-600 hover:scale-105 active:scale-95 shadow-xl; }
             .btn-premium-secondary { @apply btn-premium bg-white text-slate-900 border border-slate-200 hover:border-brand-500 hover:text-brand-600 active:scale-95; }
             
-            /* Marquee */
-            .marquee-track { @apply flex w-max; animation: marquee 40s linear infinite; }
-            .marquee-track:hover { animation-play-state: paused; }
-
-            /* Navbar Transitions */
-            .glass-nav { @apply bg-transparent border-b border-transparent sticky top-0 z-50 transition-all duration-500 py-4; }
+            .glass-nav { @apply bg-transparent border-b border-transparent fixed top-0 left-0 w-full z-50 transition-all duration-500 py-4; }
             .glass-nav.nav-scrolled { @apply bg-white/80 backdrop-blur-xl border-slate-200/40 py-2 shadow-sm; }
             .nav-link { @apply text-sm font-semibold transition-colors duration-300; }
             .glass-nav:not(.nav-scrolled) .nav-link { @apply text-white hover:text-brand-300; }
             .glass-nav.nav-scrolled .nav-link { @apply text-slate-600 hover:text-brand-500; }
             .glass-nav:not(.nav-scrolled) .nav-logo { @apply text-white; }
             .glass-nav.nav-scrolled .nav-logo { @apply text-slate-900; }
+            .glass-nav.nav-scrolled .lang-toggle { @apply text-slate-900 border-slate-200 bg-slate-50 hover:bg-slate-100; }
 
-            /* Hero Utilities */
             .hero-overlay { @apply absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/40; }
-            .glass-card { @apply bg-slate-900/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-2xl; }
-            .input-premium { @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all; }
         }
     </style>
     <style>
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        /* Premium Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f8fafc; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        #bg-canvas { position: fixed; inset: 0; z-index: -10; pointer-events: none; }
-        
-        /* Custom Cursor styling (must be standard CSS for dot/ring IDs) */
         #custom-cursor-dot { @apply fixed top-0 left-0 w-1.5 h-1.5 bg-brand-500 rounded-full pointer-events-none z-[9999]; transform: translate(-50%, -50%); }
         #custom-cursor-ring { @apply fixed top-0 left-0 w-9 h-9 border-2 border-brand-500/30 rounded-full pointer-events-none z-[9998] transition-[width,height,background-color,border-color] duration-300; transform: translate(-50%, -50%); }
         #custom-cursor-ring.hover { @apply w-[60px] h-[60px] bg-brand-500/10 border-transparent; }
     </style>
 </head>
+
 <body class="bg-white text-slate-900 font-sans antialiased tracking-[0.02em] selection:bg-brand-500 selection:text-white">
-    <!-- Subtle Background Effect -->
-    <canvas id="bg-canvas"></canvas>
-    <!-- Custom Cursor -->
+    <canvas id="bg-canvas" class="fixed inset-0 -z-10 pointer-events-none"></canvas>
     <div id="custom-cursor-dot" class="hidden md:block"></div>
     <div id="custom-cursor-ring" class="hidden md:block"></div>
 
-    <!-- Navbar -->
     <nav class="glass-nav">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
+            <div class="flex h-24 items-center justify-between">
                 <div class="flex items-center">
-                    <a href="index.html" class="text-2xl font-black tracking-tighter nav-logo">AEGIS<span class="text-brand-500">.</span></a>
+                    <a href="index.html" class="text-2xl font-black tracking-tighter nav-logo" data-i18n="nav.logo">AEGIS</a>
                 </div>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
+                    <div class="ml-10 flex items-baseline space-x-10">
                         <a href="index.html" class="nav-link" data-i18n="nav.links.0">Home</a>
                         <a href="about.html" class="nav-link" data-i18n="nav.links.1">About Us</a>
                         <a href="#services" class="nav-link" data-i18n="nav.links.2">Services</a>
-                        <a href="../index.html" class="rounded-md border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-bold text-white hover:bg-white/20 transition-colors" data-i18n="nav.lang_toggle">ZH</a>
-                        <a href="contact.html" class="rounded-full bg-brand-500 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-brand-600 transition-all active:scale-95" data-i18n="nav.cta">Book Consultation</a>
+                        <a href="../index.html"
+                            class="lang-toggle rounded-full border border-white/20 bg-white/5 backdrop-blur-md px-4 py-1.5 text-xs font-bold text-white hover:bg-white/20 transition-all"
+                            data-i18n="nav.lang_toggle">ZH</a>
+                        <a href="contact.html"
+                            class="rounded-full bg-brand-500 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-brand-500/30 hover:bg-brand-600 hover:scale-105 transition-all active:scale-95"
+                            data-i18n="nav.cta">Book Expert Demo</a>
                     </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-white p-2"><span class="text-xs font-bold uppercase tracking-widest">Menu</span></button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative min-h-screen flex items-center overflow-hidden bg-slate-900">
-        <!-- Background Image -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2400" 
-                 class="w-full h-full object-cover opacity-60 scale-105 parallax" data-speed="0.1" alt="AEGIS Premium Background">
-        </div>
-        
-        <!-- Dark Gradient Overlay -->
-        <div class="hero-overlay z-10"></div>
-
-        <div class="relative z-20 w-full px-8 lg:px-20 py-32">
-            <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
-                
-                <!-- Left Content: Value Proposition -->
-                <div class="lg:col-span-7 reveal-up">
-                    <div class="mb-10 inline-flex items-center gap-3">
-                        <span class="h-px w-12 bg-brand-400"></span>
-                        <span class="text-xs font-black uppercase tracking-[0.3em] text-brand-300" data-i18n="ai_to_ai.badge">World-First AI Integration</span>
+    <header id="hero-slider" class="relative h-screen w-full bg-slate-950 overflow-hidden">
+        <div id="slides-wrapper" class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2400');"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/60 z-10 pointer-events-none"></div>
+        <div class="relative z-20 h-full flex items-center px-8 lg:px-20">
+            <div class="max-w-5xl">
+                <div id="active-slide-content" class="reveal-up active">
+                    <div class="mb-8 flex items-center gap-4">
+                        <span class="h-px w-10 bg-brand-500"></span>
+                        <span id="slide-category" class="text-xs font-black uppercase tracking-[0.4em] text-brand-400">Loading...</span>
                     </div>
-                    <h1 class="display-1 text-white mb-8" data-i18n="hero.title">
-                        Turn Every AI Conversation<br />
-                        <span class="text-brand-400 relative inline-block">
-                            Into Strategic Growth
-                        </span>
-                    </h1>
-                    <p class="mt-8 text-xl leading-relaxed text-slate-200 max-w-2xl font-medium" data-i18n="hero.subtitle">
-                        AEGIS transforms intelligent customer service into a powerful business decision engine. Deeply analyze interaction data to provide actionable insights for SEO, content strategy, and sales optimization.
-                    </p>
-                    <div class="mt-12 flex flex-wrap items-center gap-6">
-                        <a href="#how-it-works" class="btn-premium-primary" data-i18n="hero.cta_primary">Explore Solutions</a>
-                        <a href="#services" class="group text-lg font-bold text-white flex items-center gap-3">
-                            Core Technology
-                            <span class="h-10 w-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-slate-900 transition-all">→</span>
-                        </a>
+                    <h1 id="slide-title" class="display-1 text-white mb-10">Turn Every AI Conversation Into Strategy</h1>
+                    <p id="slide-subtitle" class="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed mb-12 font-medium">AEGIS elevates intelligent customer service into a powerful business growth engine.</p>
+                    <div class="flex flex-wrap items-center gap-6">
+                        <a id="slide-cta" href="contact.html" class="btn-premium-primary px-12">Book Expert Demo</a>
                     </div>
                 </div>
-
-                <!-- Right Content: Lead Capture Form -->
-                <div class="hidden lg:block lg:col-span-12 reveal-up" style="transition-delay: 0.2s;">
-                    <div class="glass-card max-w-[680px] ml-auto">
-                        <h2 class="text-2xl font-bold text-white mb-2" data-i18n="form.title">Book Expert Demo</h2>
-                        <p class="text-slate-300 text-sm mb-8" data-i18n="form.subtitle">Fill out the form and we'll contact you within 24 hours</p>
-                        
-                        <form class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Full Name</label>
-                                <input type="text" class="input-premium" placeholder="Name (Required)">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Phone Number</label>
-                                <input type="tel" class="input-premium" placeholder="Phone (Required)">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Business Email</label>
-                                <input type="email" class="input-premium" placeholder="Email (Required)">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Requirements</label>
-                                <textarea class="input-premium h-24" placeholder="Briefly describe your needs..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full py-4 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-lg transition-all active:scale-[0.98]">
-                                Book Consultation Now
-                            </button>
-                        </form>
-                    </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full z-30 bg-slate-950/20 backdrop-blur-md border-t border-white/5 py-8 px-8 lg:px-20">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
+                <div class="flex items-center gap-6">
+                    <button id="slider-play-pause" class="relative h-16 w-16 group">
+                        <svg class="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
+                            <circle id="slider-progress-ring" cx="50" cy="50" r="48" fill="none" stroke="currentColor" class="text-brand-500" stroke-width="2" stroke-dasharray="301.6" stroke-dashoffset="301.6" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center text-white">
+                            <svg id="pause-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            <svg id="play-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </button>
+                    <span class="text-xs font-black text-white uppercase tracking-widest">Auto Play</span>
+                </div>
+                <div class="flex-1 flex flex-wrap justify-center lg:justify-start gap-12 lg:ml-20">
+                    <button class="slider-nav-teaser group text-left max-w-[300px]" data-slide-target="next">
+                        <p id="next-teaser-title" class="text-[0.7rem] font-bold text-white/50 group-hover:text-white uppercase tracking-wider line-clamp-1">Deep Dialogue Analysis</p>
+                    </button>
+                    <button class="slider-nav-teaser group text-left max-w-[300px]" data-slide-target="following">
+                        <p id="following-teaser-title" class="text-[0.7rem] font-bold text-white/30 group-hover:text-white uppercase tracking-wider line-clamp-1">GEO Search Strategy</p>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Services Grid -->
     <section id="services" class="section-narrative bg-white border-t border-slate-100">
-        <div class="service-bg-container absolute inset-0 -z-10 pointer-events-none"></div>
         <div class="mx-auto max-w-7xl">
             <div class="max-w-3xl mb-24 reveal-up">
                 <h2 class="text-xs font-black uppercase tracking-[0.3em] text-brand-600 mb-6 font-sans">Four Core AI Modules</h2>
-                <p class="display-2 text-slate-900 mb-8" data-i18n="services.title">Tailored AI Solutions<br/>for Enterprise Growth</p>
-                <p class="text-xl text-slate-500 font-medium" data-i18n="services.description">From data-driven dialogue analysis to automated content generation, driving your digital transformation.</p>
+                <h2 class="display-2 text-slate-900 mb-8" data-i18n="services.title">Four Core AI Service Modules</h2>
+                <p class="text-xl text-slate-500 font-medium" data-i18n="services.description">We provide tailored AI solutions, from conversation analysis to automated output, driving corporate digital growth in all directions.</p>
             </div>
-            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 reveal-up" style="transition-delay: 0.15s;">
-                <!-- Populated by JS -->
+            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 reveal-up" style="transition-delay: 0.1s;">
+                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">001</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4" data-i18n="services.items.0.name">AEGIS AI Enterprise Intelligence Integration</h3>
+                    <p class="text-sm leading-relaxed text-slate-600" data-i18n="services.items.0.subtitle">From data to strategy, a complete AI-driven digital growth framework</p>
+                </div>
+                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 reveal-up" style="transition-delay: 0.2s;">
+                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">002</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4" data-i18n="services.items.1.name">AI Customer Service × Dialogue Analysis</h3>
+                    <p class="text-sm leading-relaxed text-slate-600" data-i18n="services.items.1.subtitle">Automatically respond to inquiries while analyzing dialogues for market insights</p>
+                </div>
+                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 reveal-up" style="transition-delay: 0.3s;">
+                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">003</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4" data-i18n="services.items.2.name">Social Content Management System</h3>
+                    <p class="text-sm leading-relaxed text-slate-600" data-i18n="services.items.2.subtitle">Plan social posts and articles based on industry context and competitor dynamics</p>
+                </div>
+                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 reveal-up" style="transition-delay: 0.4s;">
+                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">004</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4" data-i18n="services.items.3.name">GEO Optimization Assessment</h3>
+                    <p class="text-sm leading-relaxed text-slate-600" data-i18n="services.items.3.subtitle">Diagnose website exposure performance in search engines and AI generative search</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Combined Stats + Experience Block -->
     <section class="section-narrative bg-slate-950 text-white overflow-hidden relative">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent"></div>
         <div class="mx-auto max-w-7xl">
             <div class="max-w-4xl reveal-up">
-                <h2 class="display-2 text-white mb-8">Extracting Real<br/><span class="text-brand-400">Business Value from Data</span></h2>
-                <p class="text-xl text-slate-400 max-w-2xl">The numbers speak for themselves. AEGIS creates measurable digital growth by turning raw dialogue into high-value market intelligence.</p>
-            </div>
-            <div class="w-12 h-px bg-brand-500/30 my-20 reveal-up"></div>
-            <dl class="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-3 reveal-up" style="transition-delay: 0.2s;">
-                <div class="stat-item flex flex-col" data-target="500" data-suffix="+">
-                    <dt class="text-sm font-bold leading-6 text-slate-400 tracking-[0.2em] uppercase mb-4">Websites Built</dt>
-                    <dd class="order-first flex items-baseline gap-1">
-                        <span class="stat-number text-7xl font-black tracking-tighter text-white">0</span>
-                        <span class="text-4xl font-black text-brand-400">+</span>
-                    </dd>
-                </div>
-                <div class="stat-item flex flex-col" data-target="25" data-suffix="+">
-                    <dt class="text-sm font-bold leading-6 text-slate-400 tracking-[0.2em] uppercase mb-4">Years Experience</dt>
-                    <dd class="order-first flex items-baseline gap-1">
-                        <span class="stat-number text-7xl font-black tracking-tighter text-white">0</span>
-                        <span class="text-4xl font-black text-brand-400">+</span>
-                    </dd>
-                </div>
-                <div class="stat-item flex flex-col" data-target="180" data-suffix="+">
-                    <dt class="text-sm font-bold leading-6 text-slate-400 tracking-[0.2em] uppercase mb-4">Global Clients</dt>
-                    <dd class="order-first flex items-baseline gap-1">
-                        <span class="stat-number text-7xl font-black tracking-tighter text-white">0</span>
-                        <span class="text-4xl font-black text-brand-400">+</span>
-                    </dd>
-                </div>
-            </dl>
-        </div>
-    </section>
-
-    <!-- AI to AI Highlight -->
-    <section class="section-narrative bg-slate-950 text-white border-t border-slate-900">
-        <div class="mx-auto max-w-7xl">
-            <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
-                <div class="lg:col-span-6 reveal-up">
-                    <h2 class="text-xs font-black uppercase tracking-[0.3em] text-brand-400 mb-6" data-i18n="ai_to_ai.badge">Industry First</h2>
-                    <p class="display-2 text-white mb-8" data-i18n="ai_to_ai.title">AI-to-AI<br/>Interfacing Technology</p>
-                    <p class="text-xl text-slate-300 leading-relaxed font-medium" data-i18n="ai_to_ai.desc">When potential clients query your products via AI tools like ChatGPT or Perplexity, AEGIS ensures your data is communicated and represented optimally through direct AI-to-AI dialogue.</p>
-                </div>
-                <div class="lg:col-span-6 mt-16 lg:mt-0 reveal-up" style="transition-delay: 0.2s;">
-                    <div class="rounded-[2.5rem] bg-slate-900 shadow-2xl ring-1 ring-white/10 p-10 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-500/10 rounded-full blur-3xl"></div>
-                        <div class="space-y-8 relative">
-                            <div class="flex items-start gap-4">
-                                <div class="h-12 w-12 shrink-0 rounded-full bg-slate-800 flex items-center justify-center font-black text-xs text-slate-400 border border-slate-700">AI</div>
-                                <div class="rounded-3xl rounded-tl-none bg-slate-800 p-6 text-base text-slate-300 border border-slate-700 shadow-lg">"We seek industrial SSD solutions with 24/7 support. Does your product qualify?"</div>
-                            </div>
-                            <div class="flex items-start gap-4 flex-row-reverse">
-                                <div class="h-12 w-12 shrink-0 rounded-full bg-brand-500 flex items-center justify-center font-black text-xs text-white shadow-lg shadow-brand-500/30">AEGIS</div>
-                                <div class="rounded-3xl rounded-tr-none bg-brand-900/40 p-6 text-base text-brand-50 border border-brand-500/30 font-medium shadow-lg backdrop-blur-sm">"Yes, our PRO series meets all standards for 24/7 industrial operations."</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h2 class="display-2 text-white mb-8" data-i18n="metrics.title">Extracting Real Business Value from Conversations</h2>
+                <p class="text-xl text-slate-400 max-w-2xl">Measurable digital growth by turning raw dialogue into market intelligence.</p>
             </div>
         </div>
     </section>
 
-    <!-- How it Works -->
     <section id="how-it-works" class="section-narrative bg-white">
         <div class="mx-auto max-w-7xl">
             <div class="max-w-3xl mb-24 reveal-up">
                 <h2 class="text-xs font-black uppercase tracking-[0.3em] text-brand-600 mb-6">Workflow</h2>
-                <p class="display-2 text-slate-900 mb-8" data-i18n="how_it_works.title">3 Steps to Full<br/>AI Integration</p>
+                <h2 class="display-2 text-slate-900 mb-8" data-i18n="how_it_works.title">How It Works</h2>
+                <p class="text-lg text-slate-500 font-medium" data-i18n="how_it_works.subtitle">Just three steps to build an AI-driven business growth flywheel.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-                <div class="hidden md:block absolute top-24 left-0 w-full h-px bg-slate-100 -z-10"></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="reveal-up" style="transition-delay: 0.1s;">
-                    <div class="h-20 w-20 rounded-[2rem] bg-brand-500 flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-brand-500/20 mb-10">1</div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4" data-i18n="how_it_works.steps.0.title">Connect AI</h3>
-                    <p class="text-lg text-slate-500 leading-relaxed font-medium" data-i18n="how_it_works.steps.0.desc">Deploy a dedicated Chatbase on your site to automate 24/7 service and capture data.</p>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4" data-i18n="how_it_works.steps.0.title">Connect AI Service</h3>
+                    <p class="text-lg text-slate-500" data-i18n="how_it_works.steps.0.desc">Deploy a dedicated Chatbase to the client website for 24/7 automated customer service.</p>
                 </div>
                 <div class="reveal-up" style="transition-delay: 0.2s;">
-                    <div class="h-20 w-20 rounded-[2rem] bg-slate-900 flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-slate-900/20 mb-10">2</div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4" data-i18n="how_it_works.steps.1.title">Deep Analytics</h3>
-                    <p class="text-lg text-slate-500 leading-relaxed font-medium" data-i18n="how_it_works.steps.1.desc">Analyze all dialogues to identify blind spots and real user pain points.</p>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4" data-i18n="how_it_works.steps.1.title">AI Supervision Analysis</h3>
+                    <p class="text-lg text-slate-500" data-i18n="how_it_works.steps.1.desc">Identify response blind spots and real pain points through supervisory analysis.</p>
                 </div>
                 <div class="reveal-up" style="transition-delay: 0.3s;">
-                    <div class="h-20 w-20 rounded-[2rem] bg-brand-50 flex items-center justify-center text-brand-600 text-2xl font-black border border-brand-200 mb-10">3</div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4" data-i18n="how_it_works.steps.2.title">Output Strategy</h3>
-                    <p class="text-lg text-slate-500 leading-relaxed font-medium" data-i18n="how_it_works.steps.2.desc">Translate insights into actionable SEO and content strategy for growth.</p>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4" data-i18n="how_it_works.steps.2.title">Output Strategy Report</h3>
+                    <p class="text-lg text-slate-500" data-i18n="how_it_works.steps.2.desc">Transform analysis results into practical SEO, FAQ, or social content suggestions.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Snippet -->
     <section class="section-narrative bg-slate-50">
         <div class="mx-auto max-w-7xl">
-            <div class="rounded-[4rem] bg-slate-950 px-8 py-24 lg:p-32 text-center shadow-3xl relative overflow-hidden reveal-up">
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#5e6ad220_0%,transparent_70%)]"></div>
-                <div class="relative z-10">
-                    <h2 class="display-2 text-white mb-10" data-i18n="about.title">About RefineLab / AEGIS</h2>
-                    <p class="mx-auto max-w-4xl text-xl lg:text-2xl leading-relaxed text-slate-300 font-medium mb-16" data-i18n="about.desc">
-                        We don't just build chatbots; we deliver digital growth through AI. With Ivan Chen's 20+ years of expertise, we help enterprises secure their competitive edge.
-                    </p>
-                    <a href="about.html" class="btn-premium-secondary" data-i18n="about.cta">About Our Team →</a>
-                </div>
+            <div class="rounded-[4rem] bg-slate-950 px-8 py-24 lg:p-32 text-center reveal-up">
+                <h2 class="display-2 text-white mb-10" data-i18n="about.title">About RefineLab / AEGIS</h2>
+                <p class="mx-auto max-w-4xl text-xl text-slate-300 mb-16" data-i18n="about.desc">We provide AI-driven digital growth solutions helped by Ivan Chen's 20+ years of expertise.</p>
+                <a href="about.html" class="btn-premium-secondary" data-i18n="about.cta">Learn more about our team →</a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-white border-t border-slate-100">
         <div class="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
             <div class="flex justify-center space-x-6 md:order-2">
-                <p class="text-sm font-semibold text-slate-900" data-i18n="footer.cta_title">Ready to fuel your growth?</p>
-                <a href="contact.html" class="text-brand-600 hover:text-brand-500 font-bold" data-i18n="footer.cta_btn">Contact Us →</a>
+                <p class="text-sm font-semibold text-slate-900" data-i18n="footer.cta_title">Ready to let AI create growth for your business?</p>
+                <a href="contact.html" class="text-brand-600 hover:text-brand-500 font-bold" data-i18n="footer.cta_btn">Contact Us Now →</a>
             </div>
             <div class="mt-8 md:order-1 md:mt-0">
-                <p class="text-center text-xs leading-5 text-slate-500" data-i18n="footer.copyright">&copy; 2026 RefineLab / AEGIS. All rights reserved.</p>
+                <p class="text-center text-xs text-slate-500" data-i18n="footer.copyright">&copy; 2026 RefineLab / AEGIS. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="../assets/js/main.js"></script>
     <script>
-        (function () {
-            function animateCounter(el) {
-                const target = parseInt(el.closest('.stat-item').dataset.target);
-                const duration = 2000;
-                const start = performance.now();
-                const easeOut = t => 1 - Math.pow(1 - t, 4);
-                function update(now) {
-                    const elapsed = now - start;
-                    const progress = Math.min(elapsed / duration, 1);
-                    el.textContent = Math.floor(easeOut(progress) * target);
-                    if (progress < 1) requestAnimationFrame(update);
-                    else el.textContent = target;
-                }
-                requestAnimationFrame(update);
-            }
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const targetEl = entry.target.querySelector('.stat-number');
-                        if (targetEl) animateCounter(targetEl);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-            document.querySelectorAll('.stat-item').forEach(el => observer.observe(el));
-        })();
-
         document.addEventListener('DOMContentLoaded', () => {
             loadPageData('en', 'home');
         });
     </script>
 </body>
-</html>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-100">
-        <div class="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
-            <div class="flex justify-center space-x-6 md:order-2">
-                <p class="text-sm font-semibold text-slate-900" data-i18n="footer.cta_title">Ready to fuel your enterprise growth with AI?</p>
-                <a href="contact.html" class="text-brand-600 hover:text-brand-500 font-bold" data-i18n="footer.cta_btn">Contact Us →</a>
 </html>

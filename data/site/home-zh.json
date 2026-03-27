@@ -11,17 +11,35 @@
       { "label": "服務項目" },
       { "label": "最新優惠", "hidden": true }
     ],
-    "cta": "預約免費諮詢",
+    "cta": "預約專家演示",
     "lang_toggle": {
       "label": "EN"
     }
   },
   "hero": {
-    "title": "讓每一次 AI 對話，<br/><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400\">成為企業成長的驅動力</span>",
-    "subtitle": "AEGIS 將 AI 智能客服升級為商業決策引擎。深度分析客戶互動數據，持續精準化 AI 回答，並為 SEO、社群內容及銷售策略提供最真實的市場洞察。",
-    "cta_primary": "預約免費諮詢",
-    "cta_secondary": "了解 AEGIS",
-    "cta_secondary_url": "#how-it-works"
+    "slides": [
+      {
+        "tag": "首創 AI 聯網",
+        "title": "讓每一次 AI 對話，成為企業成長的驅動力",
+        "subtitle": "AEGIS 將 AI 智能客服升級為商業決策引擎。透過深度分析客戶互動數據，找出企業營運盲點與真實需求，提供具備數據支持的 SEO 與社群轉化建議。",
+        "cta": "預約專家演示",
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2400"
+      },
+      {
+        "tag": "深度對話分析",
+        "title": "挖掘隱藏對話中的真實商業價值",
+        "subtitle": "將 24/7 的對話轉化為高價值的市場趨勢與用戶痛點分析，找出回覆盲點並提供有依據的策略優化。",
+        "cta": "了解服務核心",
+        "image": "img/hero_slide_2.png"
+      },
+      {
+        "tag": "GEO 搜尋佈局",
+        "title": "在 AI 搜尋引擎時代奪得品牌話語權",
+        "subtitle": "針對 ChatGPT、Perplexity 等 AI 搜尋進行優化評測，確保您的品牌在智慧回覆中被優先推薦。",
+        "cta": "即刻開始評測",
+        "image": "img/hero_slide_3.png"
+      }
+    ]
   },
   "logo_wall": {
     "title": "Trusted by Global Industry Leaders",
@@ -77,7 +95,7 @@
   },
   "services": {
     "title": "四大核心 AI 服務模組",
-    "description": "我們提供量身定制的 AI 解決方案，從數據驅動的對話分析到自動化內容產出，全方位驅動企業數位成長。",
+    "description": "我們提供量身定制的 AI 解決方案，從對話分析到自動化產出，全方位驅動企業數位成長。",
     "items": [
       {
         "id": "aegis-core",

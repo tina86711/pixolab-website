@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "AEGIS — Turn Every AI Conversation Into Growth",
-    "description": "AEGIS empowers your AI customer interactions, transforming Chatbase dialogues into actionable intelligence for SEO, content strategy, and business growth."
+    "title": "AEGIS — Turn Every AI Conversation Into Strategy",
+    "description": "AEGIS Enterprise Intelligent Integration System. Analyze Chatbase dialogue data to find response blind spots, mine real user needs, and provide SEO and social curation insights."
   },
   "nav": {
     "logo": "AEGIS",
@@ -9,19 +9,37 @@
       { "label": "Home" },
       { "label": "About Us" },
       { "label": "Services" },
-      { "label": "News", "hidden": true }
+      { "label": "Offers", "hidden": true }
     ],
-    "cta": "Book a Free Consultation",
+    "cta": "Book Expert Demo",
     "lang_toggle": {
       "label": "ZH"
     }
   },
   "hero": {
-    "title": "Turn Every Conversation Into<br/><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400\">Actionable Growth</span>",
-    "subtitle": "AEGIS transforms your AI customer service into a powerful business engine. We analyze interaction data to consistently improve AI responses while extracting vital market insights for optimal SEO, targeted social content, and smarter sales strategies.",
-    "cta_primary": "Book Free Consultation",
-    "cta_secondary": "Discover AEGIS",
-    "cta_secondary_url": "#how-it-works"
+    "slides": [
+      {
+        "tag": "World's First AI Interfacing",
+        "title": "Turn Every AI Conversation Into Strategy",
+        "subtitle": "AEGIS elevates intelligent customer service into a powerful business growth engine. We analyze interaction data to uncover operational blind spots and real user needs, delivering data-driven SEO and social conversion insights.",
+        "cta": "Book Expert Demo",
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2400"
+      },
+      {
+        "tag": "Deep Dialogue Analysis",
+        "title": "Extract Real Business Value From Hidden Data",
+        "subtitle": "Turn 24/7 dialogues into high-value market trends and user pain point analysis, identifying response blind spots and providing evidence-based strategy optimization.",
+        "cta": "Explore Solutions",
+        "image": "img/hero_slide_2.png"
+      },
+      {
+        "tag": "GEO Search Strategy",
+        "title": "Claim Brand Authority in the AI Search Era",
+        "subtitle": "Optimization and evaluation for AI search engines like ChatGPT and Perplexity, ensuring your brand is prioritized in intelligent responses.",
+        "cta": "Scan Now",
+        "image": "img/hero_slide_3.png"
+      }
+    ]
   },
   "logo_wall": {
     "title": "Trusted by Global Industry Leaders",
@@ -29,74 +47,99 @@
       "ASE Technology", "Toshiba", "Hisense", "ZEON Properties", "AIXIA", "AGI Technology"
     ]
   },
+  "metrics": {
+    "title": "Extracting Real Business Value from Conversations",
+    "cards": [
+      {
+        "metric": "+30.7%",
+        "label": "User Growth",
+        "source": "ASE Case Result"
+      },
+      {
+        "metric": "+633%",
+        "label": "Session Growth",
+        "source": "Npartner Case Result"
+      },
+      {
+        "metric": "+256%",
+        "label": "New User Increase",
+        "source": "Semiconductor Client Case"
+      },
+      {
+        "metric": "6 Brands",
+        "label": "International AI Deployments",
+        "source": "AEGIS Actual Deployments"
+      }
+    ]
+  },
   "how_it_works": {
-    "title": "How AEGIS Works",
-    "subtitle": "A simple 3-step process to build your AI-driven growth flywheel.",
+    "title": "How It Works",
+    "subtitle": "Just three steps to build an AI-driven business growth flywheel.",
     "steps": [
       {
         "step": "Step 1",
-        "title": "AI Integration",
-        "desc": "Deploy specialized Chatbase bots onto your website for 24/7 automated customer engagement."
+        "title": "Connect AI Service",
+        "desc": "Deploy a dedicated Chatbase to the client website, providing 24/7 automated customer service."
       },
       {
         "step": "Step 2",
-        "title": "Supervisory Analysis",
-        "desc": "Our system deeply analyzes all conversation data, identifying response gaps and true user pain points."
+        "title": "AI Supervision Analysis",
+        "desc": "The supervision system deeply analyzes all conversation data to identify response blind spots and real pain points."
       },
       {
         "step": "Step 3",
-        "title": "Strategic Output",
-        "desc": "Transform insights into actionable SEO improvements, comprehensive FAQs, or targeted social media content."
+        "title": "Output Strategy Report",
+        "desc": "Transform analysis results into practical SEO, FAQ, or social content optimization suggestions."
       }
     ]
   },
   "services": {
-    "title": "Core AI Service Modules",
-    "description": "We offer tailored AI solutions, from data-driven conversation analytics to automated content generation, driving comprehensive digital growth for enterprises.",
+    "title": "Four Core AI Service Modules",
+    "description": "We provide tailored AI solutions, from conversation analysis to automated output, driving corporate digital growth in all directions.",
     "items": [
       {
         "id": "aegis-core",
-        "name": "AI Enterprise Growing & Intelligence System",
-        "subtitle": "Complete AI framework from data to strategy for digital growth",
-        "desc": "Build an 'Intelligence Engine' with a growth mindset, integrating data and decision paths.",
+        "name": "AEGIS AI Enterprise Intelligence Integration",
+        "subtitle": "From data to strategy, a complete AI-driven digital growth framework",
+        "desc": "Establish an 'growth-aware' intelligent brain, integrating data and decision paths.",
         "url": "contact.html"
       },
       {
         "id": "customer-ai",
-        "name": "AI Chatbot+ Conversation Analytics",
-        "subtitle": "Automates responses while analyzing dialogues for market insights",
-        "desc": "Transform 24/7 dialogues into high-value market trends and user pain point analysis.",
+        "name": "AI Customer Service × Dialogue Analysis",
+        "subtitle": "Automatically respond to inquiries while analyzing dialogues for market insights",
+        "desc": "Turn 24/7 dialogues into high-value market trends and user pain point analysis.",
         "url": "contact.html"
       },
       {
         "id": "social-engine",
-        "name": "Social Content Engine",
-        "subtitle": "Industry-specific social posts and articles",
-        "desc": "Automatically generate conversion-driven social content and in-depth articles based on industry hot topics.",
+        "name": "Social Content Management System",
+        "subtitle": "Plan social posts and articles based on industry context and competitor dynamics",
+        "desc": "Automatically generate conversion-focused social content and deep articles based on industry hotspots.",
         "url": "contact.html"
       },
       {
         "id": "seo-audit",
-        "name": "GEO Optimization Audit",
-        "subtitle": "Diagnoses site performance in search engines and AI-generated search",
-        "desc": "Strategy for the AI Era (GEO), ensuring brands are prioritized in intelligent AI-generated answers.",
+        "name": "GEO Optimization Assessment",
+        "subtitle": "Diagnose website exposure performance in search engines and AI generative search",
+        "desc": "Layout for the AI search era (GEO), ensuring brand priority in intelligent responses.",
         "url": "contact.html"
       }
     ]
   },
   "ai_to_ai": {
-    "badge": "World's First",
+    "badge": "World First",
     "title": "The World's First AI-to-AI Business Consultation",
-    "subtitle": "Seamless AI-to-AI Interfacing",
-    "desc": "When potential clients use ChatGPT, Perplexity, or other AI tools to research your products, AEGIS-deployed AI can proactively interact with these AI systems. This direct AI-to-AI dialogue ensures your product information and quotes are accurately represented in their custom queries, running 24/7."
+    "subtitle": "Seamless AI-to-AI Consultation Feature",
+    "desc": "When potential clients or procurement personnel use AI tools like ChatGPT or Perplexity to inquire about your products, AEGIS deployed AI customer service already has the ability to actively interface with these AI tools. Both AIs interact directly, ensuring your product information and quote suggestions are correctly and optimally presented in AI-generated search results, keeping business inquiries uninterrupted 24/7."
   },
   "about": {
     "title": "About RefineLab / AEGIS",
-    "desc": "We don’t just build AI chatbots; we provide a complete, AI-driven digital growth solution. Backed by Ivan Chen’s 20+ years of expertise spanning 380+ projects, AEGIS helps listed companies across Real Estate, Semiconductor, Internet, and Electronics industries secure a solid competitive edge in the AI era.",
-    "cta": "Learn About Our Team"
+    "desc": "More than just building AI customer service, we provide AI-driven digital growth solutions. With Ivan Chen's deep experience of over 20 years and more than 380 projects, AEGIS helps listed companies across Real Estate, Semiconductor, Internet, and Electronics industries secure a solid competitive edge in the AI era.",
+    "cta": "Learn more about our team"
   },
   "footer": {
-    "cta_title": "Ready to fuel your enterprise growth with AI?",
+    "cta_title": "Ready to let AI create growth for your business?",
     "cta_btn": "Contact Us Now",
     "copyright": "© 2026 RefineLab / AEGIS. All rights reserved."
   }
