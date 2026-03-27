@@ -162,13 +162,14 @@ function populateDOM(data) {
           data.services.items.forEach((item, index) => {
               const num = (index + 1).toString().padStart(3, '0');
               const div = document.createElement('div');
-              div.className = 'flex flex-col bg-white rounded-[2.5rem] p-10 ring-1 ring-slate-100 hover:ring-brand-500/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 group relative hover:-translate-y-2 overflow-hidden items-center text-center';
+              div.className = 'service-card flex flex-col bg-white rounded-[2.5rem] p-10 ring-1 ring-slate-100 hover:ring-brand-500/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 group relative hover:-translate-y-2 overflow-hidden items-center text-center';
+              div.setAttribute('data-service-index', index);
               div.innerHTML = `
                   <div class="absolute top-8 left-8 text-xs font-medium text-slate-300 tracking-widest">${num}</div>
                   <div class="flex items-center justify-center h-48 mb-8">
                     ${wireframes[index]}
                   </div>
-                  <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-500 transition-colors duration-300">${item.name}</h3>
+                  <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-500 transition-colors duration-300 font-serif">${item.name}</h3>
                   <p class="mt-4 text-sm font-semibold text-brand-600">${item.subtitle}</p>
                   <p class="mt-4 text-sm leading-relaxed text-slate-500 max-w-[280px]">${item.desc}</p>
                   <div class="mt-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-4 group-hover:translate-y-0 flex-grow flex items-end">
@@ -182,6 +183,9 @@ function populateDOM(data) {
               `;
               servicesContainer.appendChild(div);
           });
+
+          // Re-init switcher after items are created
+          initServiceBackgroundSwitcher();
       }
   }
 }
@@ -433,6 +437,61 @@ function initSubtleBackground() {
 }
 
 /**
+ * Initialize Service Section Background Switcher
+ */
+function initServiceBackgroundSwitcher() {
+    const section = document.getElementById('services');
+    if (!section) return;
+
+    // Create background layers if they don't exist
+    let layerContainer = section.querySelector('.service-bg-container');
+    if (!layerContainer) {
+        layerContainer = document.createElement('div');
+        layerContainer.className = 'service-bg-container absolute inset-0 -z-10 pointer-events-none';
+        section.style.position = 'relative';
+        section.insertBefore(layerContainer, section.firstChild);
+    }
+
+    const images = [
+        'img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png',
+        'img/unnamed.jpg',
+        'img/unnamed (1).jpg',
+        'img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png'
+    ];
+
+    // Pre-create layers
+    if (layerContainer.children.length === 0) {
+        images.forEach(src => {
+            const layer = document.createElement('div');
+            layer.className = 'service-bg-layer absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0';
+            layer.style.backgroundImage = `url('${src}')`;
+            layer.style.backgroundSize = 'cover';
+            layer.style.backgroundPosition = 'center';
+            layerContainer.appendChild(layer);
+        });
+    }
+
+    const cards = section.querySelectorAll('.service-card');
+    const layers = layerContainer.querySelectorAll('.service-bg-layer');
+
+    cards.forEach((card, index) => {
+        card.addEventListener('mouseenter', () => {
+            layers.forEach((l, i) => {
+                l.classList.toggle('active', i === index);
+                l.style.opacity = i === index ? '0.15' : '0'; // Sync with premium feel
+            });
+        });
+    });
+
+    section.addEventListener('mouseleave', () => {
+        layers.forEach(l => {
+            l.classList.remove('active');
+            l.style.opacity = '0';
+        });
+    });
+}
+
+/**
  * Initialize Parallax Scrolling
  */
 function initParallax() {
@@ -443,17 +502,39 @@ function initParallax() {
         const scrollY = window.scrollY;
         parallaxElements.forEach(el => {
             const speed = el.getAttribute('data-speed') || 0.2;
-            el.style.transform = `translateY(${scrollY * speed}px)`;
+            const yPos = scrollY * speed;
+            el.style.transform = `translate3d(0, ${yPos}px, 0)`;
         });
     }, { passive: true });
+}
+
+/**
+ * Handle Navbar transparency toggle on scroll
+ */
+function initNavbarScroll() {
+    const nav = document.querySelector('.glass-nav');
+    if (!nav) return;
+
+    const handleScroll = () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('nav-scrolled');
+        } else {
+            nav.classList.remove('nav-scrolled');
+        }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
 }
 
 // Call new initializers on DOMContentLoad
 document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
     initSubtleBackground();
+    initNavbarScroll();
     setTimeout(() => {
         initScrollReveal();
         initParallax();
+        initServiceBackgroundSwitcher();
     }, 150);
 }); 
