@@ -303,10 +303,142 @@ function initScrollReveal() {
 }
 
 /**
+ * Initialize Subtle Background Animation (Premium Style A: Interactive Neural Network)
+ */
+function initSubtleBackground() {
+    const canvas = document.getElementById('bg-canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width, height, particles;
+    let mouse = { x: null, y: null, radius: 150 };
+
+    // Optimized particle count based on screen area
+    const getParticleCount = () => Math.min(Math.floor((window.innerWidth * window.innerHeight) / 12000), 100);
+    const connectionDistance = 160;
+    const particleSpeed = 0.35;
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+        constructor() {
+            this.init();
+        }
+
+        init() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * particleSpeed;
+            this.vy = (Math.random() - 0.5) * particleSpeed;
+            this.radius = Math.random() * 1.5 + 0.8;
+            this.baseX = this.x;
+            this.baseY = this.y;
+            this.density = (Math.random() * 30) + 1;
+        }
+
+        update() {
+            // Mouse Interaction (Attraction/Ripple)
+            if (mouse.x !== null) {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+                let maxDistance = mouse.radius;
+                let force = (maxDistance - distance) / maxDistance;
+                let directionX = forceDirectionX * force * this.density;
+                let directionY = forceDirectionY * force * this.density;
+
+                if (distance < mouse.radius) {
+                    this.x += directionX * 0.1;
+                    this.y += directionY * 0.1;
+                }
+            }
+
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Bounce off edges with soft reset
+            if (this.x < -10 || this.x > width + 10) this.vx *= -1;
+            if (this.y < -10 || this.y > height + 10) this.vy *= -1;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            // Draw at 5% opacity directly
+            ctx.fillStyle = 'rgba(100, 116, 139, 0.4)'; 
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        resize();
+        particles = [];
+        let count = getParticleCount();
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+            const p1 = particles[i];
+            p1.update();
+            p1.draw();
+
+            // Connect nearest nodes
+            for (let j = i + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const dx = p1.x - p2.x;
+                const dy = p1.y - p2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < connectionDistance) {
+                    // Line opacity at 0.08 - 0.2 depending on distance
+                    const opacity = 0.25 * (1 - dist / connectionDistance);
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(94, 106, 210, ${opacity})`; // Indigo-500 tint
+                    ctx.lineWidth = 0.8;
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+        init();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+    });
+
+    window.addEventListener('mouseout', () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
+
+    init();
+    animate();
+}
+
+/**
  * Initialize Parallax Scrolling
  */
 function initParallax() {
     const parallaxElements = document.querySelectorAll('.parallax');
+    if (parallaxElements.length === 0) return;
+    
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
         parallaxElements.forEach(el => {
@@ -319,6 +451,7 @@ function initParallax() {
 // Call new initializers on DOMContentLoad
 document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
+    initSubtleBackground();
     setTimeout(() => {
         initScrollReveal();
         initParallax();

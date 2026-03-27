@@ -10,7 +10,11 @@
     @apply antialiased;
   }
   body {
-    @apply bg-white text-slate-900 font-sans;
+    @apply bg-white text-slate-900 font-sans relative;
+  }
+  
+  #bg-canvas {
+    @apply fixed inset-0 -z-10 pointer-events-none;
   }
 }
 
