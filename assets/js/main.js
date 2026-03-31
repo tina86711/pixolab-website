@@ -689,8 +689,9 @@ function initNavbarScroll() {
 }
 
 /**
- * Cinematic Scroll Engine - CASCADED TRIGGER Mode
- * Rhythm: Stay (0-0.4) | Trigger Cascade (0.4-0.53) | Reveal (0.52-0.75)
+ * Cinematic Scroll Engine - SLIDING OVERLAY PARALLAX Mode
+ * Logic: Dark base stays; White metrics layer slides up from 100vh to 0.
+ * Pacing: Stay (0-0.4) | Fade Down Base (0.4-0.5) | Trigger Slide (0.45)
  */
 function initCinematicScroll() {
     const wrapper = document.getElementById('cinematic-scroll-wrapper');
@@ -698,92 +699,92 @@ function initCinematicScroll() {
     const statsLayer = document.getElementById('stats-section');
     if (!wrapper || !servicesLayer || !statsLayer) return;
 
-    const darkRGB = [2, 6, 23]; // #020617
-    const lightRGB = [248, 250, 252]; // #f8fafc
-    let numbersStarted = false;
+    // State Tracking
+    let state = {
+        scrollProgress: 0,
+        lerpSlide: 0, // 0 to 1 mapping to translateY(100% to 0%)
+        numbersStarted: false
+    };
 
-    // Helper to start number animation manually
+    // Helper: Numeric ease out
+    const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
     const startMetricsAnimation = () => {
-        if (numbersStarted) return;
-        numbersStarted = true;
+        if (state.numbersStarted) return;
+        state.numbersStarted = true;
         const numbers = document.querySelectorAll('.metric-number');
         numbers.forEach(num => {
             const target = parseInt(num.getAttribute('data-target'));
-            let current = 0;
             const duration = 2000;
             const startTime = performance.now();
-            
             const animate = (currentTime) => {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 // Ease out cubic
                 const easedProgress = 1 - Math.pow(1 - progress, 3);
-                
                 num.textContent = Math.floor(easedProgress * target);
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    num.textContent = target;
-                }
+                if (progress < 1) requestAnimationFrame(animate);
+                else num.textContent = target;
             };
             requestAnimationFrame(animate);
         });
     };
 
-    const handleScroll = () => {
-        const rect = wrapper.getBoundingClientRect();
-        const wrapperTop = rect.top;
-        const wrapperHeight = rect.height;
-        const viewportHeight = window.innerHeight;
+    // Rendering Tick Loop
+    const update = () => {
+        const lerpFactor = 0.08; // Smoothness damping
 
-        const totalScrollRange = wrapperHeight - viewportHeight;
-        let progress = Math.min(Math.max(-wrapperTop / totalScrollRange, 0), 1);
+        // 1. BASE REMAINS SOLID (Per request: Four core services don't change color/fade)
+        servicesLayer.style.opacity = "1";
+        servicesLayer.style.pointerEvents = state.scrollProgress > 0.7 ? 'none' : 'auto';
 
-        const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        // 2. OVERLAY SLIDE TRIGGER (Turbo Pacing for 300vh)
+        let targetSlideValue = state.scrollProgress > 0.35 ? 1 : 0;
+        state.lerpSlide += (targetSlideValue - state.lerpSlide) * lerpFactor;
 
-        // Phase 1: Services Fade Out (0.4 - 0.5)
-        // High stay time: 0.0 - 0.4
-        let servicesProgress = Math.min(Math.max((progress - 0.4) / 0.1, 0), 1);
-        servicesLayer.style.opacity = 1 - ease(servicesProgress);
-        servicesLayer.style.pointerEvents = (1 - ease(servicesProgress)) < 0.1 ? 'none' : 'auto';
-
-        // Phase 2: Background Color (0.5 - 0.53)
-        // ULTRA SNAP triggered after services start fading.
-        let bgProgress = Math.min(Math.max((progress - 0.5) / 0.03, 0), 1);
-        const r = Math.round(darkRGB[0] + (lightRGB[0] - darkRGB[0]) * bgProgress);
-        const g = Math.round(darkRGB[1] + (lightRGB[1] - darkRGB[1]) * bgProgress);
-        const b = Math.round(darkRGB[2] + (lightRGB[2] - darkRGB[2]) * bgProgress);
-        const rgbStr = `rgb(${r}, ${g}, ${b})`;
+        // Apply Vertical Displacement
+        const translateY = (1 - state.lerpSlide) * 100;
+        statsLayer.style.transform = `translateY(${translateY}%)`;
         
-        document.body.style.backgroundColor = rgbStr;
-        document.documentElement.style.backgroundColor = rgbStr;
-        document.documentElement.style.setProperty('--theme-bg', rgbStr);
+        // Ensure stats layer is always themed correctly
+        statsLayer.classList.add('is-light-theme');
 
-        if (bgProgress > 0.4) {
+        // Global theme toggle for cursor/nav sync
+        if (state.lerpSlide > 0.5) {
             document.documentElement.classList.add('is-light-theme');
-            document.body.classList.add('is-light-theme');
         } else {
             document.documentElement.classList.remove('is-light-theme');
-            document.body.classList.remove('is-light-theme');
         }
 
-        // Phase 3: Stats Fade In (Starts @ 0.52 - near completion of snap color)
-        let statsProgress = Math.min(Math.max((progress - 0.52) / 0.23, 0), 1);
-        statsLayer.style.opacity = ease(statsProgress);
-        statsLayer.style.pointerEvents = ease(statsProgress) < 0.1 ? 'none' : 'auto';
+        // 3. STATS REVEAL (Internal animation as it slides)
+        let textOpacity = Math.min(Math.max((state.lerpSlide - 0.5) / 0.4, 0), 1);
+        const metricsInner = statsLayer.querySelector('.max-w-7xl');
+        if (metricsInner) {
+            metricsInner.style.opacity = ease(textOpacity);
+            metricsInner.style.transform = `translateY(${(1 - ease(textOpacity)) * 20}px)`;
+        }
 
-        // Trigger numbers as soon as visibility starts
-        if (statsProgress > 0.05) {
+        // Start numbers as the slide reaches visibility threshold
+        if (state.lerpSlide > 0.8) {
             startMetricsAnimation();
-        } else if (progress < 0.4) {
-            // Reset for re-trigger if user scrolls all the way back up
-            numbersStarted = false;
+        } else if (state.scrollProgress < 0.2) {
+            state.numbersStarted = false;
         }
+
+        requestAnimationFrame(update);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    // Initial Progress Calculation
+    const calculateProgress = () => {
+        const rect = wrapper.getBoundingClientRect();
+        const totalScrollRange = rect.height - window.innerHeight;
+        state.scrollProgress = Math.min(Math.max(-rect.top / totalScrollRange, 0), 1);
+    };
+
+    // Start Tick & Listener
+    calculateProgress();
+    requestAnimationFrame(update);
+    window.addEventListener('scroll', calculateProgress, { passive: true });
 }
 
 // Global Initialization after DOM is ready
