@@ -8,10 +8,10 @@
     <meta name="description" content="AEGIS 企業智能整合系統，透過分析 Chatbase 對話數據找出回答盲點，並從中挖掘用戶真實需求，提供 SEO 與社群策展洞察。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap"
-        rel="stylesheet">
-
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
     <!-- Tailwind Play CDN (Immediate visibility for development) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -27,7 +27,7 @@
                     },
                     fontFamily: {
                         sans: ['"Inter"', '"Noto Sans TC"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        serif: ['"Cormorant Infant"', '"Noto Serif TC"', 'serif'],
+                        serif: ['"Noto Serif TC"', 'serif'],
                         script: ['"Pinyon Script"', 'cursive']
                     },
                     boxShadow: {
@@ -45,11 +45,30 @@
         @layer base {
             :root {
                 --ease-premium: cubic-bezier(0.25, 1, 0.5, 1);
-                --transition-speed: 0.7s;
+                --theme-bg: #020617;
+                --theme-text: #ffffff;
+                --theme-text-muted: #94a3b8;
+                --theme-border: rgba(255, 255, 255, 0.1);
             }
-            html { @apply scroll-smooth antialiased; font-size: 16px; }
-            body { @apply bg-[#f8fafc] text-slate-900 font-sans relative overflow-x-hidden; }
-            h1, h2, h3, h4 { @apply font-serif tracking-tight text-slate-900 leading-[1.15]; }
+            html.is-light-theme, body.is-light-theme {
+                --theme-bg: #f8fafc;
+                --theme-text: #0f172a;
+                --theme-text-muted: #475569;
+                --theme-border: rgba(15, 23, 42, 0.1);
+            }
+            /* Stats specifically for visibility */
+            .is-light-theme .stat-number { color: #0f172a !important; }
+            .is-light-theme .stat-label { color: #475569 !important; }
+            
+            html { @apply scroll-smooth antialiased; font-size: 16px; background-color: var(--theme-bg); }
+            body { 
+                @apply font-sans relative overflow-x-hidden;
+                background-color: var(--theme-bg);
+                color: var(--theme-text);
+                transition: background-color 0s linear; /* Liquid is handled by JS */
+            }
+            h1, h2, h3, h4 { @apply font-serif tracking-tight leading-[1.15]; color: var(--theme-text); transition: color 1s var(--ease-premium); }
+            p { transition: color 1s var(--ease-premium); }
             
             /* Big Typography Scale */
             .display-1 { font-size: clamp(3rem, 10vw, 8.5rem); @apply font-bold leading-[0.9] tracking-tighter; }
@@ -79,6 +98,7 @@
             /* Navbar Transitions */
             .glass-nav { @apply bg-transparent border-b border-transparent sticky top-0 z-50 transition-all duration-500 py-4; }
             .glass-nav.nav-scrolled { @apply bg-white/80 backdrop-blur-xl border-slate-200/40 py-2 shadow-sm; }
+            .glass-nav.nav-hidden { transform: translateY(-100%); opacity: 0; }
             .nav-link { @apply text-sm font-semibold transition-colors duration-300; }
             .glass-nav:not(.nav-scrolled) .nav-link { @apply text-white hover:text-brand-300; }
             .glass-nav.nav-scrolled .nav-link { @apply text-slate-600 hover:text-brand-500; }
@@ -91,21 +111,93 @@
             .glass-card { @apply bg-slate-900/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-2xl; }
             .input-premium { @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all; }
         }
+        @layer utilities {
+            .font-serif {
+                font-family: 'Noto Serif TC', serif !important;
+            }
+
+            .animate-pulse-gentle {
+                animation: pulse-gentle 4s ease-in-out infinite;
+            }
+
+            .animate-float-slow {
+                animation: float-slow 6s ease-in-out infinite;
+            }
+
+            .animate-spin-very-slow {
+                animation: spin-very-slow 20s linear infinite;
+            }
+
+            @keyframes pulse-gentle {
+                0%, 100% { opacity: 0.8; transform: scale(1); }
+                50% { opacity: 1; transform: scale(1.05); }
+            }
+
+            @keyframes float-slow {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-15px); }
+            }
+
+            /* Debug Tracker: Physical proof that JS is working */
+            #scroll-debug-tracker {
+                position: fixed;
+                height: 0;
+                background: #8b5cf6;
+                z-index: 9999;
+                transition: height 0.1s linear;
+            }
+        }
     </style>
     <style>
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
         /* Premium Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f8fafc; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        #bg-canvas { position: fixed; inset: 0; z-index: -10; pointer-events: none; }
-        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -10;
+            pointer-events: none;
+        }
+
         /* Custom Cursor styling (must be standard CSS for dot/ring IDs) */
-        #custom-cursor-dot { @apply fixed top-0 left-0 w-1.5 h-1.5 bg-brand-500 rounded-full pointer-events-none z-[9999]; transform: translate(-50%, -50%); }
-        #custom-cursor-ring { @apply fixed top-0 left-0 w-9 h-9 border-2 border-brand-500/30 rounded-full pointer-events-none z-[9998] transition-[width,height,background-color,border-color] duration-300; transform: translate(-50%, -50%); }
-        #custom-cursor-ring.hover { @apply w-[60px] h-[60px] bg-brand-500/10 border-transparent; }
+        #custom-cursor-dot {
+            @apply fixed top-0 left-0 w-1.5 h-1.5 bg-brand-500 rounded-full pointer-events-none z-[9999];
+            transform: translate(-50%, -50%);
+        }
+
+        #custom-cursor-ring {
+            @apply fixed top-0 left-0 w-9 h-9 border-2 border-brand-500/30 rounded-full pointer-events-none z-[9998] transition-[width, height, background-color, border-color] duration-300;
+            transform: translate(-50%, -50%);
+        }
+
+        #custom-cursor-ring.hover {
+            @apply w-[60px] h-[60px] bg-brand-500/10 border-transparent;
+        }
     </style>
 </head>
 
@@ -151,12 +243,15 @@
     <!-- Hero Slider Section -->
     <header id="hero-slider" class="relative h-screen w-full bg-slate-950 overflow-hidden">
         <!-- Slides Container -->
-        <div id="slides-wrapper" class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2400'); background-size: cover; background-position: center;">
+        <div id="slides-wrapper" class="absolute inset-0 bg-cover bg-center"
+            style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2400'); background-size: cover; background-position: center;">
             <!-- Slides will be injected here by JS -->
         </div>
 
         <!-- Overlays -->
-        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/60 z-10 pointer-events-none"></div>
+        <div
+            class="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/40 z-10 pointer-events-none">
+        </div>
         <div class="absolute inset-0 bg-slate-950/20 z-10 pointer-events-none"></div>
 
         <!-- Slider Content -->
@@ -166,22 +261,27 @@
                     <!-- Category/Tag -->
                     <div class="mb-8 flex items-center gap-4">
                         <span class="h-px w-10 bg-brand-500"></span>
-                        <span id="slide-category" class="text-xs font-black uppercase tracking-[0.4em] text-brand-400">Loading...</span>
+                        <span id="slide-category"
+                            class="text-xs font-black uppercase tracking-[0.4em] text-brand-400">Loading...</span>
                     </div>
                     <!-- Main Title -->
-                    <h1 id="slide-title" class="display-1 text-white mb-10 drop-shadow-2xl">
+                    <h1 id="slide-title" class="display-1 text-white mb-10 drop-shadow-2xl font-serif">
                         AI 驅動的<br />商業成長引擎
                     </h1>
                     <!-- Subtitle -->
-                    <p id="slide-subtitle" class="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed mb-12 font-medium">
+                    <p id="slide-subtitle"
+                        class="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed mb-12 font-medium">
                         讓每一次對話，都成為企業策略的精準燃料。
                     </p>
                     <!-- Buttons -->
                     <div class="flex flex-wrap items-center gap-6">
                         <a id="slide-cta" href="contact.html" class="btn-premium-primary px-12">立即開始</a>
                         <button class="group flex items-center gap-4 text-white font-bold">
-                            <span class="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-slate-950 transition-all duration-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <span
+                                class="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-slate-950 transition-all duration-300">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
                             </span>
                             <span class="text-sm tracking-widest uppercase">了解更多</span>
                         </button>
@@ -191,19 +291,27 @@
         </div>
 
         <!-- Bottom Interactive Control Bar -->
-        <div class="absolute bottom-0 left-0 w-full z-30 bg-slate-950/20 backdrop-blur-md border-t border-white/5 py-8 px-8 lg:px-20">
+        <div
+            class="absolute bottom-0 left-0 w-full z-30 bg-slate-950/20 backdrop-blur-md border-t border-white/5 py-8 px-8 lg:px-20">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
-                
+
                 <!-- Play/Pause Control -->
                 <div class="flex items-center gap-6">
                     <button id="slider-play-pause" class="relative h-16 w-16 group">
                         <svg class="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
-                            <circle id="slider-progress-ring" cx="50" cy="50" r="48" fill="none" stroke="currentColor" class="text-brand-500" stroke-width="2" stroke-dasharray="301.6" stroke-dashoffset="301.6" />
+                            <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="2" />
+                            <circle id="slider-progress-ring" cx="50" cy="50" r="48" fill="none" stroke="currentColor"
+                                class="text-brand-500" stroke-width="2" stroke-dasharray="301.6"
+                                stroke-dashoffset="301.6" />
                         </svg>
                         <div class="absolute inset-0 flex items-center justify-center text-white">
-                            <svg id="pause-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                            <svg id="play-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg id="pause-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            </svg>
+                            <svg id="play-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
                         </div>
                     </button>
                     <span class="text-xs font-black text-white uppercase tracking-widest">Auto Play</span>
@@ -214,26 +322,45 @@
                     <!-- Teaser 1 -->
                     <button class="slider-nav-teaser group text-left max-w-[300px]" data-slide-target="next">
                         <div class="flex items-center gap-4 mb-2">
-                            <span class="text-[0.6rem] font-black text-brand-500 bg-brand-500/10 h-5 w-5 rounded-full flex items-center justify-center">1</span>
-                            <div class="h-px w-8 bg-white/20 group-hover:w-12 group-hover:bg-brand-500 transition-all"></div>
+                            <span
+                                class="text-[0.6rem] font-black text-brand-500 bg-brand-500/10 h-5 w-5 rounded-full flex items-center justify-center">1</span>
+                            <div class="h-px w-8 bg-white/20 group-hover:w-12 group-hover:bg-brand-500 transition-all">
+                            </div>
                         </div>
-                        <p id="next-teaser-title" class="text-[0.7rem] font-bold text-white/50 group-hover:text-white uppercase tracking-wider line-clamp-1 transition-colors">深度對話分析</p>
+                        <p id="next-teaser-title"
+                            class="text-[0.7rem] font-bold text-white/50 group-hover:text-white uppercase tracking-wider line-clamp-1 transition-colors">
+                            深度對話分析</p>
                     </button>
                     <!-- Teaser 2 -->
                     <button class="slider-nav-teaser group text-left max-w-[300px]" data-slide-target="following">
                         <div class="flex items-center gap-4 mb-2">
-                            <span class="text-[0.6rem] font-black text-white/30 h-5 w-5 rounded-full border border-white/10 flex items-center justify-center">2</span>
+                            <span
+                                class="text-[0.6rem] font-black text-white/30 h-5 w-5 rounded-full border border-white/10 flex items-center justify-center">2</span>
                             <div class="h-px w-8 bg-white/10 transition-all"></div>
                         </div>
-                        <p id="following-teaser-title" class="text-[0.7rem] font-bold text-white/30 group-hover:text-white uppercase tracking-wider line-clamp-1 transition-colors">GEO 搜尋佈局</p>
+                        <p id="following-teaser-title"
+                            class="text-[0.7rem] font-bold text-white/30 group-hover:text-white uppercase tracking-wider line-clamp-1 transition-colors">
+                            GEO 搜尋佈局</p>
                     </button>
                 </div>
 
                 <!-- Social Icons -->
                 <div class="flex items-center gap-8">
-                    <a href="#" class="text-white/40 hover:text-white transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-                    <a href="#" class="text-white/40 hover:text-white transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-                    <a href="#" class="text-white/40 hover:text-white transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                    <a href="#" class="text-white/40 hover:text-white transition-colors"><svg class="w-5 h-5"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg></a>
+                    <a href="#" class="text-white/40 hover:text-white transition-colors"><svg class="w-5 h-5"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg></a>
+                    <a href="#" class="text-white/40 hover:text-white transition-colors"><svg class="w-5 h-5"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg></a>
                 </div>
             </div>
         </div>
@@ -245,27 +372,6 @@
             <h2 class="text-center text-sm font-bold uppercase tracking-widest text-slate-400 mb-10">Trusted by Global
                 Industry Leaders</h2>
         </div>
-        <style>
-            @keyframes marquee {
-                0% {
-                    transform: translateX(0);
-                }
-
-                100% {
-                    transform: translateX(-50%);
-                }
-            }
-
-            .marquee-track {
-                display: flex;
-                width: max-content;
-                animation: marquee 30s linear infinite;
-            }
-
-            .marquee-track:hover {
-                animation-play-state: paused;
-            }
-        </style>
         <div class="relative">
             <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10"></div>
             <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10"></div>
@@ -327,159 +433,179 @@
         </div>
     </div>
 
-    <!-- Services Grid -->
-    <section id="services" class="section-narrative bg-white border-t border-slate-100">
-        <!-- Background Layer Container (Populated by JS) -->
-        <div id="service-bg-container" class="absolute inset-0 -z-10 pointer-events-none overflow-hidden"></div>
-        
-        <div class="mx-auto max-w-7xl">
-            <div class="max-w-3xl mb-24 reveal-up">
-                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-brand-600 mb-6 font-sans">Four Core AI Modules</h2>
-                <p class="display-2 text-slate-900 mb-8" data-i18n="services.title">為企業量身打造的<br/>AI 成長解決方案</p>
-                <p class="text-xl text-slate-500 font-medium" data-i18n="services.description">從對話數據分析到自動化內容生成，全方位驅動企業數位轉型。</p>
-            </div>
+    <!-- Cinematic Scroll Wrapper (550vh Track - Dramatic Pacing) -->
+    <div id="cinematic-scroll-wrapper" class="relative h-[550vh]">
+        <!-- Sticky Viewport (100vh) -->
+        <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+            
+            <!-- Layer 1: Services Grid (Grand Scale) -->
+            <section id="services" class="absolute inset-0 w-full h-full flex flex-col justify-center opacity-100 transition-opacity duration-100">
+                <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12">
+                    <div id="services-container" class="grid grid-cols-1 lg:grid-cols-3 transition-all duration-1000">
+                        
+                        <!-- Header Block -->
+                        <div class="lg:col-span-2 p-12 lg:p-24 border-r border-b border-white/10 flex flex-col justify-end min-h-[500px]">
+                            <h2 class="text-sm font-black uppercase tracking-[0.4em] text-brand-400 mb-8 font-sans">Four Core AI Modules</h2>
+                            <p class="text-6xl lg:text-8xl font-serif font-black text-white mb-10 leading-none tracking-tight" data-i18n="services.title">四大核心<br />AI 服務模組</p>
+                            <p class="text-xl text-slate-400 font-medium max-w-xl leading-relaxed" data-i18n="services.description">我們提供量身定制的 AI 解決方案，從對話分析到自動化產出，全方位驅動企業數位成長。</p>
+                        </div>
 
-            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- 001 - AEGIS AI -->
-                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
-                     data-bg="img/refinelab_a_close-up_of_the_face_with_futuristic_glasses_disp_f766ad90-ddc4-445d-b190-84aad929940b_1.png"
-                     style="transition-delay: 0.1s;">
-                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">001</div>
-                    <div class="flex justify-center items-center h-32 mb-12">
-                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500 animate-spin-slow">
-                            <circle cx="50" cy="50" r="40" stroke-width="0.5" stroke-dasharray="2 2" />
-                            <ellipse cx="50" cy="50" rx="40" ry="15" stroke-width="0.5" />
-                            <ellipse cx="50" cy="50" rx="15" ry="40" stroke-width="0.5" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">AEGIS AI企業智能成長系統</h3>
-                    <p class="text-sm leading-relaxed text-slate-600">從數據到策略，一套完整的 AI 驅動數位成長框架</p>
-                </div>
+                        <!-- 001 - AEGIS AI -->
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-b border-white/10 overflow-hidden transition-all duration-700" 
+                             data-bg="img/refinelab_a_close-up_of_the_face_with_futuristic_glasses_disp_f766ad90-ddc4-445d-b190-84aad929940b_1.png">
+                            <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">001</div>
+                                <div class="flex-grow flex items-center justify-center mb-12">
+                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-spin-very-slow">
+                                            <circle cx="50" cy="50" r="40" stroke-width="0.8" stroke-dasharray="4 2" />
+                                            <ellipse cx="50" cy="50" rx="40" ry="15" stroke-width="0.8" />
+                                            <ellipse cx="50" cy="50" rx="15" ry="40" stroke-width="0.8" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">AEGIS AI<br/>企業智能成長系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">從數據到策略，一套完整的 AI 驅動數位成長框架</p>
+                            </div>
+                        </div>
 
-                <!-- 002 - AI Chatbot -->
-                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
-                     data-bg="img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png"
-                     style="transition-delay: 0.2s;">
-                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">002</div>
-                    <div class="flex justify-center items-center h-32 mb-12">
-                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
-                            <circle cx="50" cy="50" r="10" stroke-width="1" />
-                            <circle cx="50" cy="50" r="20" stroke-width="0.5" />
-                            <circle cx="50" cy="50" r="30" stroke-width="0.5" />
-                            <circle cx="50" cy="50" r="40" stroke-width="0.5" stroke-dasharray="4 4" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">AI智能客服 + 對話分析系統</h3>
-                    <p class="text-sm leading-relaxed text-slate-600">自動化處理客戶詢問，並即時分析對話累積市場洞察</p>
-                </div>
+                        <!-- 002 - AI Chatbot -->
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-r border-white/10 overflow-hidden transition-all duration-700" 
+                             data-bg="img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png">
+                            <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">002</div>
+                                <div class="flex-grow flex items-center justify-center mb-12">
+                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-pulse-gentle">
+                                            <circle cx="50" cy="50" r="10" stroke-width="0.8" />
+                                            <circle cx="50" cy="50" r="23" stroke-width="0.5" />
+                                            <circle cx="50" cy="50" r="33" stroke-width="0.3" />
+                                            <circle cx="50" cy="50" r="42" stroke-width="0.8" stroke-dasharray="6 6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">AI智能客服 + <br/>對話分析系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">自動化處理客戶詢問，並即時分析對話累積市場洞察</p>
+                            </div>
+                        </div>
 
-                <!-- 003 - Social Engine -->
-                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
-                     data-bg="img/refinelab_A_cinematic_low-flying_drone_shot_over_a_busy_main__afe7b119-8ef4-455c-8019-b527bc111617_1.png"
-                     style="transition-delay: 0.3s;">
-                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">003</div>
-                    <div class="flex justify-center items-center h-32 mb-12">
-                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500 group-hover:rotate-12 transform transition-transform">
-                            <path d="M50 10 L90 80 L10 80 Z" stroke-width="0.5" />
-                            <path d="M50 10 L50 80" stroke-width="0.5" />
-                            <path d="M10 80 L50 64 L90 80" stroke-width="0.5" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">社群內容經營系統</h3>
-                    <p class="text-sm leading-relaxed text-slate-600">依照產業脈絡與競爭趨勢，自動規劃社群貼文與內容策略</p>
-                </div>
+                        <!-- 003 - Social Engine -->
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-r border-white/10 overflow-hidden transition-all duration-700" 
+                             data-bg="img/refinelab_A_cinematic_low-flying_drone_shot_over_a_busy_main__afe7b119-8ef4-455c-8019-b527bc111617_1.png">
+                            <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">003</div>
+                                <div class="flex-grow flex items-center justify-center mb-12">
+                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-float-slow">
+                                            <path d="M50 10 L90 80 L10 80 Z" stroke-width="0.8" stroke-linejoin="round" />
+                                            <path d="M50 10 L50 80" stroke-width="0.4" />
+                                            <path d="M10 80 L50 64 L90 80" stroke-width="0.6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">社群內容<br/>經營系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">依照產業脈絡與競爭趨勢，自動規劃社群貼文與內容策略</p>
+                            </div>
+                        </div>
 
-                <!-- 004 - GEO Audit -->
-                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
-                     data-bg="img/refinelab_a_human_hand_touching_the_search_bar_on_googles_web_28ae632c-1592-4bee-8057-ec1ac59ef773_0.png"
-                     style="transition-delay: 0.4s;">
-                    <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">004</div>
-                    <div class="flex justify-center items-center h-32 mb-12">
-                        <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
-                            <rect x="25" y="25" width="30" height="30" stroke-width="0.5" />
-                            <rect x="45" y="45" width="30" height="30" stroke-width="0.5" />
-                            <line x1="25" y1="25" x2="45" y2="45" stroke-width="0.5" />
-                            <line x1="55" y1="25" x2="75" y2="45" stroke-width="0.5" />
-                            <line x1="25" y1="55" x2="45" y2="75" stroke-width="0.5" />
-                            <line x1="55" y1="55" x2="75" y2="75" stroke-width="0.5" />
-                        </svg>
+                        <!-- 004 - GEO Audit -->
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 overflow-hidden transition-all duration-700" 
+                             data-bg="img/refinelab_a_human_hand_touching_the_search_bar_on_googles_web_28ae632c-1592-4bee-8057-ec1ac59ef773_0.png">
+                            <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">004</div>
+                                <div class="flex-grow flex items-center justify-center mb-12">
+                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-spin-very-slow" style="animation-direction: reverse;">
+                                            <rect x="25" y="25" width="50" height="50" stroke-width="0.8" />
+                                            <rect x="15" y="15" width="70" height="70" stroke-width="0.4" stroke-dasharray="4 4" />
+                                            <circle cx="50" cy="50" r="5" stroke-width="0.8" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">GEO搜尋<br/>評測系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">診斷網站於生成式搜尋引擎 (AI Search) 的表現與可見度</p>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-brand-600 transition-colors duration-300">GEO搜尋評測系統</h3>
-                    <p class="text-sm leading-relaxed text-slate-600">診斷網站於生成式搜尋引擎 (AI Search) 的表現與可見度</p>
                 </div>
-            </div>
+            </section>
+
+            <!-- Layer 2: Stats Section (Full Restoration) -->
+            <section id="stats-section" class="absolute inset-0 w-full h-full flex flex-col justify-center opacity-0 transition-opacity duration-100 pointer-events-none">
+                <div class="mx-auto max-w-7xl w-full px-4 lg:px-8">
+                    <div class="max-w-4xl">
+                        <h2 class="display-2 theme-text-main mb-8" data-i18n="metrics.title">從對話中提煉真實的商業價值</h2>
+                        <p class="text-xl theme-text-muted max-w-2xl font-medium">數據會說話，AEGIS 為企業創造顯著的數位成長，將隱藏在對話中的冷數據轉化為高價值的市場情報。</p>
+                    </div>
+                    <div class="w-12 h-px bg-brand-500/30 my-20"></div>
+                    <dl id="metrics-grid" class="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-3">
+                        <!-- Populated by main.js -->
+                    </dl>
+                </div>
+            </section>
+
         </div>
-    </section>
-
-    <!-- Combined Stats + Experience Block -->
-    <section class="section-narrative bg-slate-950 text-white overflow-hidden relative">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent"></div>
-        
-        <div class="mx-auto max-w-7xl">
-            <!-- AEGIS Case Metrics -->
-            <div class="max-w-4xl reveal-up">
-                <h2 class="display-2 text-white mb-8" data-i18n="metrics.title">從對話中提煉真實的商業價值</h2>
-                <p class="text-xl text-slate-400 max-w-2xl">數據會說話，AEGIS 為企業創造顯著的數位成長，將隱藏在對話中的冷數據轉化為高價值的市場情報。</p>
-            </div>
-
-            <!-- Divider -->
-            <div class="w-12 h-px bg-brand-500/30 my-20 reveal-up"></div>
-
-            <!-- Experience Counters (Data from JSON) -->
-            <dl id="metrics-grid" class="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-3 reveal-up" style="transition-delay: 0.2s;">
-                <!-- Dynamically populated by main.js -->
-            </dl>
-        </div>
-    </section>
+    </div>
 
     <script>
-        (function () {
-            function animateCounter(el) {
-                const target = parseInt(el.closest('.stat-item').dataset.target);
-                const duration = 2000;
-                const start = performance.now();
-                const easeOut = t => 1 - Math.pow(1 - t, 4);
-                function update(now) {
-                    const elapsed = now - start;
-                    const progress = Math.min(elapsed / duration, 1);
-                    el.textContent = Math.floor(easeOut(progress) * target);
-                    if (progress < 1) requestAnimationFrame(update);
-                    else el.textContent = target;
-                }
-                requestAnimationFrame(update);
-            }
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateCounter(entry.target.querySelector('.stat-number'));
-                        observer.unobserve(entry.target);
+            (function () {
+                function animateCounter(el) {
+                    const target = parseInt(el.closest('.stat-item').dataset.target);
+                    const duration = 2000;
+                    const start = performance.now();
+                    const easeOut = t => 1 - Math.pow(1 - t, 4);
+                    function update(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        el.textContent = Math.floor(easeOut(progress) * target);
+                        if (progress < 1) requestAnimationFrame(update);
+                        else el.textContent = target;
                     }
-                });
-            }, { threshold: 0.5 });
-            document.querySelectorAll('.stat-item').forEach(el => observer.observe(el));
-        })();
+                    requestAnimationFrame(update);
+                }
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateCounter(entry.target.querySelector('.stat-number'));
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('.stat-item').forEach(el => observer.observe(el));
+            })();
     </script>
 
     <!-- AI to AI Highlight -->
-    <section class="section-narrative bg-slate-950 text-white border-t border-slate-900">
+    <section class="section-narrative border-t theme-border">
         <div class="mx-auto max-w-7xl">
             <div class="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
                 <div class="lg:col-span-6 reveal-up">
-                    <h2 class="text-xs font-black uppercase tracking-[0.3em] text-brand-400 mb-6" data-i18n="ai_to_ai.badge">World's First</h2>
-                    <p class="display-2 text-white mb-8" data-i18n="ai_to_ai.title">全球首創<br/>AI 聯網對接技術</p>
-                    <p class="text-xl text-slate-300 leading-relaxed font-medium" data-i18n="ai_to_ai.desc">當潛在客戶使用 ChatGPT 或 Perplexity 搜尋您的產品時，AEGIS 部署的 AI 系統能主動與這些 AI 工具對接，確保您的產品資訊在 AI 生成結果中獲得最佳展現。</p>
+                    <h2 class="text-xs font-black uppercase tracking-[0.3em] text-brand-400 mb-6"
+                        data-i18n="ai_to_ai.badge">World's First</h2>
+                    <p class="display-2 mb-8" data-i18n="ai_to_ai.title">全球首創<br />AI 聯網對接技術</p>
+                    <p class="text-xl leading-relaxed font-medium theme-text-muted" data-i18n="ai_to_ai.desc">當潛在客戶使用
+                        ChatGPT 或 Perplexity 搜尋您的產品時，AEGIS 部署的 AI 系統能主動與這些 AI 工具對接，確保您的產品資訊標獲得最佳展現。</p>
                 </div>
                 <div class="lg:col-span-6 mt-16 lg:mt-0 reveal-up" style="transition-delay: 0.2s;">
-                    <div class="rounded-[2.5rem] bg-slate-900 shadow-2xl ring-1 ring-white/10 p-10 relative overflow-hidden">
+                    <div
+                        class="rounded-[2.5rem] bg-slate-900 shadow-2xl ring-1 ring-white/10 p-10 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-brand-500/10 rounded-full blur-3xl"></div>
                         <div class="space-y-8 relative">
                             <div class="flex items-start gap-4">
-                                <div class="h-12 w-12 shrink-0 rounded-full bg-slate-800 flex items-center justify-center font-black text-xs text-slate-400 border border-slate-700">AI</div>
-                                <div class="rounded-3xl rounded-tl-none bg-slate-800 p-6 text-base text-slate-300 border border-slate-700 shadow-lg">「我們正在尋找支援 24/7 的工業級 SSD 解決方案，您的產品符合嗎？」</div>
+                                <div
+                                    class="h-12 w-12 shrink-0 rounded-full bg-slate-800 flex items-center justify-center font-black text-xs text-slate-400 border border-slate-700">
+                                    AI</div>
+                                <div
+                                    class="rounded-3xl rounded-tl-none bg-slate-800 p-6 text-base text-slate-300 border border-slate-700 shadow-lg">
+                                    「我們正在尋找支援 24/7 的工業級 SSD 解決方案，您的產品符合嗎？」</div>
                             </div>
                             <div class="flex items-start gap-4 flex-row-reverse">
-                                <div class="h-12 w-12 shrink-0 rounded-full bg-brand-500 flex items-center justify-center font-black text-xs text-white shadow-lg shadow-brand-500/30">AEGIS</div>
-                                <div class="rounded-3xl rounded-tr-none bg-brand-900/40 p-6 text-base text-brand-50 border border-brand-500/30 font-medium shadow-lg backdrop-blur-sm">「是的，我們的 PRO 系列符合工業級標準，具備斷電保護，適合 24/7 運作。」</div>
+                                <div
+                                    class="h-12 w-12 shrink-0 rounded-full bg-brand-500 flex items-center justify-center font-black text-xs text-white shadow-lg shadow-brand-500/30">
+                                    AEGIS</div>
+                                <div
+                                    class="rounded-3xl rounded-tr-none bg-brand-900/40 p-6 text-base text-brand-50 border border-brand-500/30 font-medium shadow-lg backdrop-blur-sm">
+                                    「是的，我們的 PRO 系列符合工業級標準，具備斷電保護，適合 24/7 運作。」</div>
                             </div>
                         </div>
                     </div>
@@ -489,11 +615,11 @@
     </section>
 
     <!-- How it Works -->
-    <section id="how-it-works" class="section-narrative bg-white">
+    <section id="how-it-works" class="section-narrative theme-transition">
         <div class="mx-auto max-w-7xl">
             <div class="max-w-3xl mb-24 reveal-up">
                 <h2 class="text-xs font-black uppercase tracking-[0.3em] text-brand-600 mb-6">Workflow</h2>
-                <p class="display-2 text-slate-900 mb-8" data-i18n="how_it_works.title">三步驟建立<br/>AI 成長引擎</p>
+                <p class="display-2 theme-text-main mb-8" data-i18n="how_it_works.title">三步驟建立<br />AI 成長引擎</p>
             </div>
 
             <div id="how-it-works-grid" class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
@@ -503,13 +629,15 @@
     </section>
 
     <!-- About Snippet -->
-    <section class="section-narrative bg-slate-50">
+    <section class="section-narrative theme-transition">
         <div class="mx-auto max-w-7xl">
-            <div class="rounded-[4rem] bg-slate-950 px-8 py-24 lg:p-32 text-center shadow-3xl relative overflow-hidden reveal-up">
+            <div
+                class="rounded-[4rem] bg-slate-900/40 backdrop-blur-2xl px-8 py-24 lg:p-32 text-center theme-border shadow-3xl relative overflow-hidden reveal-up">
                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#5e6ad220_0%,transparent_70%)]"></div>
                 <div class="relative z-10">
-                    <h2 class="display-2 text-white mb-10" data-i18n="about.title">關於 RefineLab / AEGIS</h2>
-                    <p class="mx-auto max-w-4xl text-xl lg:text-2xl leading-relaxed text-slate-300 font-medium mb-16" data-i18n="about.desc">
+                    <h2 class="display-2 theme-text-main mb-10" data-i18n="about.title">關於 RefineLab / AEGIS</h2>
+                    <p class="mx-auto max-w-4xl text-xl lg:text-2xl leading-relaxed theme-text-muted font-medium mb-16"
+                        data-i18n="about.desc">
                         我們不只建立 AI 客服，更提供完整的數位成長解決方案。憑藉 Ivan Chen 超過 20 年的跨產業經驗，協助企業在 AI 時代建立堅實競爭力。
                     </p>
                     <a href="about.html" class="btn-premium-secondary" data-i18n="about.cta">了解更多團隊背景 →</a>

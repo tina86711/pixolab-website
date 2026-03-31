@@ -570,43 +570,82 @@ function initSubtleBackground() {
 }
 
 /**
- * Initialize Service Section Background Switcher
+ * Get direction of mouse entry/exit
+ * 0: top, 1: right, 2: bottom, 3: left
  */
+function getDirection(ev, obj) {
+    const rect = obj.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    
+    // Calculate x and y relative to the center of the element
+    const x = (ev.clientX - rect.left - (w / 2)) * (w > h ? (h / w) : 1);
+    const y = (ev.clientY - rect.top - (h / 2)) * (h > w ? (w / h) : 1);
+    
+    // Calculate the angle and map it to 0-3
+    const direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4;
+    return direction;
+}
+
 function initServiceBackgroundSwitcher() {
     const section = document.getElementById('services');
-    const container = document.getElementById('service-bg-container');
-    if (!section || !container) return;
+    if (!section) return;
 
     const cards = section.querySelectorAll('.service-card');
     if (cards.length === 0) return;
 
-    // Clear and rebuild layers
-    container.innerHTML = '';
-    
-    // Create an initial "base" layer (optional, can be empty or a default image)
-    const baseLayer = document.createElement('div');
-    baseLayer.className = 'absolute inset-0 bg-white transition-opacity duration-1000';
-    container.appendChild(baseLayer);
+    const getInsetForDirection = (dir) => {
+        switch(dir) {
+            case 0: return 'inset(0 0 100% 0)'; // Top
+            case 1: return 'inset(0 0 0 100%)'; // Right
+            case 2: return 'inset(100% 0 0 0)'; // Bottom
+            case 3: return 'inset(0 100% 0 0)'; // Left
+            default: return 'inset(0 0 0 0)';
+        }
+    };
 
-    cards.forEach((card, index) => {
+    cards.forEach((card) => {
         const bgUrl = card.getAttribute('data-bg');
         if (!bgUrl) return;
 
-        const layer = document.createElement('div');
-        layer.className = 'service-bg-layer absolute inset-0 transition-all duration-1000 ease-in-out opacity-0 scale-105 pointer-events-none';
-        layer.style.backgroundImage = `url('${bgUrl}')`;
-        layer.style.backgroundSize = 'cover';
-        layer.style.backgroundPosition = 'center';
-        container.appendChild(layer);
+        // Create local background container
+        const bgLayer = document.createElement('div');
+        bgLayer.className = 'service-local-bg absolute inset-0 pointer-events-none z-0';
+        bgLayer.style.backgroundImage = `url('${bgUrl}')`;
+        bgLayer.style.backgroundSize = 'cover';
+        bgLayer.style.backgroundPosition = 'center';
+        bgLayer.style.transition = 'clip-path 0.6s cubic-bezier(0.15, 0, 0.2, 1)';
+        bgLayer.style.clipPath = 'inset(0 0 0 0)'; // Default hidden state handled by mouse events
+        
+        // Add dark overlay for readability
+        const overlay = document.createElement('div');
+        overlay.className = 'absolute inset-0 bg-slate-950/40 opacity-100';
+        bgLayer.appendChild(overlay);
 
-        card.addEventListener('mouseenter', () => {
-            layer.classList.add('opacity-20', 'scale-100');
-            layer.classList.remove('opacity-0', 'scale-105');
+        // Prepend to card (behind content)
+        card.prepend(bgLayer);
+
+        // Initially hide with a logical state
+        bgLayer.style.clipPath = 'inset(0 0 100% 0)'; 
+
+        card.addEventListener('mouseenter', (ev) => {
+            const dir = getDirection(ev, card);
+            
+            // Momentarily disable transition to snap to entry position
+            bgLayer.style.transition = 'none';
+            bgLayer.style.clipPath = getInsetForDirection(dir);
+            
+            // Force reflow
+            bgLayer.offsetHeight;
+            
+            // Enable transition and expand
+            bgLayer.style.transition = 'clip-path 0.6s cubic-bezier(0.15, 0, 0.2, 1)';
+            bgLayer.style.clipPath = 'inset(0 0 0 0)';
         });
 
-        card.addEventListener('mouseleave', () => {
-            layer.classList.remove('opacity-20', 'scale-100');
-            layer.classList.add('opacity-0', 'scale-105');
+        card.addEventListener('mouseleave', (ev) => {
+            const dir = getDirection(ev, card);
+            bgLayer.style.clipPath = getInsetForDirection(dir);
         });
     });
 }
@@ -629,29 +668,128 @@ function initParallax() {
 }
 
 /**
- * Handle Navbar transparency toggle on scroll
+ * Navbar Scroll Logic - Only show at the very top
  */
 function initNavbarScroll() {
     const nav = document.querySelector('.glass-nav');
     if (!nav) return;
 
-    const handleScroll = () => {
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        if (scrollTop > 50) {
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.scrollY;
+        
+        // Only show if we are near the top of the page
+        if (currentScroll > 50) {
+            nav.classList.add('nav-hidden');
             nav.classList.add('nav-scrolled');
         } else {
+            nav.classList.remove('nav-hidden');
             nav.classList.remove('nav-scrolled');
+        }
+    }, { passive: true });
+}
+
+/**
+ * Cinematic Scroll Engine - CASCADED TRIGGER Mode
+ * Rhythm: Stay (0-0.4) | Trigger Cascade (0.4-0.53) | Reveal (0.52-0.75)
+ */
+function initCinematicScroll() {
+    const wrapper = document.getElementById('cinematic-scroll-wrapper');
+    const servicesLayer = document.getElementById('services');
+    const statsLayer = document.getElementById('stats-section');
+    if (!wrapper || !servicesLayer || !statsLayer) return;
+
+    const darkRGB = [2, 6, 23]; // #020617
+    const lightRGB = [248, 250, 252]; // #f8fafc
+    let numbersStarted = false;
+
+    // Helper to start number animation manually
+    const startMetricsAnimation = () => {
+        if (numbersStarted) return;
+        numbersStarted = true;
+        const numbers = document.querySelectorAll('.metric-number');
+        numbers.forEach(num => {
+            const target = parseInt(num.getAttribute('data-target'));
+            let current = 0;
+            const duration = 2000;
+            const startTime = performance.now();
+            
+            const animate = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                
+                num.textContent = Math.floor(easedProgress * target);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    num.textContent = target;
+                }
+            };
+            requestAnimationFrame(animate);
+        });
+    };
+
+    const handleScroll = () => {
+        const rect = wrapper.getBoundingClientRect();
+        const wrapperTop = rect.top;
+        const wrapperHeight = rect.height;
+        const viewportHeight = window.innerHeight;
+
+        const totalScrollRange = wrapperHeight - viewportHeight;
+        let progress = Math.min(Math.max(-wrapperTop / totalScrollRange, 0), 1);
+
+        const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+        // Phase 1: Services Fade Out (0.4 - 0.5)
+        // High stay time: 0.0 - 0.4
+        let servicesProgress = Math.min(Math.max((progress - 0.4) / 0.1, 0), 1);
+        servicesLayer.style.opacity = 1 - ease(servicesProgress);
+        servicesLayer.style.pointerEvents = (1 - ease(servicesProgress)) < 0.1 ? 'none' : 'auto';
+
+        // Phase 2: Background Color (0.5 - 0.53)
+        // ULTRA SNAP triggered after services start fading.
+        let bgProgress = Math.min(Math.max((progress - 0.5) / 0.03, 0), 1);
+        const r = Math.round(darkRGB[0] + (lightRGB[0] - darkRGB[0]) * bgProgress);
+        const g = Math.round(darkRGB[1] + (lightRGB[1] - darkRGB[1]) * bgProgress);
+        const b = Math.round(darkRGB[2] + (lightRGB[2] - darkRGB[2]) * bgProgress);
+        const rgbStr = `rgb(${r}, ${g}, ${b})`;
+        
+        document.body.style.backgroundColor = rgbStr;
+        document.documentElement.style.backgroundColor = rgbStr;
+        document.documentElement.style.setProperty('--theme-bg', rgbStr);
+
+        if (bgProgress > 0.4) {
+            document.documentElement.classList.add('is-light-theme');
+            document.body.classList.add('is-light-theme');
+        } else {
+            document.documentElement.classList.remove('is-light-theme');
+            document.body.classList.remove('is-light-theme');
+        }
+
+        // Phase 3: Stats Fade In (Starts @ 0.52 - near completion of snap color)
+        let statsProgress = Math.min(Math.max((progress - 0.52) / 0.23, 0), 1);
+        statsLayer.style.opacity = ease(statsProgress);
+        statsLayer.style.pointerEvents = ease(statsProgress) < 0.1 ? 'none' : 'auto';
+
+        // Trigger numbers as soon as visibility starts
+        if (statsProgress > 0.05) {
+            startMetricsAnimation();
+        } else if (progress < 0.4) {
+            // Reset for re-trigger if user scrolls all the way back up
+            numbersStarted = false;
         }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll();
 }
 
-// Call main initializers on DOMContentLoad
+// Global Initialization after DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
     initSubtleBackground();
     initNavbarScroll();
-    // Note: Other inits (ScrollReveal, Parallax, etc.) are called inside populateDOM
-}); 
+    initCinematicScroll();
+});
