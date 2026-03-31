@@ -139,6 +139,15 @@
     "cta": "了解更多團隊背景"
   },
   "footer": {
+    "contact_title": "開啟您的<br />數位成長諮詢",
+    "contact_desc": "填寫下方表單，我們的專家將在 24 小時內與您聯繫，為您制定專屬 AI 佈局計畫。",
+    "form_name": "姓名 / Name",
+    "form_email": "Email",
+    "form_message": "訊息 / Message",
+    "form_submit": "立即送出諮詢 / Send Inquiry",
+    "success_title": "傳送成功！",
+    "success_desc": "感謝您的諮詢，我們將盡快聯繫您。",
+    "links_title": "探索 / Exploration",
     "cta_title": "準備好讓 AI 為您的企業創造成長了嗎？",
     "cta_btn": "立即聯絡我們",
     "copyright": "© 2026 RefineLab / AEGIS. All rights reserved."

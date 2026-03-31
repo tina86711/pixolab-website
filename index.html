@@ -56,9 +56,21 @@
                 --theme-text-muted: #475569;
                 --theme-border: rgba(15, 23, 42, 0.1);
             }
-            /* Stats specifically for visibility */
-            .is-light-theme .stat-number { color: #0f172a !important; }
-            .is-light-theme .stat-label { color: #475569 !important; }
+            /* Theme Inversion Fix: Ensure readability on light backgrounds */
+            .is-light-theme .display-1, 
+            .is-light-theme .display-2, 
+            .is-light-theme .headline-serif,
+            .is-light-theme .text-white { 
+                color: #0f172a !important; 
+            }
+            .is-light-theme .body-relaxed,
+            .is-light-theme .text-slate-400 { 
+                color: #475569 !important; 
+            }
+            .is-light-theme .label-meta { 
+                color: #2563eb !important; /* Darker Brand-600 */
+                opacity: 1 !important;
+            }
             
             html { @apply scroll-smooth antialiased; font-size: 16px; background-color: var(--theme-bg); }
             body { 
@@ -116,12 +128,17 @@
                 font-family: 'Noto Serif TC', serif !important;
             }
 
-            .animate-pulse-gentle {
-                animation: pulse-gentle 4s ease-in-out infinite;
+            @keyframes float-slow {
+                0%, 100% { transform: translateY(0) rotate(0deg); }
+                50% { transform: translateY(-12px) rotate(2deg); }
             }
 
             .animate-float-slow {
-                animation: float-slow 6s ease-in-out infinite;
+                animation: float-slow 4s ease-in-out infinite;
+            }
+
+            .animate-pulse-gentle {
+                animation: pulse-gentle 3s ease-in-out infinite;
             }
 
             .animate-spin-very-slow {
@@ -631,13 +648,11 @@
     <!-- About Snippet -->
     <section class="section-narrative theme-transition">
         <div class="mx-auto max-w-7xl">
-            <div
-                class="rounded-[4rem] bg-slate-900/40 backdrop-blur-2xl px-8 py-24 lg:p-32 text-center theme-border shadow-3xl relative overflow-hidden reveal-up">
+            <div class="rounded-[4rem] bg-white/5 backdrop-blur-2xl px-8 py-24 lg:p-32 text-center border border-white/10 shadow-3xl relative overflow-hidden reveal-up">
                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#5e6ad220_0%,transparent_70%)]"></div>
                 <div class="relative z-10">
-                    <h2 class="display-2 theme-text-main mb-10" data-i18n="about.title">關於 RefineLab / AEGIS</h2>
-                    <p class="mx-auto max-w-4xl text-xl lg:text-2xl leading-relaxed theme-text-muted font-medium mb-16"
-                        data-i18n="about.desc">
+                    <h2 class="display-2 text-white mb-10" data-i18n="about.title">關於 RefineLab / AEGIS</h2>
+                    <p class="mx-auto max-w-4xl body-relaxed mb-16" data-i18n="about.desc">
                         我們不只建立 AI 客服，更提供完整的數位成長解決方案。憑藉 Ivan Chen 超過 20 年的跨產業經驗，協助企業在 AI 時代建立堅實競爭力。
                     </p>
                     <a href="about.html" class="btn-premium-secondary" data-i18n="about.cta">了解更多團隊背景 →</a>
@@ -646,17 +661,112 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-100">
-        <div class="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
-            <div class="flex justify-center space-x-6 md:order-2">
-                <p class="text-sm font-semibold text-slate-900" data-i18n="footer.cta_title">準備好讓 AI 為您的企業創造成長了嗎？</p>
-                <a href="contact.html" class="text-brand-600 hover:text-brand-500 font-bold"
-                    data-i18n="footer.cta_btn">立即聯絡 →</a>
+    <!-- Footer Section -->
+    <footer id="contact" class="bg-[#020617] border-t border-white/5 pt-24 pb-12 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,#3b82f610_0%,transparent_50%)]"></div>
+        
+        <div class="mx-auto max-w-[1800px] px-6 lg:px-12 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
+                
+                <!-- Left: Contact Form -->
+                <div class="reveal-up">
+                    <h2 class="display-3 text-white mb-8" data-i18n="footer.contact_title">開啟您的<br />數位成長諮詢</h2>
+                    <p class="text-xl text-slate-400 mb-12 max-w-lg" data-i18n="footer.contact_desc">
+                        填寫下方表單，我們的專家將在 24 小時內與您聯繫，為您制定專屬 AI 佈局計畫。
+                    </p>
+                    
+                    <form id="contact-form" class="space-y-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                            <div class="space-y-3">
+                                <label class="label-meta pl-2" data-i18n="footer.form_name">姓名 / Name</label>
+                                <input type="text" name="name" required
+                                    class="input-premium"
+                                    placeholder="Ivan Chen">
+                            </div>
+                            <div class="space-y-3">
+                                <label class="label-meta pl-2" data-i18n="footer.form_email">Email</label>
+                                <input type="email" name="email" required
+                                    class="input-premium"
+                                    placeholder="ivan@pixolab.ai">
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="label-meta pl-2" data-i18n="footer.form_message">訊息 / Message</label>
+                            <textarea name="message" rows="4" required
+                                class="input-premium resize-none"
+                                placeholder="請描述您的專案需求..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-premium w-full group py-5 rounded-2xl">
+                            <span class="flex items-center justify-center gap-3">
+                                <span data-i18n="footer.form_submit">立即送出諮詢 / Send Inquiry</span>
+                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <!-- Success Message (Hidden) -->
+                    <div id="form-success" class="hidden mt-6 p-6 rounded-2xl bg-green-500/10 border border-green-500/20 text-green-400 text-center backdrop-blur-xl">
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="font-bold text-lg" data-i18n="footer.success_title">傳送成功！</span>
+                        </div>
+                        <p data-i18n="footer.success_desc">感謝您的諮詢，我們將盡快聯繫您。</p>
+                    </div>
+                </div>
+                
+                <!-- Right: Branding & Connections -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-16 lg:pl-24">
+                    <!-- Brand Column -->
+                    <div class="space-y-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center">
+                                <span class="text-white font-black text-xl">P</span>
+                            </div>
+                            <span class="text-2xl font-black text-white tracking-tighter">PIXOLab</span>
+                        </div>
+                        <p class="text-slate-400 leading-relaxed font-medium">
+                            專業 AI 數位解決方案提供者。<br />
+                            協助企業在 AI 轉型浪潮中，<br />
+                            建立實質、可衡量的商業成長。
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
+                                <i class="fab fa-linkedin-in text-xl"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links Column -->
+                    <div>
+                        <h3 class="text-white font-bold mb-8 uppercase tracking-widest text-sm" data-i18n="footer.links_title">探索 / Exploration</h3>
+                        <ul class="space-y-6">
+                            <li><a href="#services" class="text-slate-400 hover:text-brand-400 transition-colors">核心服務 / Core Services</a></li>
+                            <li><a href="#how-it-works" class="text-slate-400 hover:text-brand-400 transition-colors">工作流程 / Workflow</a></li>
+                            <li><a href="about.html" class="text-slate-400 hover:text-brand-400 transition-colors">關於我們 / About Us</a></li>
+                            <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">隱私政策 / Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="mt-8 md:order-1 md:mt-0">
-                <p class="text-center text-xs leading-5 text-slate-500" data-i18n="footer.copyright">&copy; 2026
-                    RefineLab / AEGIS. All rights reserved.</p>
+            
+            <div class="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-slate-500 text-sm">© 2026 PIXOLab AI Digital Solution. All rights reserved.</p>
+                <div class="flex gap-12">
+                    <div class="flex items-center gap-2 text-slate-500 italic text-sm">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        AI Engine Fully Active
+                    </div>
+                </div>
             </div>
         </div>
     </footer>

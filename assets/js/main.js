@@ -257,52 +257,51 @@ function populateDOM(data) {
       }
   }
 
-  // 3. Metrics (High-impact Stats - Big 7xl Number Style)
-  if (data.metrics && data.metrics.cards) {
-      const metricsContainer = document.getElementById('metrics-grid');
-      if (metricsContainer) {
-          metricsContainer.innerHTML = '';
-          data.metrics.cards.forEach((card, index) => {
-              const div = document.createElement('div');
-              div.className = 'stat-item flex flex-col reveal-up';
-              div.style.transitionDelay = `${index * 0.1}s`;
-              div.innerHTML = `
-                  <dt class="text-sm font-bold leading-6 text-slate-400 tracking-[0.2em] uppercase mb-4">${card.label}</dt>
-                  <dd class="order-first flex items-baseline gap-1">
-                      <span class="stat-number text-7xl font-black tracking-tighter text-white metric-number" data-target="${card.metric}">0</span>
-                      <span class="text-4xl font-black text-brand-400">+</span>
-                  </dd>
-                  <dt class="mt-4 text-xs text-slate-500 italic opacity-60">${card.source}</dt>
-              `;
-              metricsContainer.appendChild(div);
-          });
-          // Initialize scroll reveal for newly added elements
-          if (typeof initScrollReveal === 'function') initScrollReveal();
-      }
-      initNumberAnimation();
-  }
+    // 3. Metrics (High-impact Stats)
+    if (data.metrics && data.metrics.cards) {
+        const metricsContainer = document.getElementById('metrics-grid');
+        if (metricsContainer) {
+            metricsContainer.innerHTML = '';
+            data.metrics.cards.forEach((card, index) => {
+                const div = document.createElement('div');
+                div.className = 'stat-item flex flex-col reveal-up gap-4';
+                div.style.transitionDelay = `${index * 0.1}s`;
+                div.innerHTML = `
+                    <dt class="label-meta">${card.label}</dt>
+                    <dd class="order-first flex items-baseline gap-2">
+                        <span class="text-6xl font-black tracking-tighter text-white metric-number" data-target="${card.metric}">0</span>
+                        <span class="text-3xl font-black text-brand-400">+</span>
+                    </dd>
+                    <dt class="label-meta normal-case tracking-normal opacity-40 italic">${card.source}</dt>
+                `;
+                metricsContainer.appendChild(div);
+            });
+            if (typeof initScrollReveal === 'function') initScrollReveal();
+        }
+        initNumberAnimation();
+    }
 
-  // 4. Steps (Premium Process Cards)
-  if (data.how_it_works && data.how_it_works.steps) {
-      const stepsContainer = document.getElementById('how-it-works-grid');
-      if (stepsContainer) {
-          stepsContainer.innerHTML = '';
-          data.how_it_works.steps.forEach((step, index) => {
-              const div = document.createElement('div');
-              div.className = 'reveal-up';
-              div.style.transitionDelay = `${index * 0.1 + 0.1}s`;
-              div.innerHTML = `
-                  <div class="h-20 w-20 rounded-[2rem] ${index === 2 ? 'bg-brand-50 text-brand-600 border border-brand-200' : (index === 1 ? 'bg-slate-900 text-white' : 'bg-brand-500 text-white')} flex items-center justify-center text-2xl font-black shadow-xl mb-10">
-                    ${index + 1}
-                  </div>
-                  <h3 class="text-2xl font-bold text-slate-900 mb-4">${step.title}</h3>
-                  <p class="text-lg text-slate-500 leading-relaxed font-medium">${step.desc}</p>
-              `;
-              stepsContainer.appendChild(div);
-          });
-          if (typeof initScrollReveal === 'function') initScrollReveal();
-      }
-  }
+    // 4. Steps (Premium Process Cards)
+    if (data.how_it_works && data.how_it_works.steps) {
+        const stepsContainer = document.getElementById('how-it-works-grid');
+        if (stepsContainer) {
+            stepsContainer.innerHTML = '';
+            data.how_it_works.steps.forEach((step, index) => {
+                const div = document.createElement('div');
+                div.className = 'reveal-up group';
+                div.style.transitionDelay = `${index * 0.1 + 0.1}s`;
+                div.innerHTML = `
+                    <div class="h-24 w-24 rounded-[2.5rem] ${index === 2 ? 'bg-brand-50 text-brand-600 border border-brand-200' : (index === 1 ? 'bg-slate-900 border border-white/10 text-white' : 'bg-brand-500 text-white')} flex items-center justify-center text-3xl font-black shadow-2xl mb-12 group-hover:scale-110 transition-transform duration-500">
+                      ${index + 1}
+                    </div>
+                    <h3 class="headline-serif text-white mb-6">${step.title}</h3>
+                    <p class="body-relaxed text-base">${step.desc}</p>
+                `;
+                stepsContainer.appendChild(div);
+            });
+            if (typeof initScrollReveal === 'function') initScrollReveal();
+        }
+    }
 
     // Init Hero Slider if data exists
     if (data.hero && data.hero.slides) {
@@ -787,10 +786,56 @@ function initCinematicScroll() {
     window.addEventListener('scroll', calculateProgress, { passive: true });
 }
 
+/**
+ * Contact Form Logic - Handles submission and visual feedback
+ */
+function initContactForm() {
+    const form = document.getElementById('contact-form');
+    const successMsg = document.getElementById('form-success');
+    if (!form || !successMsg) return;
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Show Loading State on button
+        const btn = form.querySelector('button[type="submit"]');
+        const originalContent = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `
+            <span class="flex items-center justify-center gap-3">
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>處理中...</span>
+            </span>
+        `;
+
+        // Simulate network delay
+        setTimeout(() => {
+            const formData = new FormData(form);
+            console.log("PixoLab Contact Form Data:", Object.fromEntries(formData));
+
+            // UI Transition
+            form.style.opacity = '0';
+            setTimeout(() => {
+                form.classList.add('hidden');
+                successMsg.classList.remove('hidden');
+                successMsg.style.display = 'block';
+                successMsg.classList.add('reveal-up', 'active');
+                
+                // Scroll into view if needed
+                successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }, 1500);
+    });
+}
+
 // Global Initialization after DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
     initSubtleBackground();
     initNavbarScroll();
     initCinematicScroll();
+    initContactForm(); // Initialize form logic
 });
