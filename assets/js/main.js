@@ -279,7 +279,7 @@ function populateDOM(data) {
           // Initialize scroll reveal for newly added elements
           if (typeof initScrollReveal === 'function') initScrollReveal();
       }
-      setTimeout(initNumberAnimation, 100);
+      initNumberAnimation();
   }
 
   // 4. Steps (Premium Process Cards)
@@ -304,13 +304,16 @@ function populateDOM(data) {
       }
   }
 
-    // Re-init switcher after items are created (if they were dynamic) or just once
-    initServiceBackgroundSwitcher();
-
     // Init Hero Slider if data exists
     if (data.hero && data.hero.slides) {
         new HeroSlider(data.hero.slides);
     }
+
+    // Trigger initializers that depend on DOM
+    initScrollReveal();
+    initParallax();
+    initServiceBackgroundSwitcher();
+    initCustomCursorHovers();
 }
 
 
@@ -394,16 +397,22 @@ function initCustomCursor() {
     requestAnimationFrame(render);
 
     // Hover states for interactive elements
-    const setupHovers = () => {
-        const interactables = document.querySelectorAll('a, button, input, textarea, [role="button"], .group');
-        interactables.forEach(el => {
-            el.addEventListener('mouseenter', () => ring.classList.add('hover'), { passive: true });
-            el.addEventListener('mouseleave', () => ring.classList.remove('hover'), { passive: true });
-        });
-    };
-    
-    setupHovers();
-    setTimeout(setupHovers, 1000); // re-run after dynamic DOM loads
+    initCustomCursorHovers();
+}
+
+/**
+ * Re-run hover detection for dynamic elements
+ */
+function initCustomCursorHovers() {
+    const ring = document.getElementById('custom-cursor-ring');
+    if (!ring) return;
+    const interactables = document.querySelectorAll('a, button, input, textarea, [role="button"], .group, .service-card');
+    interactables.forEach(el => {
+        if (el.dataset.cursorBound) return;
+        el.dataset.cursorBound = "true";
+        el.addEventListener('mouseenter', () => ring.classList.add('hover'), { passive: true });
+        el.addEventListener('mouseleave', () => ring.classList.remove('hover'), { passive: true });
+    });
 }
 
 /**
@@ -422,10 +431,10 @@ function initScrollReveal() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target);
+                // observer.unobserve(entry.target); // Optional: keep observing if you want repeat animations
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
 
     revealElements.forEach(el => observer.observe(el));
 }
@@ -565,52 +574,39 @@ function initSubtleBackground() {
  */
 function initServiceBackgroundSwitcher() {
     const section = document.getElementById('services');
-    if (!section) return;
-
-    // Create background layers if they don't exist
-    let layerContainer = section.querySelector('.service-bg-container');
-    if (!layerContainer) {
-        layerContainer = document.createElement('div');
-        layerContainer.className = 'service-bg-container absolute inset-0 -z-10 pointer-events-none';
-        section.style.position = 'relative';
-        section.insertBefore(layerContainer, section.firstChild);
-    }
-
-    const images = [
-        'img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png',
-        'img/unnamed.jpg',
-        'img/unnamed (1).jpg',
-        'img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png'
-    ];
-
-    // Pre-create layers
-    if (layerContainer.children.length === 0) {
-        images.forEach(src => {
-            const layer = document.createElement('div');
-            layer.className = 'service-bg-layer absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0';
-            layer.style.backgroundImage = `url('${src}')`;
-            layer.style.backgroundSize = 'cover';
-            layer.style.backgroundPosition = 'center';
-            layerContainer.appendChild(layer);
-        });
-    }
+    const container = document.getElementById('service-bg-container');
+    if (!section || !container) return;
 
     const cards = section.querySelectorAll('.service-card');
-    const layers = layerContainer.querySelectorAll('.service-bg-layer');
+    if (cards.length === 0) return;
+
+    // Clear and rebuild layers
+    container.innerHTML = '';
+    
+    // Create an initial "base" layer (optional, can be empty or a default image)
+    const baseLayer = document.createElement('div');
+    baseLayer.className = 'absolute inset-0 bg-white transition-opacity duration-1000';
+    container.appendChild(baseLayer);
 
     cards.forEach((card, index) => {
-        card.addEventListener('mouseenter', () => {
-            layers.forEach((l, i) => {
-                l.classList.toggle('active', i === index);
-                l.style.opacity = i === index ? '0.15' : '0'; // Sync with premium feel
-            });
-        });
-    });
+        const bgUrl = card.getAttribute('data-bg');
+        if (!bgUrl) return;
 
-    section.addEventListener('mouseleave', () => {
-        layers.forEach(l => {
-            l.classList.remove('active');
-            l.style.opacity = '0';
+        const layer = document.createElement('div');
+        layer.className = 'service-bg-layer absolute inset-0 transition-all duration-1000 ease-in-out opacity-0 scale-105 pointer-events-none';
+        layer.style.backgroundImage = `url('${bgUrl}')`;
+        layer.style.backgroundSize = 'cover';
+        layer.style.backgroundPosition = 'center';
+        container.appendChild(layer);
+
+        card.addEventListener('mouseenter', () => {
+            layer.classList.add('opacity-20', 'scale-100');
+            layer.classList.remove('opacity-0', 'scale-105');
+        });
+
+        card.addEventListener('mouseleave', () => {
+            layer.classList.remove('opacity-20', 'scale-100');
+            layer.classList.add('opacity-0', 'scale-105');
         });
     });
 }
@@ -640,7 +636,8 @@ function initNavbarScroll() {
     if (!nav) return;
 
     const handleScroll = () => {
-        if (window.scrollY > 50) {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        if (scrollTop > 50) {
             nav.classList.add('nav-scrolled');
         } else {
             nav.classList.remove('nav-scrolled');
@@ -651,14 +648,10 @@ function initNavbarScroll() {
     handleScroll(); // Initial check
 }
 
-// Call new initializers on DOMContentLoad
+// Call main initializers on DOMContentLoad
 document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
     initSubtleBackground();
     initNavbarScroll();
-    setTimeout(() => {
-        initScrollReveal();
-        initParallax();
-        initServiceBackgroundSwitcher();
-    }, 150);
+    // Note: Other inits (ScrollReveal, Parallax, etc.) are called inside populateDOM
 }); 

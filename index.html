@@ -330,7 +330,7 @@
     <!-- Services Grid -->
     <section id="services" class="section-narrative bg-white border-t border-slate-100">
         <!-- Background Layer Container (Populated by JS) -->
-        <div class="service-bg-container absolute inset-0 -z-10 pointer-events-none"></div>
+        <div id="service-bg-container" class="absolute inset-0 -z-10 pointer-events-none overflow-hidden"></div>
         
         <div class="mx-auto max-w-7xl">
             <div class="max-w-3xl mb-24 reveal-up">
@@ -341,7 +341,9 @@
 
             <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- 001 - AEGIS AI -->
-                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" style="transition-delay: 0.1s;">
+                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
+                     data-bg="img/refinelab_a_close-up_of_the_face_with_futuristic_glasses_disp_f766ad90-ddc4-445d-b190-84aad929940b_1.png"
+                     style="transition-delay: 0.1s;">
                     <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">001</div>
                     <div class="flex justify-center items-center h-32 mb-12">
                         <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500 animate-spin-slow">
@@ -355,7 +357,9 @@
                 </div>
 
                 <!-- 002 - AI Chatbot -->
-                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" style="transition-delay: 0.2s;">
+                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
+                     data-bg="img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png"
+                     style="transition-delay: 0.2s;">
                     <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">002</div>
                     <div class="flex justify-center items-center h-32 mb-12">
                         <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
@@ -370,7 +374,9 @@
                 </div>
 
                 <!-- 003 - Social Engine -->
-                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" style="transition-delay: 0.3s;">
+                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
+                     data-bg="img/refinelab_A_cinematic_low-flying_drone_shot_over_a_busy_main__afe7b119-8ef4-455c-8019-b527bc111617_1.png"
+                     style="transition-delay: 0.3s;">
                     <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">003</div>
                     <div class="flex justify-center items-center h-32 mb-12">
                         <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500 group-hover:rotate-12 transform transition-transform">
@@ -384,7 +390,9 @@
                 </div>
 
                 <!-- 004 - GEO Audit -->
-                <div class="group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" style="transition-delay: 0.4s;">
+                <div class="service-card group flex flex-col bg-white rounded-3xl p-8 shadow-sm ring-1 ring-slate-100 hover:shadow-2xl hover:shadow-brand-500/10 hover:ring-slate-200 transition-all duration-500 hover:-translate-y-2 reveal-up" 
+                     data-bg="img/refinelab_a_human_hand_touching_the_search_bar_on_googles_web_28ae632c-1592-4bee-8057-ec1ac59ef773_0.png"
+                     style="transition-delay: 0.4s;">
                     <div class="text-xs font-semibold text-slate-400 mb-12 uppercase tracking-widest">004</div>
                     <div class="flex justify-center items-center h-32 mb-12">
                         <svg viewBox="0 0 100 100" class="w-24 h-24 stroke-slate-900 fill-none group-hover:stroke-brand-500 transition-colors duration-500">
