@@ -288,22 +288,19 @@ function populateDOM(data) {
         const stepsContainer = document.getElementById('how-it-works-grid');
         if (stepsContainer) {
             stepsContainer.innerHTML = '';
-            // Step number box styles (inline for reliability)
-            const stepBoxStyles = [
-                'background:#5e6ad2;color:#fff;box-shadow:0 8px 24px -4px rgba(94,106,210,0.4);',
-                'background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;',
-                'background:rgba(94,106,210,0.15);border:1px solid rgba(94,106,210,0.3);color:#8ca7f4;'
-            ];
             data.how_it_works.steps.forEach((step, index) => {
                 const div = document.createElement('div');
-                div.className = 'reveal-up group';
+                // Individual Step Card: Borders, Padding, Centered, and Snappy Synchronized Hover Effect (No Lift)
+                div.className = 'p-12 lg:p-24 border-r border-b border-white/10 flex flex-col items-center text-center justify-center reveal-up min-h-[450px] group transition-all duration-300 hover:bg-white/[0.04] hover:delay-0';
                 div.style.transitionDelay = `${index * 0.12 + 0.1}s`;
                 div.innerHTML = `
-                    <div style="height:4rem;width:4rem;border-radius:1rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;margin-bottom:2.5rem;transition:transform 0.4s ease;${stepBoxStyles[index] || stepBoxStyles[0]}">
-                      ${index + 1}
+                    <div class="step-content relative z-10 flex flex-col items-center transition-all duration-300 group-hover:delay-0">
+                        <div class="mb-14 flex items-center justify-center transition-all duration-300 group-hover:delay-0">
+                            <span class="text-6xl font-black font-sans leading-none text-gradient-tech opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 group-hover:delay-0">0${index + 1}</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-8 font-serif leading-tight text-gradient-tech transition-all duration-300 group-hover:delay-0" style="letter-spacing:-0.02em;">${step.title}</h3>
+                        <p class="text-lg font-medium leading-relaxed text-slate-400 max-w-[320px] transition-all duration-300 group-hover:delay-0">${step.desc}</p>
                     </div>
-                    <h3 style="font-size:1.25rem;font-weight:700;color:#f8fafc;margin-bottom:1rem;line-height:1.3;letter-spacing:-0.01em;">${step.title}</h3>
-                    <p style="font-size:1rem;font-weight:500;line-height:1.7;color:#64748b;">${step.desc}</p>
                 `;
                 stepsContainer.appendChild(div);
             });

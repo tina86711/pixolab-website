@@ -853,15 +853,27 @@
         </div>
     </section>
 
-    <!-- How it Works -->
-    <section id="how-it-works" class="section-narrative theme-transition" style="border-top: 1px solid rgba(255,255,255,0.08);">
-        <div class="mx-auto max-w-7xl">
-            <div class="max-w-2xl mb-20 reveal-up">
-                <p class="section-label mb-5">Workflow</p>
-                <h2 class="display-2" style="color:#f8fafc" data-i18n="how_it_works.title">三步驟建立<br />AI 成長引擎</h2>
+    <!-- How it Works (Process Grid) -->
+    <section id="how-it-works" class="section-narrative theme-transition relative overflow-hidden" style="border-top: 1px solid rgba(255,255,255,0.08);">
+        <!-- Background Layer with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2400" 
+                 alt="Tech Background" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-sm"></div>
+        </div>
+
+        <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12 relative z-10 flex flex-col items-center">
+            
+            <!-- Row 1: Section Header (Open Style, No Box, Matched Font Size) -->
+            <div class="text-center mb-20 lg:mb-24 reveal-up">
+                <p class="section-label mb-8">Workflow</p>
+                <h2 class="text-6xl lg:text-7xl font-serif font-black leading-[0.95] tracking-tight text-gradient-tech" data-i18n="how_it_works.title">三步驟建立<br />AI 成長引擎</h2>
             </div>
-            <div id="how-it-works-grid" class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-                <!-- Dynamically populated by main.js -->
+
+            <!-- Row 2: Steps Grid (Architectural Boxed Style) -->
+            <div id="how-it-works-grid" class="grid grid-cols-1 md:grid-cols-3 border-l border-t border-white/10 w-full">
+                <!-- Injected by main.js with border-r and border-b -->
             </div>
         </div>
     </section>
