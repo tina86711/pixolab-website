@@ -803,6 +803,44 @@ function initCinematicScroll() {
 
     // Rendering Tick Loop
     const update = () => {
+        const isMobile = window.innerWidth < 1024;
+        
+        if (isMobile) {
+            // Mobile Fallback: Natural flow, no cinematic lerp
+            servicesLayer.style.opacity = "1";
+            servicesLayer.style.transform = "none";
+            statsLayer.style.transform = "none";
+            statsLayer.style.opacity = "1";
+            
+            // Still handle theme switching based on direct visibility
+            const statsRect = statsLayer.getBoundingClientRect();
+            if (statsRect.top < window.innerHeight / 2 && statsRect.bottom > 100) {
+                document.documentElement.classList.add('is-light-theme');
+            } else {
+                // Only remove if we aren't also in the About/Footer zone (handled by setupThemeScrollTransition)
+                const aboutSection = document.getElementById('about-section');
+                const aboutRect = aboutSection ? aboutSection.getBoundingClientRect() : null;
+                if (!aboutRect || aboutRect.top > window.innerHeight) {
+                    document.documentElement.classList.remove('is-light-theme');
+                }
+            }
+
+            // Use IntersectionObserver for mobile metrics animation if not already started
+            if (!state.mobileObserverSet) {
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        startMetricsAnimation();
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.2 });
+                observer.observe(statsLayer);
+                state.mobileObserverSet = true;
+            }
+
+            requestAnimationFrame(update);
+            return;
+        }
+
         const lerpFactor = 0.08; // Smoothness damping
 
         // 1. BASE REMAINS SOLID (Per request: Four core services don't change color/fade)
@@ -851,6 +889,9 @@ function initCinematicScroll() {
 
         requestAnimationFrame(update);
     };
+
+    // Initialize Mobile Observer State
+    state.mobileObserverSet = false;
 
     // Initial Progress Calculation
     const calculateProgress = () => {

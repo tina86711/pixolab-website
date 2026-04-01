@@ -693,13 +693,13 @@
     </div>
 
     <!-- Cinematic Scroll Wrapper (300vh Track - Turbo Narrative) -->
-    <div id="cinematic-scroll-wrapper" class="relative h-[300vh]">
-        <!-- Sticky Viewport (100vh) -->
-        <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+    <div id="cinematic-scroll-wrapper" class="relative h-auto lg:h-[300vh]">
+        <!-- Content Container -->
+        <div class="relative lg:sticky top-0 h-auto lg:h-screen w-full lg:overflow-hidden block lg:flex items-center justify-center">
 
             <!-- Layer 1: Services Grid (Grand Scale - Z10 Base) -->
             <section id="services"
-                class="absolute inset-0 w-full h-full flex flex-col justify-center opacity-100 z-10 bg-[#020617]">
+                class="relative lg:absolute inset-0 w-full h-auto lg:h-full flex flex-col justify-center opacity-100 z-10 bg-[#020617] py-20 lg:py-0">
                 <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12">
                     <div id="services-container" class="grid grid-cols-1 lg:grid-cols-3 transition-all duration-1000">
 
@@ -815,7 +815,7 @@
 
             <!-- Layer 2: Stats Section (White Overlay - Z20 Slide Up) -->
             <section id="stats-section"
-                class="absolute inset-0 w-full h-full flex flex-col justify-center z-20 bg-[#f8fafc] translate-y-full shadow-[0_-50px_100px_-20px_rgba(0,0,0,0.5)]">
+                class="relative lg:absolute inset-0 w-full h-auto lg:h-full flex flex-col justify-center z-20 bg-[#f8fafc] lg:translate-y-full shadow-none lg:shadow-[0_-50px_100px_-20px_rgba(0,0,0,0.5)] py-20 lg:py-0">
                 <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12">
                     <!-- Architectural Grid Container -->
                     <div class="grid grid-cols-1 lg:grid-cols-4 border-l border-t border-slate-200/60">
