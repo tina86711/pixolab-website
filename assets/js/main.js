@@ -320,7 +320,6 @@ function populateDOM(data) {
     initCustomCursorHovers();
 }
 
-
 /**
  * Handles number counting animation with easing and IntersectionObserver.
  */
@@ -356,19 +355,87 @@ function initNumberAnimation() {
                         
                         if(progress < 1) {
                             window.requestAnimationFrame(step);
-                        } else {
-                            el.innerText = targetText;
                         }
                     };
                     window.requestAnimationFrame(step);
-                } else {
-                    el.innerText = targetText;
                 }
             }
         });
     }, { threshold: 0.2 });
     
     metrics.forEach(m => observer.observe(m));
+}
+
+/**
+ * YQC-Style Scroll Bound Color Interpolation
+ * Optimized for Dark -> Light transition specifically for About + Footer.
+ */
+function setupThemeScrollTransition() {
+    const aboutSection = document.getElementById('about-section');
+    const overlay = document.getElementById('how-it-works-overlay');
+    if (!aboutSection) return;
+
+    // Define Color Anchors (RGB arrays)
+    const colors = {
+        bg: { dark: [2, 6, 23], light: [248, 250, 252] },
+        text: { dark: [248, 250, 252], light: [15, 23, 42] }
+    };
+
+    function interpolate(start, end, factor) {
+        return start.map((s, i) => Math.round(s + (end[i] - s) * factor));
+    }
+
+    let isRunning = false;
+
+    function update() {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const targetTop = aboutSection.offsetTop;
+        
+        // Define the transition zone: 
+        // Starts when About enters the bottom of the screen, ends when it's centered
+        const startTrigger = targetTop - windowHeight;
+        const endTrigger = targetTop - (windowHeight * 0.2); // Finishes before it hits the top
+        
+        const distance = endTrigger - startTrigger;
+        
+        // Calculate factor (0 = dark, 1 = light)
+        let factor = (scrollY - startTrigger) / distance;
+        factor = Math.max(0, Math.min(1, factor));
+
+        // Interpolate Colors
+        const currentBg = interpolate(colors.bg.dark, colors.bg.light, factor);
+        const currentText = interpolate(colors.text.dark, colors.text.light, factor);
+        
+        // Apply to CSS Variables on Root for global impact
+        const root = document.documentElement;
+        root.style.setProperty('--theme-bg', `rgb(${currentBg.join(',')})`);
+        root.style.setProperty('--theme-text', `rgb(${currentText.join(',')})`);
+        
+        // Subtle: Fade out the dark overlay in how-it-works as we approach about
+        if (overlay) {
+            overlay.style.opacity = (0.9 - (factor * 0.9)).toFixed(2);
+        }
+
+        // Apply dark/light specific labels
+        if (factor > 0.5) {
+            document.body.classList.add('body-light');
+        } else {
+            document.body.classList.remove('body-light');
+        }
+
+        isRunning = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!isRunning) {
+            window.requestAnimationFrame(update);
+            isRunning = true;
+        }
+    }, { passive: true });
+
+    // Initial run
+    update();
 }
 
 /**
@@ -850,4 +917,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavbarScroll();
     initCinematicScroll();
     initContactForm(); // Initialize form logic
+    setupThemeScrollTransition(); // YQC-style Scroll Bound Color Interpolation
 });

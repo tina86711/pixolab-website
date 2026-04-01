@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "AEGIS — 讓每一次 AI 對話，成為企業成長的驅動力",
-    "description": "AEGIS 企業智能整合系統，透過分析 Chatbase 對話數據找出回答盲點，並從中挖掘用戶真實需求，提供 SEO 與社群策展洞察。"
+    "title": "PixoLab — 讓每一次 AI 對話，成為企業成長的驅動力",
+    "description": "PixoLab 企業智能整合系統，透過分析 Chatbase 對話數據找出回答盲點，並從中挖掘用戶真實需求，提供 SEO 與社群策展洞察。"
   },
   "nav": {
-    "logo": "AEGIS",
+    "logo": "PixoLab",
     "links": [
       { "label": "首頁" },
       { "label": "關於我們" },
@@ -21,7 +21,7 @@
       {
         "tag": "首創 AI 聯網",
         "title": "讓每一次 AI 對話，成為企業成長的驅動力",
-        "subtitle": "AEGIS 將 AI 智能客服升級為商業決策引擎。透過深度分析客戶互動數據，找出企業營運盲點與真實需求，提供具備數據支持的 SEO 與社群轉化建議。",
+        "subtitle": "PixoLab 將 AI 智能客服升級為商業決策引擎。透過深度分析客戶互動數據，找出企業營運盲點與真實需求，提供具備數據支持的 SEO 與社群轉化建議。",
         "cta": "預約專家演示",
         "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2400"
       },
@@ -68,7 +68,7 @@
       {
         "metric": "6 個",
         "label": "國際品牌 AI 客服部署",
-        "source": "AEGIS 實際導入數"
+        "source": "PixoLab 實際導入數"
       }
     ]
   },
@@ -99,7 +99,7 @@
     "items": [
       {
         "id": "aegis-core",
-        "name": "AEGIS AI企業智能整合系統",
+        "name": "PixoLab 企業智能整合系統",
         "subtitle": "從數據到策略，一套完整的 AI 驅動數位成長框架",
         "desc": "建立具備「成長意識」的智能大腦，整合數據與決策路徑。",
         "url": "contact.html"
@@ -131,11 +131,11 @@
     "badge": "全球首創",
     "title": "The World's First AI-to-AI Business Consultation",
     "subtitle": "AI 對 AI 無縫接軌洽詢功能",
-    "desc": "當潛在客戶或採購人員使用 ChatGPT、Perplexity 等 AI 工具來查詢您的產品時，AEGIS 部署的 AI 客服系統已具備主動與這些 AI 工具對接的能力。雙方 AI 直接互動對答，確保您的產品資訊與報價建議在 AI 生成搜尋結果中獲得正確且最佳的展現，讓商業洽詢 24 小時不中斷。"
+    "desc": "當潛在客戶或採購人員使用 ChatGPT、Perplexity 等 AI 工具來查詢您的產品時，PixoLab 部署的 AI 客服系統已具備主動與這些 AI 工具對接的能力。雙方 AI 直接互動對答，確保您的產品資訊與報價建議在 AI 生成搜尋結果中獲得正確且最佳的展現，讓商業洽詢 24 小時不中斷。"
   },
   "about": {
-    "title": "關於 RefineLab / AEGIS",
-    "desc": "不只是建立 AI 客服，我們提供的是 AI 驅動的數位成長解決方案。憑藉 Ivan Chen 超過 20 年、執行超過 380 個專案的深厚經驗，AEGIS 致力協助房地產、半導體、網路與電子製造業的國內外上市櫃公司，在 AI 時代建立堅實的競爭優勢。",
+    "title": "關於 PixoLab",
+    "desc": "不只是建立 AI 客服，我們提供的是 AI 驅動的數位成長解決方案。憑藉 Ivan Chen 超過 20 年、執行超過 380 個專案的深厚經驗，PixoLab 致力協助房地產、半導體、網路與電子製造業的國內外上市櫃公司，在 AI 時代建立堅實的競爭優勢。",
     "cta": "了解更多團隊背景"
   },
   "footer": {
@@ -150,6 +150,6 @@
     "links_title": "探索 / Exploration",
     "cta_title": "準備好讓 AI 為您的企業創造成長了嗎？",
     "cta_btn": "立即聯絡我們",
-    "copyright": "© 2026 RefineLab / AEGIS. All rights reserved."
+    "copyright": "© 2026 PixoLab AI Digital Solution. All rights reserved."
   }
 }

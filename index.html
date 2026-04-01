@@ -11,7 +11,9 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@700;900&display=swap"
+        rel="stylesheet">
     <!-- Tailwind Play CDN (Immediate visibility for development) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -48,16 +50,28 @@
                ═══════════════════════════════════════════ */
             :root {
                 --ease-premium: cubic-bezier(0.25, 1, 0.5, 1);
-                --transition-speed: 0.7s;
+                --transition-speed: 0.8s;
                 /* Theme — Dark (Default) */
                 --theme-bg: #020617;
                 --theme-text: #f8fafc;
                 --theme-text-muted: #94a3b8;
-                --theme-border: rgba(255, 255, 255, 0.08);
+                --theme-border: rgba(255, 255, 255, 0.1);
                 /* Spacing Scale */
                 --section-y: clamp(5rem, 10vw, 9rem);
                 --section-x: clamp(1.5rem, 6vw, 8rem);
                 --card-radius: 1.5rem;
+            }
+
+            /* Theme — Body Light (Scroll Triggered) */
+            body.body-light {
+                --theme-bg: #f8fafc;
+                --theme-text: #0f172a;
+                --theme-text-muted: #475569;
+                --theme-border: rgba(15, 23, 42, 0.1);
+            }
+
+            body {
+                /* Removed CSS transition on body during interpolation to prevent fighting with JS updates */
             }
             /* Theme — Light (Stats Section) */
             .is-light-theme {
@@ -81,7 +95,7 @@
                 color: #475569;
             }
             .is-light-theme .section-label {
-                color: #2563eb;
+                @apply text-gradient-tech;
             }
 
             html { @apply scroll-smooth antialiased; background-color: var(--theme-bg); }
@@ -111,13 +125,14 @@
             #stats-section .display-2 { color: #0f172a; }
             a { transition: color 0.2s, opacity 0.2s; }
 
-            /* Tech Gradient Utility (Pure Blue Tech Style) */
+            /* Tech Gradient Utility (Pure Blue Tech Style - Fixed for all contexts) */
             .text-gradient-tech {
                 background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
                 -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
                 background-clip: text;
+                -webkit-text-fill-color: transparent;
                 display: inline-block;
+                color: #3b82f6; /* Fallback for older browsers */
             }
 
 
@@ -126,8 +141,8 @@
                ═══════════════════════════════════════════ */
             /* Hero / Cinematic Title */
             .display-1 {
-                font-size: clamp(3.2rem, 10vw, 8.5rem);
-                @apply font-black font-serif leading-[0.92] tracking-[-0.03em];
+                font-size: clamp(2.8rem, 8vw, 7.5rem);
+                @apply font-black font-serif leading-[1.1] tracking-[-0.03em];
             }
             /* Section Title */
             .display-2 {
@@ -145,7 +160,7 @@
                 font-weight: 900;
                 text-transform: uppercase;
                 letter-spacing: 0.35em;
-                color: #8ca7f4; /* brand-400 */
+                @apply text-gradient-tech;
             }
             /* Body — Lead */
             .text-lead {
@@ -308,7 +323,7 @@
                 display: block;
                 width: 100%;
                 background-color: rgba(255,255,255,0.06);
-                border: 1px solid rgba(255,255,255,0.12);
+                border: 1px solid rgba(255,255,255,0.2); /* Enhanced default contrast */
                 border-radius: 0.75rem;
                 padding: 0.875rem 1.25rem;
                 font-size: 0.9375rem;
@@ -316,12 +331,26 @@
                 color: #ffffff;
                 font-family: inherit;
                 outline: none;
-                transition: border-color 0.2s, box-shadow 0.2s;
+                transition: all 0.3s ease;
             }
             .input-premium::placeholder { color: #64748b; }
             .input-premium:focus {
                 border-color: rgba(94,106,210,0.6);
                 box-shadow: 0 0 0 3px rgba(94,106,210,0.15);
+            }
+
+            /* High-Contrast Light Theme Overrides */
+            body.body-light .input-premium {
+                background-color: #ffffff;
+                border-color: #cbd5e1; /* Slate-300: Solid visibility */
+                color: #0f172a;
+            }
+            body.body-light .input-premium::placeholder {
+                color: #94a3b8;
+            }
+            body.body-light .input-premium:focus {
+                border-color: #5e6ad2;
+                box-shadow: 0 0 0 4px rgba(94,106,210,0.1);
             }
             textarea.input-premium { resize: none; }
 
@@ -436,7 +465,8 @@
     </style>
 </head>
 
-<body class="bg-[#020617] text-white font-sans antialiased tracking-[0.02em] selection:bg-brand-500 selection:text-white">
+<body
+    class="bg-[#020617] text-white font-sans antialiased tracking-[0.02em] selection:bg-brand-500 selection:text-white">
     <!-- Subtle Background Effect -->
     <canvas id="bg-canvas" class="fixed inset-0 -z-10 pointer-events-none"></canvas>
     <!-- Custom Cursor -->
@@ -448,7 +478,7 @@
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="flex h-20 items-center justify-between">
                 <div class="flex items-center">
-                    <a href="index.html" class="text-2xl font-black tracking-tighter nav-logo">AEGIS<span
+                    <a href="index.html" class="text-2xl font-black tracking-tighter nav-logo">PixoLab<span
                             class="text-brand-500">.</span></a>
                 </div>
                 <div class="hidden md:flex items-center gap-8">
@@ -458,9 +488,7 @@
                     <a href="en/index.html"
                         class="rounded-full border border-white/20 bg-white/5 backdrop-blur-md px-4 py-1.5 text-xs font-bold text-white/70 hover:text-white hover:bg-white/15 transition-all"
                         data-i18n="nav.lang_toggle">EN</a>
-                    <a href="contact.html"
-                        class="btn-primary text-sm px-6 py-3"
-                        data-i18n="nav.cta">預約免費諮詢</a>
+                    <a href="contact.html" class="btn-primary text-sm px-6 py-3" data-i18n="nav.cta">預約免費諮詢</a>
                 </div>
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
@@ -500,7 +528,8 @@
                         AI 驅動的<br />商業成長引擎
                     </h1>
                     <!-- Subtitle -->
-                    <p id="slide-subtitle" class="text-lg md:text-xl text-slate-300 max-w-2xl leading-[1.75] mb-12 font-medium">
+                    <p id="slide-subtitle"
+                        class="text-lg md:text-xl text-slate-300 max-w-2xl leading-[1.75] mb-12 font-medium">
                         讓每一次對話，都成為企業策略的精準燃料。
                     </p>
                     <!-- Buttons -->
@@ -667,46 +696,58 @@
     <div id="cinematic-scroll-wrapper" class="relative h-[300vh]">
         <!-- Sticky Viewport (100vh) -->
         <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-            
+
             <!-- Layer 1: Services Grid (Grand Scale - Z10 Base) -->
-            <section id="services" class="absolute inset-0 w-full h-full flex flex-col justify-center opacity-100 z-10 bg-[#020617]">
+            <section id="services"
+                class="absolute inset-0 w-full h-full flex flex-col justify-center opacity-100 z-10 bg-[#020617]">
                 <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12">
                     <div id="services-container" class="grid grid-cols-1 lg:grid-cols-3 transition-all duration-1000">
-                        
+
                         <!-- Header Block -->
-                        <div class="lg:col-span-2 p-12 lg:p-24 border-r border-b border-white/10 flex flex-col justify-end min-h-[500px]">
-                            <h2 class="text-sm font-black uppercase tracking-[0.4em] text-brand-400 mb-8 font-sans">Four Core AI Modules</h2>
-                            <p class="text-6xl lg:text-8xl font-serif font-black text-white mb-10 leading-none tracking-tight" data-i18n="services.title">四大核心<br />AI 服務模組</p>
-                            <p class="text-xl text-slate-400 font-medium max-w-xl leading-relaxed" data-i18n="services.description">我們提供量身定制的 AI 解決方案，從對話分析到自動化產出，全方位驅動企業數位成長。</p>
+                        <div
+                            class="lg:col-span-2 p-12 lg:p-24 border-r border-b border-white/10 flex flex-col justify-end min-h-[500px]">
+                            <h2 class="text-sm font-black uppercase tracking-[0.4em] text-brand-400 mb-8 font-sans">Four
+                                Core AI Modules</h2>
+                            <p class="text-6xl lg:text-8xl font-serif font-black text-white mb-10 leading-none tracking-tight"
+                                data-i18n="services.title">四大核心<br />AI 服務模組</p>
+                            <p class="text-xl text-slate-400 font-medium max-w-xl leading-relaxed"
+                                data-i18n="services.description">我們提供量身定制的 AI 解決方案，從對話分析到自動化產出，全方位驅動企業數位成長。</p>
                         </div>
 
                         <!-- 001 - AEGIS AI -->
-                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-b border-white/10 overflow-hidden transition-all duration-700" 
-                             data-bg="img/refinelab_a_close-up_of_the_face_with_futuristic_glasses_disp_f766ad90-ddc4-445d-b190-84aad929940b_1.png">
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-b border-white/10 overflow-hidden transition-all duration-700"
+                            data-bg="img/refinelab_a_close-up_of_the_face_with_futuristic_glasses_disp_f766ad90-ddc4-445d-b190-84aad929940b_1.png">
                             <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
-                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">001</div>
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">001
+                                </div>
                                 <div class="flex-grow flex items-center justify-center mb-12">
-                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
-                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-spin-very-slow">
+                                    <div
+                                        class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100"
+                                            class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-spin-very-slow">
                                             <circle cx="50" cy="50" r="40" stroke-width="0.8" stroke-dasharray="4 2" />
                                             <ellipse cx="50" cy="50" rx="40" ry="15" stroke-width="0.8" />
                                             <ellipse cx="50" cy="50" rx="15" ry="40" stroke-width="0.8" />
                                         </svg>
                                     </div>
                                 </div>
-                                <h3 class="text-2xl font-bold text-white/95 mb-4">AEGIS AI<br/>企業智能成長系統</h3>
-                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">從數據到策略，一套完整的 AI 驅動數位成長框架</p>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">AEGIS AI<br />企業智能成長系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">從數據到策略，一套完整的 AI
+                                    驅動數位成長框架</p>
                             </div>
                         </div>
 
                         <!-- 002 - AI Chatbot -->
-                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-r border-white/10 overflow-hidden transition-all duration-700" 
-                             data-bg="img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png">
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-r border-white/10 overflow-hidden transition-all duration-700"
+                            data-bg="img/refinelab_panoramic_view_of_Kuala_Lumpur_city_in_bright_dayli_7cbc5caa-5a8f-40b9-9b7d-def1603ff0c0_0.png">
                             <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
-                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">002</div>
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">002
+                                </div>
                                 <div class="flex-grow flex items-center justify-center mb-12">
-                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
-                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-pulse-gentle">
+                                    <div
+                                        class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100"
+                                            class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-pulse-gentle">
                                             <circle cx="50" cy="50" r="10" stroke-width="0.8" />
                                             <circle cx="50" cy="50" r="23" stroke-width="0.5" />
                                             <circle cx="50" cy="50" r="33" stroke-width="0.3" />
@@ -714,46 +755,58 @@
                                         </svg>
                                     </div>
                                 </div>
-                                <h3 class="text-2xl font-bold text-white/95 mb-4">AI智能客服 + <br/>對話分析系統</h3>
-                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">自動化處理客戶詢問，並即時分析對話累積市場洞察</p>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">AI智能客服 + <br />對話分析系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">
+                                    自動化處理客戶詢問，並即時分析對話累積市場洞察</p>
                             </div>
                         </div>
 
                         <!-- 003 - Social Engine -->
-                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-r border-white/10 overflow-hidden transition-all duration-700" 
-                             data-bg="img/refinelab_A_cinematic_low-flying_drone_shot_over_a_busy_main__afe7b119-8ef4-455c-8019-b527bc111617_1.png">
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 border-r border-white/10 overflow-hidden transition-all duration-700"
+                            data-bg="img/refinelab_A_cinematic_low-flying_drone_shot_over_a_busy_main__afe7b119-8ef4-455c-8019-b527bc111617_1.png">
                             <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
-                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">003</div>
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">003
+                                </div>
                                 <div class="flex-grow flex items-center justify-center mb-12">
-                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
-                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-float-slow">
-                                            <path d="M50 10 L90 80 L10 80 Z" stroke-width="0.8" stroke-linejoin="round" />
+                                    <div
+                                        class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100"
+                                            class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-float-slow">
+                                            <path d="M50 10 L90 80 L10 80 Z" stroke-width="0.8"
+                                                stroke-linejoin="round" />
                                             <path d="M50 10 L50 80" stroke-width="0.4" />
                                             <path d="M10 80 L50 64 L90 80" stroke-width="0.6" />
                                         </svg>
                                     </div>
                                 </div>
-                                <h3 class="text-2xl font-bold text-white/95 mb-4">社群內容<br/>經營系統</h3>
-                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">依照產業脈絡與競爭趨勢，自動規劃社群貼文與內容策略</p>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">社群內容<br />經營系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">
+                                    依照產業脈絡與競爭趨勢，自動規劃社群貼文與內容策略</p>
                             </div>
                         </div>
 
                         <!-- 004 - GEO Audit -->
-                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 overflow-hidden transition-all duration-700" 
-                             data-bg="img/refinelab_a_human_hand_touching_the_search_bar_on_googles_web_28ae632c-1592-4bee-8057-ec1ac59ef773_0.png">
+                        <div class="lg:col-span-1 service-card group relative flex flex-col p-12 lg:p-16 overflow-hidden transition-all duration-700"
+                            data-bg="img/refinelab_a_human_hand_touching_the_search_bar_on_googles_web_28ae632c-1592-4bee-8057-ec1ac59ef773_0.png">
                             <div class="service-card-content relative z-10 pointer-events-none h-full flex flex-col">
-                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">004</div>
+                                <div class="text-xs font-semibold text-brand-500/60 mb-10 uppercase tracking-widest">004
+                                </div>
                                 <div class="flex-grow flex items-center justify-center mb-12">
-                                    <div class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
-                                        <svg viewBox="0 0 100 100" class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-spin-very-slow" style="animation-direction: reverse;">
+                                    <div
+                                        class="transition-all duration-700 origin-center group-hover:rotate-12 group-hover:scale-110">
+                                        <svg viewBox="0 0 100 100"
+                                            class="w-32 h-32 lg:w-40 lg:h-40 stroke-white fill-none animate-spin-very-slow"
+                                            style="animation-direction: reverse;">
                                             <rect x="25" y="25" width="50" height="50" stroke-width="0.8" />
-                                            <rect x="15" y="15" width="70" height="70" stroke-width="0.4" stroke-dasharray="4 4" />
+                                            <rect x="15" y="15" width="70" height="70" stroke-width="0.4"
+                                                stroke-dasharray="4 4" />
                                             <circle cx="50" cy="50" r="5" stroke-width="0.8" />
                                         </svg>
                                     </div>
                                 </div>
-                                <h3 class="text-2xl font-bold text-white/95 mb-4">GEO搜尋<br/>評測系統</h3>
-                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">診斷網站於生成式搜尋引擎 (AI Search) 的表現與可見度</p>
+                                <h3 class="text-2xl font-bold text-white/95 mb-4">GEO搜尋<br />評測系統</h3>
+                                <p class="text-sm leading-relaxed text-slate-500 font-medium font-sans">診斷網站於生成式搜尋引擎 (AI
+                                    Search) 的表現與可見度</p>
                             </div>
                         </div>
                     </div>
@@ -761,16 +814,21 @@
             </section>
 
             <!-- Layer 2: Stats Section (White Overlay - Z20 Slide Up) -->
-            <section id="stats-section" class="absolute inset-0 w-full h-full flex flex-col justify-center z-20 bg-[#f8fafc] translate-y-full shadow-[0_-50px_100px_-20px_rgba(0,0,0,0.5)]">
+            <section id="stats-section"
+                class="absolute inset-0 w-full h-full flex flex-col justify-center z-20 bg-[#f8fafc] translate-y-full shadow-[0_-50px_100px_-20px_rgba(0,0,0,0.5)]">
                 <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12">
                     <!-- Architectural Grid Container -->
                     <div class="grid grid-cols-1 lg:grid-cols-4 border-l border-t border-slate-200/60">
-                        
+
                         <!-- Row 1: Header (Spans all 4 columns) -->
-                        <div class="lg:col-span-4 p-12 lg:p-24 border-r border-b border-slate-200/60 flex flex-col justify-end min-h-[400px]">
-                            <h2 class="text-sm font-black uppercase tracking-[0.4em] text-brand-600 mb-8 font-sans">Business Impact Metrics</h2>
-                            <h2 class="text-6xl lg:text-7xl font-serif font-black mb-10 leading-none tracking-tight text-gradient-tech" data-i18n="metrics.title">從對話中提煉真實的商業價值</h2>
-                            <p class="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed" data-i18n="metrics.description">數據會說話，AEGIS 為企業創造顯著的數位成長，將隱藏在對話中的冷數據轉化為高價值的市場情報。</p>
+                        <div
+                            class="lg:col-span-4 p-12 lg:p-24 border-r border-b border-slate-200/60 flex flex-col justify-end min-h-[400px]">
+                            <h2 class="text-sm font-black uppercase tracking-[0.4em] text-brand-600 mb-8 font-sans">
+                                Business Impact Metrics</h2>
+                            <h2 class="text-6xl lg:text-7xl font-serif font-black mb-10 leading-none tracking-tight text-gradient-tech"
+                                data-i18n="metrics.title">從對話中提煉真實的商業價值</h2>
+                            <p class="text-xl text-slate-500 font-medium max-w-2xl leading-relaxed"
+                                data-i18n="metrics.description">數據會說話，AEGIS 為企業創造顯著的數位成長，將隱藏在對話中的冷數據轉化為高價值的市場情報。</p>
                         </div>
 
                         <!-- Row 2: Metrics (Populated by JS) -->
@@ -780,11 +838,11 @@
                     </div>
                 </div>
             </section>
-                    </dl>
-                </div>
-            </section>
-
+            </dl>
         </div>
+        </section>
+
+    </div>
     </div>
 
     <script>
@@ -816,8 +874,15 @@
     </script>
 
     <!-- AI to AI Highlight -->
-    <section class="section-narrative theme-transition" style="border-top: 1px solid rgba(255,255,255,0.08);">
-        <div class="mx-auto max-w-7xl">
+    <section class="section-narrative theme-transition relative overflow-hidden"
+        style="border-top: 1px solid rgba(255,255,255,0.08);">
+        <!-- Background Layer with Overlay (Moved from How it Works per request) -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2400"
+                alt="World First Tech Background" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-sm"></div>
+        </div>
+        <div class="mx-auto max-w-7xl relative z-10">
             <div class="lg:grid lg:grid-cols-12 lg:gap-20 items-center">
                 <div class="lg:col-span-6 reveal-up">
                     <p class="section-label mb-6" data-i18n="ai_to_ai.badge">World's First</p>
@@ -854,149 +919,196 @@
     </section>
 
     <!-- How it Works (Process Grid) -->
-    <section id="how-it-works" class="section-narrative theme-transition relative overflow-hidden" style="border-top: 1px solid rgba(255,255,255,0.08);">
-        <!-- Background Layer with Overlay -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2400" 
-                 alt="Tech Background" 
-                 class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-sm"></div>
-        </div>
+    <section id="how-it-works" class="section-narrative theme-transition relative overflow-hidden"
+        style="border-top: 1px solid rgba(255,255,255,0.08); background-color: var(--theme-bg);">
+        <!-- Pure Dark Background (Removed Image per request) -->
+        <div class="absolute inset-0 z-0 bg-slate-950"></div>
 
         <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12 relative z-10 flex flex-col items-center">
-            
+
             <!-- Row 1: Section Header (Open Style, No Box, Matched Font Size) -->
-            <div class="text-center mb-20 lg:mb-24 reveal-up">
+            <div class="flex flex-col items-center text-center mb-20 lg:mb-24 reveal-up">
                 <p class="section-label mb-8">Workflow</p>
-                <h2 class="text-6xl lg:text-7xl font-serif font-black leading-[0.95] tracking-tight text-gradient-tech" data-i18n="how_it_works.title">三步驟建立<br />AI 成長引擎</h2>
+                <h2 class="text-6xl lg:text-7xl font-serif font-black leading-[0.95] tracking-tight text-gradient-tech"
+                    data-i18n="how_it_works.title">三步驟建立<br />AI 成長引擎</h2>
             </div>
 
             <!-- Row 2: Steps Grid (Architectural Boxed Style) -->
-            <div id="how-it-works-grid" class="grid grid-cols-1 md:grid-cols-3 border-l border-t border-white/10 w-full">
+            <div id="how-it-works-grid"
+                class="grid grid-cols-1 md:grid-cols-3 border-l border-t border-white/10 w-full">
                 <!-- Injected by main.js with border-r and border-b -->
             </div>
         </div>
     </section>
 
-    <!-- About Snippet -->
-    <section class="section-narrative theme-transition" style="border-top: 1px solid rgba(255,255,255,0.08);">
-        <div class="mx-auto max-w-7xl">
-            <div class="rounded-[3rem] text-center relative overflow-hidden reveal-up" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);padding:6rem 2rem;">
-                <div class="absolute inset-0" style="background:radial-gradient(circle at 50% 0%, rgba(94,106,210,0.12) 0%, transparent 65%);"></div>
-                <div class="relative z-10">
-                    <h2 class="display-2 mb-8" style="color:#f8fafc" data-i18n="about.title">關於 RefineLab / AEGIS</h2>
-                    <p class="mx-auto max-w-3xl text-lead mb-14" style="color:#94a3b8" data-i18n="about.desc">
-                        我們不只建立 AI 客服，更提供完整的數位成長解決方案。憑藉 Ivan Chen 超過 20 年的跨產業經驗，協助企業在 AI 時代建立堅實競爭力。
+    <!-- Full-Bleed About Section (Minimalist Architectural) -->
+    <section id="about-section" class="section-narrative theme-transition relative overflow-hidden py-32 lg:py-48"
+        style="background-color: var(--theme-bg); border-top: 1px solid var(--theme-border);">
+        <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12 relative z-10 flex flex-col items-center">
+
+            <div class="max-w-4xl flex flex-col items-center text-center reveal-up">
+                <p class="section-label mb-10">About PixoLab</p>
+                <h2 class="text-6xl lg:text-8xl font-serif font-black leading-[0.95] tracking-tight mb-12 text-gradient-tech"
+                    data-i18n="about.title">關於 PixoLab</h2>
+
+                <div class="flex flex-col items-center text-center">
+                    <p class="text-xl lg:text-2xl leading-relaxed font-medium mb-16 opacity-80"
+                        style="color: var(--theme-text)" data-i18n="about.desc">
+                        我們不只建立 AI 客服，更提供完整的數位成長解決方案。<br class="hidden lg:block" />
+                        憑藉 Ivan Chen 超過 20 年的跨產業經驗，協助企業在 AI 時代建立堅實競爭力。
                     </p>
-                    <a href="about.html" class="btn-premium-secondary" style="color:#f8fafc;border-color:rgba(255,255,255,0.2);" data-i18n="about.cta">了解更多團隊背景 →</a>
+                    <a href="about.html" class="btn-premium-secondary group flex items-center gap-3 overflow-hidden"
+                        style="border-color: var(--theme-border); color: var(--theme-text);">
+                        <span class="relative z-10" data-i18n="about.cta">了解更多團隊背景</span>
+                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
                 </div>
+            </div>
+
+            <!-- Architectural Decorative Element -->
+            <div
+                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-transparent to-brand-500/30">
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer id="contact" class="bg-[#020617] border-t border-white/5 pt-24 pb-12 relative overflow-hidden">
+    <!-- Unified Architectural Footer (Contact + Footer) -->
+    <footer id="contact" class="relative overflow-hidden pt-32 pb-12"
+        style="background-color: var(--theme-bg); color: var(--theme-text); border-top: 1px solid var(--theme-border);">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,#3b82f610_0%,transparent_55%)]"></div>
-        
-        <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-                
-                <!-- Left: Contact Form -->
-                <div class="reveal-up">
-                    <h2 class="display-3 mb-6" style="color:#f8fafc" data-i18n="footer.contact_title">開啟您的<br />數位成長諮詢</h2>
-                    <p class="text-lead mb-10" style="color:#94a3b8" data-i18n="footer.contact_desc">
-                        填寫下方表單，我們的專家將在 24 小時內與您聯繫，為您制定專屬 AI 佈局計畫。
+
+        <div class="mx-auto max-w-[1800px] w-full px-6 lg:px-12 relative z-10 flex flex-col items-center">
+
+            <!-- Row 1: Section Header (Open Style, Centered) -->
+            <div class="text-center mb-20 lg:mb-24 reveal-up flex flex-col items-center">
+                <p class="section-label mb-8">Get in Touch</p>
+                <h2 class="text-6xl lg:text-7xl font-serif font-black leading-[0.95] tracking-tight text-gradient-tech"
+                    data-i18n="footer.contact_title">開啟您的<br />數位成長諮詢</h2>
+            </div>
+
+            <!-- Row 2: Architectural Grid (4 Columns) -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 border-l border-t border-white/10 w-full mb-12">
+
+                <!-- Slot 1 & 2: Contact Form (Spans 2 cols) -->
+                <div class="lg:col-span-2 p-12 lg:p-16 border-r border-b border-white/10 reveal-up"
+                    style="border-color: var(--theme-border);">
+                    <p class="text-lead mb-12 opacity-80 font-medium" style="color: var(--theme-text)"
+                        data-i18n="footer.contact_desc">
+                        填寫表單，我們將在 24 小時內聯絡您，<br />為您制定專屬 AI 佈局計畫。
                     </p>
-                    
+
                     <form id="contact-form" class="space-y-8">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                             <div class="space-y-3">
-                                <label class="label-meta pl-2" data-i18n="footer.form_name">姓名 / Name</label>
-                                <input type="text" name="name" required
-                                    class="input-premium"
-                                    placeholder="Ivan Chen">
+                                <label class="section-label pl-2" data-i18n="footer.form_name">姓名 / Name</label>
+                                <input type="text" name="name" required class="input-premium" placeholder="Ivan Chen">
                             </div>
                             <div class="space-y-3">
-                                <label class="label-meta pl-2" data-i18n="footer.form_email">Email</label>
-                                <input type="email" name="email" required
-                                    class="input-premium"
+                                <label class="section-label pl-2" data-i18n="footer.form_email">Email</label>
+                                <input type="email" name="email" required class="input-premium"
                                     placeholder="ivan@pixolab.ai">
                             </div>
                         </div>
                         <div class="space-y-3">
-                            <label class="label-meta pl-2" data-i18n="footer.form_message">訊息 / Message</label>
-                            <textarea name="message" rows="4" required
-                                class="input-premium resize-none"
+                            <label class="section-label pl-2" data-i18n="footer.form_message">訊息 / Message</label>
+                            <textarea name="message" rows="4" required class="input-premium resize-none"
                                 placeholder="請描述您的專案需求..."></textarea>
                         </div>
-                        <button type="submit" class="btn-primary w-full" style="border-radius:1rem;padding:1rem 2rem;font-size:1rem;">
-                            <span class="flex items-center justify-center gap-3">
+                        <button type="submit" class="btn-primary w-full group overflow-hidden relative">
+                            <span class="flex items-center justify-center gap-3 relative z-10">
                                 <span data-i18n="footer.form_submit">立即送出諮詢 / Send Inquiry</span>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
                             </span>
                         </button>
                     </form>
-                    
+
                     <!-- Success Message (Hidden) -->
-                    <div id="form-success" class="hidden mt-6 p-6 rounded-2xl bg-green-500/10 border border-green-500/20 text-green-400 text-center backdrop-blur-xl">
-                        <div class="flex items-center justify-center gap-2 mb-2">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    <div id="form-success"
+                        class="hidden mt-8 p-8 rounded-2xl bg-green-500/10 border border-green-500/20 text-green-600 text-center backdrop-blur-xl reveal-up active">
+                        <div class="flex items-center justify-center gap-3 mb-3">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                    d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="font-bold text-lg" data-i18n="footer.success_title">傳送成功！</span>
+                            <span class="font-black text-xl" data-i18n="footer.success_title">傳送成功！</span>
                         </div>
-                        <p data-i18n="footer.success_desc">感謝您的諮詢，我們將盡快聯繫您。</p>
+                        <p class="opacity-80 font-medium" style="color: var(--theme-text)"
+                            data-i18n="footer.success_desc">感謝您的諮詢，我們將盡快聯繫您。</p>
                     </div>
                 </div>
-                
-                <!-- Right: Branding & Connections -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-16 lg:pl-24">
-                    <!-- Brand Column -->
-                    <div class="space-y-10">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center">
-                                <span class="text-white font-black text-xl">P</span>
-                            </div>
-                            <span class="text-2xl font-black text-white tracking-tighter">PIXOLab</span>
+
+                <!-- Slot 3: Branding & Information (Col 3) -->
+                <div class="lg:col-span-1 p-12 lg:p-16 border-r border-b border-white/10 flex flex-col justify-between reveal-up"
+                    style="border-color: var(--theme-border); transition-delay: 0.1s;">
+                    <div class="space-y-12">
+                        <div class="flex items-center">
+                            <a href="index.html" class="text-3xl font-black tracking-tighter nav-logo"
+                                style="color: var(--theme-text);">PixoLab<span class="text-brand-500">.</span></a>
                         </div>
-                        <p class="text-slate-400 leading-relaxed font-medium">
+                        <p class="text-lg leading-relaxed font-medium opacity-80" style="color: var(--theme-text)">
                             專業 AI 數位解決方案提供者。<br />
                             協助企業在 AI 轉型浪潮中，<br />
                             建立實質、可衡量的商業成長。
                         </p>
-                        <div class="flex gap-4">
-                            <a href="#" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
-                                <i class="fab fa-linkedin-in text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
-                                <i class="fab fa-facebook-f text-xl"></i>
-                            </a>
-                            <a href="#" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
-                                <i class="fab fa-instagram text-xl"></i>
-                            </a>
-                        </div>
                     </div>
-                    
-                    <!-- Quick Links Column -->
-                    <div>
-                        <h3 class="text-white font-bold mb-8 uppercase tracking-widest text-sm" data-i18n="footer.links_title">探索 / Exploration</h3>
-                        <ul class="space-y-6">
-                            <li><a href="#services" class="text-slate-400 hover:text-brand-400 transition-colors">核心服務 / Core Services</a></li>
-                            <li><a href="#how-it-works" class="text-slate-400 hover:text-brand-400 transition-colors">工作流程 / Workflow</a></li>
-                            <li><a href="about.html" class="text-slate-400 hover:text-brand-400 transition-colors">關於我們 / About Us</a></li>
-                            <li><a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">隱私政策 / Privacy Policy</a></li>
-                        </ul>
+                    <div class="flex gap-4 mt-12">
+                        <a href="#"
+                            class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 transition-all duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
                     </div>
                 </div>
+
+                <!-- Slot 4: Exploration Links (Col 4) -->
+                <div class="lg:col-span-1 p-12 lg:p-16 border-r border-b border-white/10 reveal-up"
+                    style="border-color: var(--theme-border); transition-delay: 0.2s;">
+                    <h3 class="section-label mb-10" data-i18n="footer.links_title">探索 / Exploration</h3>
+                    <ul class="space-y-6">
+                        <li><a href="#services"
+                                class="text-lg font-medium opacity-70 hover:opacity-100 hover:text-brand-400 transition-colors"
+                                style="color: var(--theme-text);">核心服務 / Core Services</a></li>
+                        <li><a href="#how-it-works"
+                                class="text-lg font-medium opacity-70 hover:opacity-100 hover:text-brand-400 transition-colors"
+                                style="color: var(--theme-text);">工作流程 / Workflow</a></li>
+                        <li><a href="about.html"
+                                class="text-lg font-medium opacity-70 hover:opacity-100 hover:text-brand-400 transition-colors"
+                                style="color: var(--theme-text);">關於我們 / About Us</a></li>
+                        <li><a href="#"
+                                class="text-lg font-medium opacity-70 hover:opacity-100 hover:text-brand-400 transition-colors"
+                                style="color: var(--theme-text);">隱私政策 / Privacy Policy</a></li>
+                    </ul>
+                </div>
             </div>
-            
-            <div class="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-slate-500 text-sm">© 2026 PIXOLab AI Digital Solution. All rights reserved.</p>
-                <div class="flex gap-12">
-                    <div class="flex items-center gap-2 text-slate-500 italic text-sm">
-                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+
+            <!-- Row 3: Bottom Slot (Copyright & Status) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 w-full border-l border-t border-white/10 mb-12"
+                style="border-color: var(--theme-border);">
+                <div class="p-8 border-r border-b border-white/10" style="border-color: var(--theme-border);">
+                    <p class="opacity-60 text-sm font-medium" style="color: var(--theme-text);">© 2026 PixoLab AI
+                        Digital Solution. All rights reserved.</p>
+                </div>
+                <div class="p-8 border-r border-b border-white/10 flex items-center md:justify-end gap-6"
+                    style="border-color: var(--theme-border);">
+                    <div class="flex items-center gap-3 opacity-60 italic text-sm font-medium"
+                        style="color: var(--theme-text);">
+                        <span
+                            class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_12px_rgba(34,197,94,0.6)]"></span>
                         AI Engine Fully Active
                     </div>
                 </div>
