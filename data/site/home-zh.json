@@ -143,6 +143,8 @@
     "contact_desc": "填寫下方表單，我們的專家將在 24 小時內與您聯繫，為您制定專屬 AI 佈局計畫。",
     "form_name": "姓名 / Name",
     "form_email": "Email",
+    "form_phone": "電話 / Phone",
+    "form_line": "LINE ID",
     "form_message": "訊息 / Message",
     "form_submit": "立即送出諮詢 / Send Inquiry",
     "success_title": "傳送成功！",

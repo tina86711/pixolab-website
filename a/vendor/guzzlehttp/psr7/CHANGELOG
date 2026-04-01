@@ -1,0 +1,574 @@
+<h1 id="change-log">Change Log</h1>
+
+<p>All notable changes to this project will be documented in this file.</p>
+
+<p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>
+and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+
+<h2 id="section">2.7.1 - 2025-03-27</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+  <li>Fixed uppercase IPv6 addresses in URI</li>
+</ul>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+  <li>Improve uploaded file error message</li>
+</ul>
+
+<h2 id="section-1">2.7.0 - 2024-07-18</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+  <li>Add <code>Utils::redactUserInfo()</code> method</li>
+  <li>Add ability to encode bools as ints in <code>Query::build</code></li>
+</ul>
+
+<h2 id="section-2">2.6.3 - 2024-07-18</h2>
+
+<h3 id="fixed-1">Fixed</h3>
+
+<ul>
+  <li>Make <code>StreamWrapper::stream_stat()</code> return <code>false</code> if inner stream's size is <code>null</code></li>
+</ul>
+
+<h3 id="changed-1">Changed</h3>
+
+<ul>
+  <li>PHP 8.4 support</li>
+</ul>
+
+<h2 id="section-3">2.6.2 - 2023-12-03</h2>
+
+<h3 id="fixed-2">Fixed</h3>
+
+<ul>
+  <li>Fixed another issue with the fact that PHP transforms numeric strings in array keys to ints</li>
+</ul>
+
+<h3 id="changed-2">Changed</h3>
+
+<ul>
+  <li>Updated links in docs to their canonical versions</li>
+  <li>Replaced <code>call_user_func*</code> with native calls</li>
+</ul>
+
+<h2 id="section-4">2.6.1 - 2023-08-27</h2>
+
+<h3 id="fixed-3">Fixed</h3>
+
+<ul>
+  <li>Properly handle the fact that PHP transforms numeric strings in array keys to ints</li>
+</ul>
+
+<h2 id="section-5">2.6.0 - 2023-08-03</h2>
+
+<h3 id="changed-3">Changed</h3>
+
+<ul>
+  <li>Updated the mime type map to add some new entries, fix a couple of invalid entries, and remove an invalid entry</li>
+  <li>Fallback to <code>application/octet-stream</code> if we are unable to guess the content type for a multipart file upload</li>
+</ul>
+
+<h2 id="section-6">2.5.1 - 2023-08-03</h2>
+
+<h3 id="fixed-4">Fixed</h3>
+
+<ul>
+  <li>Corrected mime type for <code>.acc</code> files to <code>audio/aac</code></li>
+</ul>
+
+<h3 id="changed-4">Changed</h3>
+
+<ul>
+  <li>PHP 8.3 support</li>
+</ul>
+
+<h2 id="section-7">2.5.0 - 2023-04-17</h2>
+
+<h3 id="changed-5">Changed</h3>
+
+<ul>
+  <li>Adjusted <code>psr/http-message</code> version constraint to <code>^1.1 || ^2.0</code></li>
+</ul>
+
+<h2 id="section-8">2.4.5 - 2023-04-17</h2>
+
+<h3 id="fixed-5">Fixed</h3>
+
+<ul>
+  <li>Prevent possible warnings on unset variables in <code>ServerRequest::normalizeNestedFileSpec</code></li>
+  <li>Fixed <code>Message::bodySummary</code> when <code>preg_match</code> fails</li>
+  <li>Fixed header validation issue</li>
+</ul>
+
+<h2 id="section-9">2.4.4 - 2023-03-09</h2>
+
+<h3 id="changed-6">Changed</h3>
+
+<ul>
+  <li>Removed the need for <code>AllowDynamicProperties</code> in <code>LazyOpenStream</code></li>
+</ul>
+
+<h2 id="section-10">2.4.3 - 2022-10-26</h2>
+
+<h3 id="changed-7">Changed</h3>
+
+<ul>
+  <li>Replaced <code>sha1(uniqid())</code> by <code>bin2hex(random_bytes(20))</code></li>
+</ul>
+
+<h2 id="section-11">2.4.2 - 2022-10-25</h2>
+
+<h3 id="fixed-6">Fixed</h3>
+
+<ul>
+  <li>Fixed erroneous behaviour when combining host and relative path</li>
+</ul>
+
+<h2 id="section-12">2.4.1 - 2022-08-28</h2>
+
+<h3 id="fixed-7">Fixed</h3>
+
+<ul>
+  <li>Rewind body before reading in <code>Message::bodySummary</code></li>
+</ul>
+
+<h2 id="section-13">2.4.0 - 2022-06-20</h2>
+
+<h3 id="added-1">Added</h3>
+
+<ul>
+  <li>Added provisional PHP 8.2 support</li>
+  <li>Added <code>UriComparator::isCrossOrigin</code> method</li>
+</ul>
+
+<h2 id="section-14">2.3.0 - 2022-06-09</h2>
+
+<h3 id="fixed-8">Fixed</h3>
+
+<ul>
+  <li>Added <code>Header::splitList</code> method</li>
+  <li>Added <code>Utils::tryGetContents</code> method</li>
+  <li>Improved <code>Stream::getContents</code> method</li>
+  <li>Updated mimetype mappings</li>
+</ul>
+
+<h2 id="section-15">2.2.2 - 2022-06-08</h2>
+
+<h3 id="fixed-9">Fixed</h3>
+
+<ul>
+  <li>Fix <code>Message::parseRequestUri</code> for numeric headers</li>
+  <li>Re-wrap exceptions thrown in <code>fread</code> into runtime exceptions</li>
+  <li>Throw an exception when multipart options is misformatted</li>
+</ul>
+
+<h2 id="section-16">2.2.1 - 2022-03-20</h2>
+
+<h3 id="fixed-10">Fixed</h3>
+
+<ul>
+  <li>Correct header value validation</li>
+</ul>
+
+<h2 id="section-17">2.2.0 - 2022-03-20</h2>
+
+<h3 id="added-2">Added</h3>
+
+<ul>
+  <li>A more compressive list of mime types</li>
+  <li>Add JsonSerializable to Uri</li>
+  <li>Missing return types</li>
+</ul>
+
+<h3 id="fixed-11">Fixed</h3>
+
+<ul>
+  <li>Bug MultipartStream no <code>uri</code> metadata</li>
+  <li>Bug MultipartStream with filename for <code>data://</code> streams</li>
+  <li>Fixed new line handling in MultipartStream</li>
+  <li>Reduced RAM usage when copying streams</li>
+  <li>Updated parsing in <code>Header::normalize()</code></li>
+</ul>
+
+<h2 id="section-18">2.1.1 - 2022-03-20</h2>
+
+<h3 id="fixed-12">Fixed</h3>
+
+<ul>
+  <li>Validate header values properly</li>
+</ul>
+
+<h2 id="section-19">2.1.0 - 2021-10-06</h2>
+
+<h3 id="changed-8">Changed</h3>
+
+<ul>
+  <li>Attempting to create a <code>Uri</code> object from a malformed URI will no longer throw a generic
+<code>InvalidArgumentException</code>, but rather a <code>MalformedUriException</code>, which inherits from the former
+for backwards compatibility. Callers relying on the exception being thrown to detect invalid
+URIs should catch the new exception.</li>
+</ul>
+
+<h3 id="fixed-13">Fixed</h3>
+
+<ul>
+  <li>Return <code>null</code> in caching stream size if remote size is <code>null</code></li>
+</ul>
+
+<h2 id="section-20">2.0.0 - 2021-06-30</h2>
+
+<p>Identical to the RC release.</p>
+
+<h2 id="rc-1---2021-04-29">2.0.0@RC-1 - 2021-04-29</h2>
+
+<h3 id="fixed-14">Fixed</h3>
+
+<ul>
+  <li>Handle possibly unset <code>url</code> in <code>stream_get_meta_data</code></li>
+</ul>
+
+<h2 id="beta-1---2021-03-21">2.0.0@beta-1 - 2021-03-21</h2>
+
+<h3 id="added-3">Added</h3>
+
+<ul>
+  <li>PSR-17 factories</li>
+  <li>Made classes final</li>
+  <li>PHP7 type hints</li>
+</ul>
+
+<h3 id="changed-9">Changed</h3>
+
+<ul>
+  <li>When building a query string, booleans are represented as 1 and 0.</li>
+</ul>
+
+<h3 id="removed">Removed</h3>
+
+<ul>
+  <li>PHP &lt; 7.2 support</li>
+  <li>All functions in the <code>GuzzleHttp\Psr7</code> namespace</li>
+</ul>
+
+<h2 id="section-21">1.8.1 - 2021-03-21</h2>
+
+<h3 id="fixed-15">Fixed</h3>
+
+<ul>
+  <li>Issue parsing IPv6 URLs</li>
+  <li>Issue modifying ServerRequest lost all its attributes</li>
+</ul>
+
+<h2 id="section-22">1.8.0 - 2021-03-21</h2>
+
+<h3 id="added-4">Added</h3>
+
+<ul>
+  <li>Locale independent URL parsing</li>
+  <li>Most classes got a <code>@final</code> annotation to prepare for 2.0</li>
+</ul>
+
+<h3 id="fixed-16">Fixed</h3>
+
+<ul>
+  <li>Issue when creating stream from <code>php://input</code> and curl-ext is not installed</li>
+  <li>Broken <code>Utils::tryFopen()</code> on PHP 8</li>
+</ul>
+
+<h2 id="section-23">1.7.0 - 2020-09-30</h2>
+
+<h3 id="added-5">Added</h3>
+
+<ul>
+  <li>Replaced functions by static methods</li>
+</ul>
+
+<h3 id="fixed-17">Fixed</h3>
+
+<ul>
+  <li>Converting a non-seekable stream to a string</li>
+  <li>Handle multiple Set-Cookie correctly</li>
+  <li>Ignore array keys in header values when merging</li>
+  <li>Allow multibyte characters to be parsed in <code>Message:bodySummary()</code></li>
+</ul>
+
+<h3 id="changed-10">Changed</h3>
+
+<ul>
+  <li>Restored partial HHVM 3 support</li>
+</ul>
+
+<h2 id="section-24">[1.6.1] - 2019-07-02</h2>
+
+<h3 id="fixed-18">Fixed</h3>
+
+<ul>
+  <li>Accept null and bool header values again</li>
+</ul>
+
+<h2 id="section-25"><a href="https://github.com/guzzle/psr7/compare/1.5.2...1.6.0">1.6.0</a> - 2019-06-30</h2>
+
+<h3 id="added-6">Added</h3>
+
+<ul>
+  <li>Allowed version <code>^3.0</code> of <code>ralouphie/getallheaders</code> dependency (#244)</li>
+  <li>Added MIME type for WEBP image format (#246)</li>
+  <li>Added more validation of values according to PSR-7 and RFC standards, e.g. status code range (#250, #272)</li>
+</ul>
+
+<h3 id="changed-11">Changed</h3>
+
+<ul>
+  <li>Tests don't pass with HHVM 4.0, so HHVM support got dropped. Other libraries like composer have done the same. (#262)</li>
+  <li>Accept port number 0 to be valid (#270)</li>
+</ul>
+
+<h3 id="fixed-19">Fixed</h3>
+
+<ul>
+  <li>Fixed subsequent reads from <code>php://input</code> in ServerRequest (#247)</li>
+  <li>Fixed readable/writable detection for certain stream modes (#248)</li>
+  <li>Fixed encoding of special characters in the <code>userInfo</code> component of an URI (#253)</li>
+</ul>
+
+<h2 id="section-26"><a href="https://github.com/guzzle/psr7/compare/1.5.1...1.5.2">1.5.2</a> - 2018-12-04</h2>
+
+<h3 id="fixed-20">Fixed</h3>
+
+<ul>
+  <li>Check body size when getting the message summary</li>
+</ul>
+
+<h2 id="section-27"><a href="https://github.com/guzzle/psr7/compare/1.5.0...1.5.1">1.5.1</a> - 2018-12-04</h2>
+
+<h3 id="fixed-21">Fixed</h3>
+
+<ul>
+  <li>Get the summary of a body only if it is readable</li>
+</ul>
+
+<h2 id="section-28"><a href="https://github.com/guzzle/psr7/compare/1.4.2...1.5.0">1.5.0</a> - 2018-12-03</h2>
+
+<h3 id="added-7">Added</h3>
+
+<ul>
+  <li>Response first-line to response string exception (fixes #145)</li>
+  <li>A test for #129 behavior</li>
+  <li><code>get_message_body_summary</code> function in order to get the message summary</li>
+  <li><code>3gp</code> and <code>mkv</code> mime types</li>
+</ul>
+
+<h3 id="changed-12">Changed</h3>
+
+<ul>
+  <li>Clarify exception message when stream is detached</li>
+</ul>
+
+<h3 id="deprecated">Deprecated</h3>
+
+<ul>
+  <li>Deprecated parsing folded header lines as per RFC 7230</li>
+</ul>
+
+<h3 id="fixed-22">Fixed</h3>
+
+<ul>
+  <li>Fix <code>AppendStream::detach</code> to not close streams</li>
+  <li><code>InflateStream</code> preserves <code>isSeekable</code> attribute of the underlying stream</li>
+  <li><code>ServerRequest::getUriFromGlobals</code> to support URLs in query parameters</li>
+</ul>
+
+<p>Several other fixes and improvements.</p>
+
+<h2 id="section-29"><a href="https://github.com/guzzle/psr7/compare/1.4.1...1.4.2">1.4.2</a> - 2017-03-20</h2>
+
+<h3 id="fixed-23">Fixed</h3>
+
+<ul>
+  <li>Reverted BC break to <code>Uri::resolve</code> and <code>Uri::removeDotSegments</code> by removing
+calls to <code>trigger_error</code> when deprecated methods are invoked.</li>
+</ul>
+
+<h2 id="section-30"><a href="https://github.com/guzzle/psr7/compare/1.4.0...1.4.1">1.4.1</a> - 2017-02-27</h2>
+
+<h3 id="added-8">Added</h3>
+
+<ul>
+  <li>Rriggering of silenced deprecation warnings.</li>
+</ul>
+
+<h3 id="fixed-24">Fixed</h3>
+
+<ul>
+  <li>Reverted BC break by reintroducing behavior to automagically fix a URI with a
+relative path and an authority by adding a leading slash to the path. It's only
+deprecated now.</li>
+</ul>
+
+<h2 id="section-31"><a href="https://github.com/guzzle/psr7/compare/1.3.1...1.4.0">1.4.0</a> - 2017-02-21</h2>
+
+<h3 id="added-9">Added</h3>
+
+<ul>
+  <li>Added common URI utility methods based on RFC 3986 (see documentation in the readme):
+    <ul>
+      <li><code>Uri::isDefaultPort</code></li>
+      <li><code>Uri::isAbsolute</code></li>
+      <li><code>Uri::isNetworkPathReference</code></li>
+      <li><code>Uri::isAbsolutePathReference</code></li>
+      <li><code>Uri::isRelativePathReference</code></li>
+      <li><code>Uri::isSameDocumentReference</code></li>
+      <li><code>Uri::composeComponents</code></li>
+      <li><code>UriNormalizer::normalize</code></li>
+      <li><code>UriNormalizer::isEquivalent</code></li>
+      <li><code>UriResolver::relativize</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="changed-13">Changed</h3>
+
+<ul>
+  <li>Ensure <code>ServerRequest::getUriFromGlobals</code> returns a URI in absolute form.</li>
+  <li>Allow <code>parse_response</code> to parse a response without delimiting space and reason.</li>
+  <li>Ensure each URI modification results in a valid URI according to PSR-7 discussions.
+Invalid modifications will throw an exception instead of returning a wrong URI or
+doing some magic.
+    <ul>
+      <li><code>(new Uri)-&gt;withPath('foo')-&gt;withHost('example.com')</code> will throw an exception
+because the path of a URI with an authority must start with a slash "/" or be empty</li>
+      <li><code>(new Uri())-&gt;withScheme('http')</code> will return <code>'http://localhost'</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="deprecated-1">Deprecated</h3>
+
+<ul>
+  <li><code>Uri::resolve</code> in favor of <code>UriResolver::resolve</code></li>
+  <li><code>Uri::removeDotSegments</code> in favor of <code>UriResolver::removeDotSegments</code></li>
+</ul>
+
+<h3 id="fixed-25">Fixed</h3>
+
+<ul>
+  <li><code>Stream::read</code> when length parameter &lt;= 0.</li>
+  <li><code>copy_to_stream</code> reads bytes in chunks instead of <code>maxLen</code> into memory.</li>
+  <li><code>ServerRequest::getUriFromGlobals</code> when <code>Host</code> header contains port.</li>
+  <li>Compatibility of URIs with <code>file</code> scheme and empty host.</li>
+</ul>
+
+<h2 id="section-32"><a href="https://github.com/guzzle/psr7/compare/1.3.0...1.3.1">1.3.1</a> - 2016-06-25</h2>
+
+<h3 id="fixed-26">Fixed</h3>
+
+<ul>
+  <li><code>Uri::__toString</code> for network path references, e.g. <code>//example.org</code>.</li>
+  <li>Missing lowercase normalization for host.</li>
+  <li>Handling of URI components in case they are <code>'0'</code> in a lot of places,
+e.g. as a user info password.</li>
+  <li><code>Uri::withAddedHeader</code> to correctly merge headers with different case.</li>
+  <li>Trimming of header values in <code>Uri::withAddedHeader</code>. Header values may
+be surrounded by whitespace which should be ignored according to RFC 7230
+Section 3.2.4. This does not apply to header names.</li>
+  <li><code>Uri::withAddedHeader</code> with an array of header values.</li>
+  <li><code>Uri::resolve</code> when base path has no slash and handling of fragment.</li>
+  <li>Handling of encoding in <code>Uri::with(out)QueryValue</code> so one can pass the
+key/value both in encoded as well as decoded form to those methods. This is
+consistent with withPath, withQuery etc.</li>
+  <li><code>ServerRequest::withoutAttribute</code> when attribute value is null.</li>
+</ul>
+
+<h2 id="section-33"><a href="https://github.com/guzzle/psr7/compare/1.2.3...1.3.0">1.3.0</a> - 2016-04-13</h2>
+
+<h3 id="added-10">Added</h3>
+
+<ul>
+  <li>Remaining interfaces needed for full PSR7 compatibility
+(ServerRequestInterface, UploadedFileInterface, etc.).</li>
+  <li>Support for stream_for from scalars.</li>
+</ul>
+
+<h3 id="changed-14">Changed</h3>
+
+<ul>
+  <li>Can now extend Uri.</li>
+</ul>
+
+<h3 id="fixed-27">Fixed</h3>
+<ul>
+  <li>A bug in validating request methods by making it more permissive.</li>
+</ul>
+
+<h2 id="section-34"><a href="https://github.com/guzzle/psr7/compare/1.2.2...1.2.3">1.2.3</a> - 2016-02-18</h2>
+
+<h3 id="fixed-28">Fixed</h3>
+
+<ul>
+  <li>Support in <code>GuzzleHttp\Psr7\CachingStream</code> for seeking forward on remote
+streams, which can sometimes return fewer bytes than requested with <code>fread</code>.</li>
+  <li>Handling of gzipped responses with FNAME headers.</li>
+</ul>
+
+<h2 id="section-35"><a href="https://github.com/guzzle/psr7/compare/1.2.1...1.2.2">1.2.2</a> - 2016-01-22</h2>
+
+<h3 id="added-11">Added</h3>
+
+<ul>
+  <li>Support for URIs without any authority.</li>
+  <li>Support for HTTP 451 'Unavailable For Legal Reasons.'</li>
+  <li>Support for using '0' as a filename.</li>
+  <li>Support for including non-standard ports in Host headers.</li>
+</ul>
+
+<h2 id="section-36"><a href="https://github.com/guzzle/psr7/compare/1.2.0...1.2.1">1.2.1</a> - 2015-11-02</h2>
+
+<h3 id="changes">Changes</h3>
+
+<ul>
+  <li>Now supporting negative offsets when seeking to SEEK_END.</li>
+</ul>
+
+<h2 id="section-37"><a href="https://github.com/guzzle/psr7/compare/1.1.0...1.2.0">1.2.0</a> - 2015-08-15</h2>
+
+<h3 id="changed-15">Changed</h3>
+
+<ul>
+  <li>Body as <code>"0"</code> is now properly added to a response.</li>
+  <li>Now allowing forward seeking in CachingStream.</li>
+  <li>Now properly parsing HTTP requests that contain proxy targets in
+<code>parse_request</code>.</li>
+  <li>functions.php is now conditionally required.</li>
+  <li>user-info is no longer dropped when resolving URIs.</li>
+</ul>
+
+<h2 id="section-38"><a href="https://github.com/guzzle/psr7/compare/1.0.0...1.1.0">1.1.0</a> - 2015-06-24</h2>
+
+<h3 id="changed-16">Changed</h3>
+
+<ul>
+  <li>URIs can now be relative.</li>
+  <li><code>multipart/form-data</code> headers are now overridden case-insensitively.</li>
+  <li>URI paths no longer encode the following characters because they are allowed
+in URIs: "(", ")", "*", "!", "'"</li>
+  <li>A port is no longer added to a URI when the scheme is missing and no port is
+present.</li>
+</ul>
+
+<h2 id="section-39">1.0.0 - 2015-05-19</h2>
+
+<p>Initial release.</p>
+
+<p>Currently unsupported:</p>
+
+<ul>
+  <li><code>Psr\Http\Message\ServerRequestInterface</code></li>
+  <li><code>Psr\Http\Message\UploadedFileInterface</code></li>
+</ul>
+

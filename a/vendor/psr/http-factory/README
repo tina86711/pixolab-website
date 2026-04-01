@@ -1,0 +1,8 @@
+<h1 id="http-factories">HTTP Factories</h1>
+
+<p>This repository holds all interfaces related to <a href="https://www.php-fig.org/psr/psr-17/">PSR-17 (HTTP Factories)</a>.</p>
+
+<p>Note that this is not a HTTP Factory implementation of its own. It is merely interfaces that describe the components of a HTTP Factory.</p>
+
+<p>The installable <a href="https://packagist.org/packages/psr/http-factory">package</a> and <a href="https://packagist.org/providers/psr/http-factory-implementation">implementations</a> are listed on Packagist.</p>
+

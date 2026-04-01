@@ -1,0 +1,16 @@
+<h1 id="psr-http-message">PSR Http Message</h1>
+
+<p>This repository holds all interfaces/classes/traits related to
+<a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a>.</p>
+
+<p>Note that this is not a HTTP message implementation of its own. It is merely an
+interface that describes a HTTP message. See the specification for more details.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>Before reading the usage guide we recommend reading the PSR-7 interfaces method list:</p>
+
+<ul>
+  <li><a href="docs/PSR7-Interfaces.md"><code>PSR-7 Interfaces Method List</code></a></li>
+  <li><a href="docs/PSR7-Usage.md"><code>PSR-7 Usage Guide</code></a></li>
+</ul>

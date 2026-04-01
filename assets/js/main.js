@@ -931,23 +931,45 @@ function initContactForm() {
             </span>
         `;
 
-        // Simulate network delay
-        setTimeout(() => {
-            const formData = new FormData(form);
-            console.log("PixoLab Contact Form Data:", Object.fromEntries(formData));
+        // Real Backend Submission
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
 
-            // UI Transition
-            form.style.opacity = '0';
-            setTimeout(() => {
-                form.classList.add('hidden');
-                successMsg.classList.remove('hidden');
-                successMsg.style.display = 'block';
-                successMsg.classList.add('reveal-up', 'active');
-                
-                // Scroll into view if needed
-                successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
-        }, 1500);
+        fetch('http://localhost:3000/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                // UI Transition
+                form.style.opacity = '0';
+                setTimeout(() => {
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                    successMsg.style.display = 'block';
+                    successMsg.classList.add('reveal-up', 'active');
+                    
+                    // Scroll into view
+                    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            } else {
+                alert('提交失敗：' + (result.error || '不明錯誤'));
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+            }
+        })
+        .catch(err => {
+            console.error('Submission error:', err);
+            // Default to local success behavior if it's just a CORS/Localhost issue during dev
+            // but for real production we should alert.
+            alert('連線錯誤，請確認後端服務已啟動。');
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+        });
     });
 }
 

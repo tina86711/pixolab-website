@@ -1,0 +1,166 @@
+<h3 id="psr-7-usage">PSR-7 Usage</h3>
+
+<p>All PSR-7 applications comply with these interfaces 
+They were created to establish a standard between middleware implementations.</p>
+
+<blockquote>
+  <p><code>RequestInterface</code>, <code>ServerRequestInterface</code>, <code>ResponseInterface</code> extend <code>MessageInterface</code>  because the <code>Request</code> and the <code>Response</code> are <code>HTTP Messages</code>.
+When using <code>ServerRequestInterface</code>, both <code>RequestInterface</code> and <code>Psr\Http\Message\MessageInterface</code> methods are considered.</p>
+</blockquote>
+
+<p>The following examples will illustrate how basic operations are done in PSR-7.</p>
+
+<h5 id="examples">Examples</h5>
+
+<p>For this examples to work (at least) a PSR-7 implementation package is required. (eg: zendframework/zend-diactoros, guzzlehttp/psr7, slim/slim, etc)
+All PSR-7 implementations should have the same behaviour.</p>
+
+<p>The following will be assumed: 
+<code>$request</code> is an object of <code>Psr\Http\Message\RequestInterface</code> and</p>
+
+<p><code>$response</code> is an object implementing <code>Psr\Http\Message\RequestInterface</code></p>
+
+<h3 id="working-with-http-headers">Working with HTTP Headers</h3>
+
+<h4 id="adding-headers-to-response">Adding headers to response:</h4>
+
+<p><code>php
+$response-&gt;withHeader('My-Custom-Header', 'My Custom Message');
+</code></p>
+
+<h4 id="appending-values-to-headers">Appending values to headers</h4>
+
+<p><code>php
+$response-&gt;withAddedHeader('My-Custom-Header', 'The second message');
+</code></p>
+
+<h4 id="checking-if-header-exists">Checking if header exists:</h4>
+
+<p><code>php
+$request-&gt;hasHeader('My-Custom-Header'); // will return false
+$response-&gt;hasHeader('My-Custom-Header'); // will return true
+</code></p>
+
+<blockquote>
+  <p>Note: My-Custom-Header was only added in the Response</p>
+</blockquote>
+
+<h4 id="getting-comma-separated-values-from-a-header-also-applies-to-request">Getting comma-separated values from a header (also applies to request)</h4>
+
+<p><code>php
+// getting value from request headers
+$request-&gt;getHeaderLine('Content-Type'); // will return: "text/html; charset=UTF-8"
+// getting value from response headers
+$response-&gt;getHeaderLine('My-Custom-Header'); // will return:  "My Custom Message; The second message"
+</code></p>
+
+<h4 id="getting-array-of-value-from-a-header-also-applies-to-request">Getting array of value from a header (also applies to request)</h4>
+<p><code>php
+// getting value from request headers
+$request-&gt;getHeader('Content-Type'); // will return: ["text/html", "charset=UTF-8"]
+// getting value from response headers
+$response-&gt;getHeader('My-Custom-Header'); // will return:  ["My Custom Message",  "The second message"]
+</code></p>
+
+<h4 id="removing-headers-from-http-messages">Removing headers from HTTP Messages</h4>
+<p>```php
+// removing a header from Request, removing deprecated "Content-MD5" header
+$request-&gt;withoutHeader('Content-MD5');</p>
+
+<p>// removing a header from Response
+// effect: the browser won't know the size of the stream
+// the browser will download the stream till it ends
+$response-&gt;withoutHeader('Content-Length');
+```</p>
+
+<h3 id="working-with-http-message-body">Working with HTTP Message Body</h3>
+
+<p>When working with the PSR-7 there are two methods of implementation:
+#### 1. Getting the body separately</p>
+
+<blockquote>
+  <p>This method makes the body handling easier to understand and is useful when repeatedly calling body methods. (You only call <code>getBody()</code> once). Using this method mistakes like <code>$response-&gt;write()</code> are also prevented.</p>
+</blockquote>
+
+<p><code>php
+$body = $response-&gt;getBody();
+// operations on body, eg. read, write, seek
+// ...
+// replacing the old body
+$response-&gt;withBody($body); 
+// this last statement is optional as we working with objects
+// in this case the "new" body is same with the "old" one
+// the $body variable has the same value as the one in $request, only the reference is passed
+</code></p>
+
+<h4 id="working-directly-on-response">2. Working directly on response</h4>
+
+<blockquote>
+  <p>This method is useful when only performing few operations as the <code>$request-&gt;getBody()</code> statement fragment is required</p>
+</blockquote>
+
+<p><code>php
+$response-&gt;getBody()-&gt;write('hello');
+</code></p>
+
+<h3 id="getting-the-body-contents">Getting the body contents</h3>
+
+<p>The following snippet gets the contents of a stream contents.
+&gt; Note: Streams must be rewinded, if content was written into streams, it will be ignored when calling <code>getContents()</code> because the stream pointer is set to the last character, which is <code>\0</code> - meaning end of stream.
+<code>php 
+$body = $response-&gt;getBody();
+$body-&gt;rewind(); // or $body-&gt;seek(0);
+$bodyText = $body-&gt;getContents();
+</code>
+&gt; Note: If <code>$body-&gt;seek(1)</code> is called before <code>$body-&gt;getContents()</code>, the first character will be ommited as the starting pointer is set to <code>1</code>, not <code>0</code>. This is why using <code>$body-&gt;rewind()</code> is recommended.</p>
+
+<h3 id="append-to-body">Append to body</h3>
+
+<p><code>php
+$response-&gt;getBody()-&gt;write('Hello'); // writing directly
+$body = $request-&gt;getBody(); // which is a `StreamInterface`
+$body-&gt;write('xxxxx');
+</code></p>
+
+<h3 id="prepend-to-body">Prepend to body</h3>
+<p>Prepending is different when it comes to streams. The content must be copied before writing the content to be prepended.
+The following example will explain the behaviour of streams.</p>
+
+<p>```php
+// assuming our response is initially empty
+$body = $repsonse-&gt;getBody();
+// writing the string "abcd"
+$body-&gt;write('abcd');</p>
+
+<p>// seeking to start of stream
+$body-&gt;seek(0);
+// writing 'ef'
+$body-&gt;write('ef'); // at this point the stream contains "efcd"
+```</p>
+
+<h4 id="prepending-by-rewriting-separately">Prepending by rewriting separately</h4>
+
+<p><code>php
+// assuming our response body stream only contains: "abcd"
+$body = $response-&gt;getBody();
+$body-&gt;rewind();
+$contents = $body-&gt;getContents(); // abcd
+// seeking the stream to beginning
+$body-&gt;rewind();
+$body-&gt;write('ef'); // stream contains "efcd"
+$body-&gt;write($contents); // stream contains "efabcd"
+</code></p>
+
+<blockquote>
+  <p>Note: <code>getContents()</code> seeks the stream while reading it, therefore if the second <code>rewind()</code> method call was not present the stream would have resulted in <code>abcdefabcd</code> because the <code>write()</code> method appends to stream if not preceeded by <code>rewind()</code> or <code>seek(0)</code>.</p>
+</blockquote>
+
+<h4 id="prepending-by-using-contents-as-a-string">Prepending by using contents as a string</h4>
+<p><code>php
+$body = $response-&gt;getBody();
+$body-&gt;rewind();
+$contents = $body-&gt;getContents(); // efabcd
+$contents = 'ef'.$contents;
+$body-&gt;rewind();
+$body-&gt;write($contents);
+</code></p>

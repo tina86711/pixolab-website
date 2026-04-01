@@ -1,0 +1,8 @@
+<h1 id="http-client">HTTP Client</h1>
+
+<p>This repository holds all the common code related to <a href="https://www.php-fig.org/psr/psr-18">PSR-18 (HTTP Client)</a>.</p>
+
+<p>Note that this is not a HTTP Client implementation of its own. It is merely abstractions that describe the components of a HTTP Client.</p>
+
+<p>The installable <a href="https://packagist.org/packages/psr/http-client">package</a> and <a href="https://packagist.org/providers/psr/http-client-implementation">implementations</a> are listed on Packagist.</p>
+

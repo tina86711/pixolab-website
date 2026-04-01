@@ -1,0 +1,238 @@
+<h1 id="google-provider-for-oauth-20-client">Google Provider for OAuth 2.0 Client</h1>
+
+<p><a href="https://github.com/thephpleague/oauth2-google/actions/workflows/test.yaml"><img src="https://img.shields.io/github/workflow/status/thephpleague/oauth2-google/test/main" alt="Build Status" /></a>
+<a href="https://app.codecov.io/gh/thephpleague/oauth2-google"><img src="https://img.shields.io/codecov/c/gh/thephpleague/oauth2-google" alt="Code Coverage" /></a>
+<a href="https://github.com/thephpleague/oauth2-google/blob/main/LICENSE"><img src="https://img.shields.io/packagist/l/league/oauth2-google" alt="License" /></a>
+<a href="https://packagist.org/packages/league/oauth2-google"><img src="https://img.shields.io/packagist/v/league/oauth2-google" alt="Latest Stable Version" /></a></p>
+
+<p>This package provides Google OAuth 2.0 support for the PHP League's <a href="https://github.com/thephpleague/oauth2-client">OAuth 2.0 Client</a>.</p>
+
+<p>This package is compliant with <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md">PSR-1</a>, <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md">PSR-2</a> and <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md">PSR-4</a>. If you notice compliance oversights, please send
+a patch via pull request.</p>
+
+<h2 id="requirements">Requirements</h2>
+
+<p>The following versions of PHP are supported.</p>
+
+<ul>
+  <li>PHP 7.3</li>
+  <li>PHP 7.4</li>
+  <li>PHP 8.0</li>
+  <li>PHP 8.1</li>
+</ul>
+
+<p>This package uses <a href="https://developers.google.com/identity/protocols/OpenIDConnect">OpenID Connect</a> to authenticate users with
+Google accounts.</p>
+
+<p>To use this package, it will be necessary to have a Google client ID and client
+secret. These are referred to as <code>{google-client-id}</code> and <code>{google-client-secret}</code>
+in the documentation.</p>
+
+<p>Please follow the <a href="https://developers.google.com/identity/protocols/OpenIDConnect#registeringyourapp">Google instructions</a> to create the required credentials.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>To install, use composer:</p>
+
+<p><code>sh
+composer require league/oauth2-google
+</code></p>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="authorization-code-flow">Authorization Code Flow</h3>
+
+<p>```php
+require <strong>DIR</strong> . '/vendor/autoload.php';</p>
+
+<p>use League\OAuth2\Client\Provider\Google;</p>
+
+<p>session_start(); // Remove if session.auto_start=1 in php.ini</p>
+
+<p>$provider = new Google([
+    'clientId'     =&gt; '{google-client-id}',
+    'clientSecret' =&gt; '{google-client-secret}',
+    'redirectUri'  =&gt; 'https://example.com/callback-url',
+    'hostedDomain' =&gt; 'example.com', // optional; used to restrict access to users on your G Suite/Google Apps for Business accounts
+]);</p>
+
+<p>if (!empty($_GET['error'])) {</p>
+
+<pre><code>// Got an error, probably user denied access
+exit('Got error: ' . htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'));
+</code></pre>
+
+<p>} elseif (empty($_GET['code'])) {</p>
+
+<pre><code>// If we don't have an authorization code then get one
+$authUrl = $provider-&gt;getAuthorizationUrl();
+$_SESSION['oauth2state'] = $provider-&gt;getState();
+header('Location: ' . $authUrl);
+exit;
+</code></pre>
+
+<table>
+  <tbody>
+    <tr>
+      <td>} elseif (empty($_GET['state'])</td>
+      <td> </td>
+      <td>($_GET['state'] !== $_SESSION['oauth2state'])) {</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code>// State is invalid, possible CSRF attack in progress
+unset($_SESSION['oauth2state']);
+exit('Invalid state');
+</code></pre>
+
+<p>} else {</p>
+
+<pre><code>// Try to get an access token (using the authorization code grant)
+$token = $provider-&gt;getAccessToken('authorization_code', [
+    'code' =&gt; $_GET['code']
+]);
+
+// Optional: Now you have a token you can look up a users profile data
+try {
+
+    // We got an access token, let's now get the owner details
+    $ownerDetails = $provider-&gt;getResourceOwner($token);
+
+    // Use these details to create a new profile
+    printf('Hello %s!', $ownerDetails-&gt;getFirstName());
+
+} catch (Exception $e) {
+
+    // Failed to get user details
+    exit('Something went wrong: ' . $e-&gt;getMessage());
+
+}
+
+// Use this to interact with an API on the users behalf
+echo $token-&gt;getToken();
+
+// Use this to get a new access token if the old one expires
+echo $token-&gt;getRefreshToken();
+
+// Unix timestamp at which the access token expires
+echo $token-&gt;getExpires(); } ```
+</code></pre>
+
+<h4 id="available-options">Available Options</h4>
+
+<p>The <code>Google</code> provider has the following <a href="https://developers.google.com/identity/protocols/OpenIDConnect#authenticationuriparameters">options</a>:</p>
+
+<ul>
+  <li><code>accessType</code> to use online or offline access</li>
+  <li><code>hostedDomain</code> to authenticate G Suite users</li>
+  <li><code>prompt</code> to modify the prompt that the user will see</li>
+  <li><code>scopes</code> to request access to additional user information</li>
+</ul>
+
+<h4 id="accessing-token-jwt">Accessing Token JWT</h4>
+
+<p>Google provides a <a href="https://jwt.io/">JSON Web Token</a> (JWT) with all access tokens. This token
+<a href="https://developers.google.com/identity/protocols/OpenIDConnect#obtainuserinfo">contains basic information</a> about the authenticated user. The JWT
+can be accessed from the <code>id_token</code> value of the access token:</p>
+
+<p>```php
+/** @var League\OAuth2\Client\Token\AccessToken $token */
+$values = $token-&gt;getValues();</p>
+
+<p>/** @var string */
+$jwt = $values['id_token'];
+```</p>
+
+<p>Parsing the JWT will require a <a href="https://packagist.org/search/?q=jwt">JWT parser</a>. Refer to parser
+documentation for instructions.</p>
+
+<h3 id="refreshing-a-token">Refreshing a Token</h3>
+
+<p>Refresh tokens are only provided to applications which request offline access. You can specify offline access by setting the <code>accessType</code> option in your provider:</p>
+
+<p>```php
+use League\OAuth2\Client\Provider\Google;</p>
+
+<p>$provider = new Google([
+    'clientId'     =&gt; '{google-client-id}',
+    'clientSecret' =&gt; '{google-client-secret}',
+    'redirectUri'  =&gt; 'https://example.com/callback-url',
+    'accessType'   =&gt; 'offline',
+]);
+```</p>
+
+<p>It is important to note that the refresh token is only returned on the first request after this it will be <code>null</code>. You should securely store the refresh token when it is returned:</p>
+
+<p>```php
+$token = $provider-&gt;getAccessToken('authorization_code', [
+    'code' =&gt; $code
+]);</p>
+
+<p>// persist the token in a database
+$refreshToken = $token-&gt;getRefreshToken();
+```</p>
+
+<p>If you ever need to get a new refresh token you can request one by forcing the consent prompt:</p>
+
+<p><code>php
+$authUrl = $provider-&gt;getAuthorizationUrl(['prompt' =&gt; 'consent', 'access_type' =&gt; 'offline']);
+</code></p>
+
+<p>Now you have everything you need to refresh an access token using a refresh token:</p>
+
+<p>```php
+use League\OAuth2\Client\Provider\Google;
+use League\OAuth2\Client\Grant\RefreshToken;</p>
+
+<p>$provider = new Google([
+    'clientId'     =&gt; '{google-client-id}',
+    'clientSecret' =&gt; '{google-client-secret}',
+    'redirectUri'  =&gt; 'https://example.com/callback-url',
+]);</p>
+
+<p>$grant = new RefreshToken();
+$token = $provider-&gt;getAccessToken($grant, ['refresh_token' =&gt; $refreshToken]);
+```</p>
+
+<h2 id="scopes">Scopes</h2>
+
+<p>Additional <a href="https://developers.google.com/identity/protocols/googlescopes">scopes</a> can be set by using the <code>scope</code> parameter when
+generating the authorization URL:</p>
+
+<p><code>php
+$authorizationUrl = $provider-&gt;getAuthorizationUrl([
+    'scope' =&gt; [
+        'scope-url-here'
+    ],
+]);
+</code></p>
+
+<h2 id="testing">Testing</h2>
+
+<p>Tests can be run with:</p>
+
+<p><code>sh
+composer test
+</code></p>
+
+<p>Style checks can be run with:</p>
+
+<p><code>sh
+composer check
+</code></p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Please see <a href="https://github.com/thephpleague/oauth2-google/blob/main/CONTRIBUTING.md">CONTRIBUTING</a> for details.</p>
+
+<h2 id="credits">Credits</h2>
+
+<ul>
+  <li><a href="https://github.com/shadowhand">Woody Gilk</a></li>
+  <li><a href="https://github.com/thephpleague/oauth2-google/contributors">All Contributors</a></li>
+</ul>
+
+<h2 id="license">License</h2>
+
+<p>The MIT License (MIT). Please see <a href="https://github.com/thephpleague/oauth2-google/blob/main/LICENSE">License File</a> for more information.</p>

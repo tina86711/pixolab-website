@@ -1,0 +1,144 @@
+<p><img src="/img/.github/logo.png?raw=true" alt="Guzzle" /></p>
+
+<h1 id="guzzle-php-http-client">Guzzle, PHP HTTP client</h1>
+
+<p><a href="https://github.com/guzzle/guzzle/releases"><img src="https://img.shields.io/github/release/guzzle/guzzle.svg?style=flat-square" alt="Latest Version" /></a>
+<a href="https://github.com/guzzle/guzzle/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/actions/workflow/status/guzzle/guzzle/ci.yml?label=ci%20build&amp;style=flat-square" alt="Build Status" /></a>
+<a href="https://packagist.org/packages/guzzlehttp/guzzle"><img src="https://img.shields.io/packagist/dt/guzzlehttp/guzzle.svg?style=flat-square" alt="Total Downloads" /></a></p>
+
+<p>Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and
+trivial to integrate with web services.</p>
+
+<ul>
+  <li>Simple interface for building query strings, POST requests, streaming large
+uploads, streaming large downloads, using HTTP cookies, uploading JSON data,
+etc…</li>
+  <li>Can send both synchronous and asynchronous requests using the same interface.</li>
+  <li>Uses PSR-7 interfaces for requests, responses, and streams. This allows you
+to utilize other PSR-7 compatible libraries with Guzzle.</li>
+  <li>Supports PSR-18 allowing interoperability between other PSR-18 HTTP Clients.</li>
+  <li>Abstracts away the underlying HTTP transport, allowing you to write
+environment and transport agnostic code; i.e., no hard dependency on cURL,
+PHP streams, sockets, or non-blocking event loops.</li>
+  <li>Middleware system allows you to augment and compose client behavior.</li>
+</ul>
+
+<p>```php
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;request('GET', 'https://api.github.com/repos/guzzle/guzzle');</p>
+
+<p>echo $response-&gt;getStatusCode(); // 200
+echo $response-&gt;getHeaderLine('content-type'); // 'application/json; charset=utf8'
+echo $response-&gt;getBody(); // '{"id": 1420053, "name": "guzzle", …}'</p>
+
+<p>// Send an asynchronous request.
+$request = new \GuzzleHttp\Psr7\Request('GET', 'http://httpbin.org');
+$promise = $client-&gt;sendAsync($request)-&gt;then(function ($response) {
+    echo 'I completed! ' . $response-&gt;getBody();
+});</p>
+
+<p>$promise-&gt;wait();
+```</p>
+
+<h2 id="help-and-docs">Help and docs</h2>
+
+<p>We use GitHub issues only to discuss bugs and new features. For support please refer to:</p>
+
+<ul>
+  <li><a href="https://docs.guzzlephp.org">Documentation</a></li>
+  <li><a href="https://stackoverflow.com/questions/tagged/guzzle">Stack Overflow</a></li>
+  <li><a href="https://app.slack.com/client/T0D2S9JCT/CE6UAAKL4">#guzzle</a> channel on <a href="https://slack.httplug.io/">PHP-HTTP Slack</a></li>
+  <li><a href="https://gitter.im/guzzle/guzzle">Gitter</a></li>
+</ul>
+
+<h2 id="installing-guzzle">Installing Guzzle</h2>
+
+<p>The recommended way to install Guzzle is through
+<a href="https://getcomposer.org/">Composer</a>.</p>
+
+<p><code>bash
+composer require guzzlehttp/guzzle
+</code></p>
+
+<h2 id="version-guidance">Version Guidance</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Status</th>
+      <th>Packagist</th>
+      <th>Namespace</th>
+      <th>Repo</th>
+      <th>Docs</th>
+      <th>PSR-7</th>
+      <th>PHP Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3.x</td>
+      <td>EOL (2016-10-31)</td>
+      <td><code>guzzle/guzzle</code></td>
+      <td><code>Guzzle</code></td>
+      <td><a href="https://github.com/guzzle/guzzle3">v3</a></td>
+      <td><a href="https://guzzle3.readthedocs.io/">v3</a></td>
+      <td>No</td>
+      <td>&gt;=5.3.3,&lt;7.0</td>
+    </tr>
+    <tr>
+      <td>4.x</td>
+      <td>EOL (2016-10-31)</td>
+      <td><code>guzzlehttp/guzzle</code></td>
+      <td><code>GuzzleHttp</code></td>
+      <td><a href="https://github.com/guzzle/guzzle/tree/4.x">v4</a></td>
+      <td>N/A</td>
+      <td>No</td>
+      <td>&gt;=5.4,&lt;7.0</td>
+    </tr>
+    <tr>
+      <td>5.x</td>
+      <td>EOL (2019-10-31)</td>
+      <td><code>guzzlehttp/guzzle</code></td>
+      <td><code>GuzzleHttp</code></td>
+      <td><a href="https://github.com/guzzle/guzzle/tree/5.3">v5</a></td>
+      <td><a href="https://docs.guzzlephp.org/en/5.3/">v5</a></td>
+      <td>No</td>
+      <td>&gt;=5.4,&lt;7.4</td>
+    </tr>
+    <tr>
+      <td>6.x</td>
+      <td>EOL (2023-10-31)</td>
+      <td><code>guzzlehttp/guzzle</code></td>
+      <td><code>GuzzleHttp</code></td>
+      <td><a href="https://github.com/guzzle/guzzle/tree/6.5">v6</a></td>
+      <td><a href="https://docs.guzzlephp.org/en/6.5/">v6</a></td>
+      <td>Yes</td>
+      <td>&gt;=5.5,&lt;8.0</td>
+    </tr>
+    <tr>
+      <td>7.x</td>
+      <td>Latest</td>
+      <td><code>guzzlehttp/guzzle</code></td>
+      <td><code>GuzzleHttp</code></td>
+      <td><a href="https://github.com/guzzle/guzzle">v7</a></td>
+      <td><a href="https://docs.guzzlephp.org/en/latest/">v7</a></td>
+      <td>Yes</td>
+      <td>&gt;=7.2.5,&lt;8.5</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="security">Security</h2>
+
+<p>If you discover a security vulnerability within this package, please send an email to security@tidelift.com. All security vulnerabilities will be promptly addressed. Please do not disclose security-related issues publicly until a fix has been announced. Please see <a href="https://github.com/guzzle/guzzle/security/policy">Security Policy</a> for more information.</p>
+
+<h2 id="license">License</h2>
+
+<p>Guzzle is made available under the MIT License (MIT). Please see <a href="/vendor/guzzlehttp/guzzle/LICENSE">License File</a> for more information.</p>
+
+<h2 id="for-enterprise">For Enterprise</h2>
+
+<p>Available as part of the Tidelift Subscription</p>
+
+<p>The maintainers of Guzzle and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. <a href="https://tidelift.com/subscription/pkg/packagist-guzzlehttp-guzzle?utm_source=packagist-guzzlehttp-guzzle&amp;utm_medium=referral&amp;utm_campaign=enterprise&amp;utm_term=repo">Learn more.</a></p>

@@ -1,0 +1,9 @@
+.env
+node_modules
+*.log
+.DS_Store
+tmp/
+.vercel/
+**/vendor/
+**/node_modules/
+backend/contact-api/.env

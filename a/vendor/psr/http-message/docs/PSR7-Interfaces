@@ -1,0 +1,494 @@
+<h1 id="interfaces">Interfaces</h1>
+
+<p>The purpose of this list is to help in finding the methods when working with PSR-7. This can be considered as a cheatsheet for PSR-7 interfaces.</p>
+
+<p>The interfaces defined in PSR-7 are the following:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Class Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="http://www.php-fig.org/psr/psr-7/#psrhttpmessagemessageinterface">Psr\Http\Message\MessageInterface</a></td>
+      <td>Representation of a HTTP message</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.php-fig.org/psr/psr-7/#psrhttpmessagerequestinterface">Psr\Http\Message\RequestInterface</a></td>
+      <td>Representation of an outgoing, client-side request.</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.php-fig.org/psr/psr-7/#psrhttpmessageserverrequestinterface">Psr\Http\Message\ServerRequestInterface</a></td>
+      <td>Representation of an incoming, server-side HTTP request.</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.php-fig.org/psr/psr-7/#psrhttpmessageresponseinterface">Psr\Http\Message\ResponseInterface</a></td>
+      <td>Representation of an outgoing, server-side response.</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.php-fig.org/psr/psr-7/#psrhttpmessagestreaminterface">Psr\Http\Message\StreamInterface</a></td>
+      <td>Describes a data stream</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.php-fig.org/psr/psr-7/#psrhttpmessageuriinterface">Psr\Http\Message\UriInterface</a></td>
+      <td>Value object representing a URI.</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.php-fig.org/psr/psr-7/#psrhttpmessageuploadedfileinterface">Psr\Http\Message\UploadedFileInterface</a></td>
+      <td>Value object representing a file uploaded through an HTTP request.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="psrhttpmessagemessageinterface-methods"><code>Psr\Http\Message\MessageInterface</code> Methods</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getProtocolVersion()</code></td>
+      <td>Retrieve HTTP protocol version</td>
+      <td>1.0 or 1.1</td>
+    </tr>
+    <tr>
+      <td><code>withProtocolVersion($version)</code></td>
+      <td>Returns new message instance with given HTTP protocol version</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getHeaders()</code></td>
+      <td>Retrieve all HTTP Headers</td>
+      <td><a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Request_fields">Request Header List</a>, <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields#Response_fields">Response Header List</a></td>
+    </tr>
+    <tr>
+      <td><code>hasHeader($name)</code></td>
+      <td>Checks if HTTP Header with given name exists</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getHeader($name)</code></td>
+      <td>Retrieves a array with the values for a single header</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getHeaderLine($name)</code></td>
+      <td>Retrieves a comma-separated string of the values for a single header</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withHeader($name, $value)</code></td>
+      <td>Returns new message instance with given HTTP Header</td>
+      <td>if the header existed in the original instance, replaces the header value from the original message with the value provided when creating the new instance.</td>
+    </tr>
+    <tr>
+      <td><code>withAddedHeader($name, $value)</code></td>
+      <td>Returns new message instance with appended value to given header</td>
+      <td>If header already exists value will be appended, if not a new header will be created</td>
+    </tr>
+    <tr>
+      <td><code>withoutHeader($name)</code></td>
+      <td>Removes HTTP Header with given name</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getBody()</code></td>
+      <td>Retrieves the HTTP Message Body</td>
+      <td>Returns object implementing <code>StreamInterface</code></td>
+    </tr>
+    <tr>
+      <td><code>withBody(StreamInterface $body)</code></td>
+      <td>Returns new message instance with given HTTP Message Body</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="psrhttpmessagerequestinterface-methods"><code>Psr\Http\Message\RequestInterface</code> Methods</h2>
+
+<p>Same methods as <code>Psr\Http\Message\MessageInterface</code>  + the following methods:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getRequestTarget()</code></td>
+      <td>Retrieves the message's request target</td>
+      <td>origin-form, absolute-form, authority-form, asterisk-form (<a href="https://www.rfc-editor.org/rfc/rfc7230.txt">RFC7230</a>)</td>
+    </tr>
+    <tr>
+      <td><code>withRequestTarget($requestTarget)</code></td>
+      <td>Return a new message instance with the specific request-target</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getMethod()</code></td>
+      <td>Retrieves the HTTP method of the request.</td>
+      <td>GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE (defined in <a href="https://tools.ietf.org/html/rfc7231">RFC7231</a>), PATCH (defined in <a href="https://tools.ietf.org/html/rfc5789">RFC5789</a>)</td>
+    </tr>
+    <tr>
+      <td><code>withMethod($method)</code></td>
+      <td>Returns a new message instance with the provided HTTP method</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getUri()</code></td>
+      <td>Retrieves the URI instance</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withUri(UriInterface $uri, $preserveHost = false)</code></td>
+      <td>Returns a new message instance with the provided URI</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="psrhttpmessageserverrequestinterface-methods"><code>Psr\Http\Message\ServerRequestInterface</code> Methods</h2>
+
+<p>Same methods as <code>Psr\Http\Message\RequestInterface</code>  + the following methods:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getServerParams() </code></td>
+      <td>Retrieve server parameters</td>
+      <td>Typically derived from <code>$_SERVER</code></td>
+    </tr>
+    <tr>
+      <td><code>getCookieParams()</code></td>
+      <td>Retrieves cookies sent by the client to the server.</td>
+      <td>Typically derived from <code>$_COOKIES</code></td>
+    </tr>
+    <tr>
+      <td><code>withCookieParams(array $cookies)</code></td>
+      <td>Returns a new request instance with the specified cookies</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withQueryParams(array $query)</code></td>
+      <td>Returns a new request instance with the specified query string arguments</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getUploadedFiles()</code></td>
+      <td>Retrieve normalized file upload data</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withUploadedFiles(array $uploadedFiles)</code></td>
+      <td>Returns a new request instance with the specified uploaded files</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getParsedBody()</code></td>
+      <td>Retrieve any parameters provided in the request body</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withParsedBody($data)</code></td>
+      <td>Returns a new request instance with the specified body parameters</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getAttributes()</code></td>
+      <td>Retrieve attributes derived from the request</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getAttribute($name, $default = null)</code></td>
+      <td>Retrieve a single derived request attribute</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withAttribute($name, $value)</code></td>
+      <td>Returns a new request instance with the specified derived request attribute</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withoutAttribute($name)</code></td>
+      <td>Returns a new request instance that without the specified derived request attribute</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="psrhttpmessageresponseinterface-methods"><code>Psr\Http\Message\ResponseInterface</code> Methods:</h2>
+
+<p>Same methods as <code>Psr\Http\Message\MessageInterface</code>  + the following methods:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getStatusCode()</code></td>
+      <td>Gets the response status code.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withStatus($code, $reasonPhrase = '')</code></td>
+      <td>Returns a new response instance with the specified status code and, optionally, reason phrase.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getReasonPhrase()</code></td>
+      <td>Gets the response reason phrase associated with the status code.</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="psrhttpmessagestreaminterface-methods"><code>Psr\Http\Message\StreamInterface</code> Methods</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>__toString()</code></td>
+      <td>Reads all data from the stream into a string, from the beginning to end.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>close()</code></td>
+      <td>Closes the stream and any underlying resources.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>detach()</code></td>
+      <td>Separates any underlying resources from the stream.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getSize()</code></td>
+      <td>Get the size of the stream if known.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>eof()</code></td>
+      <td>Returns true if the stream is at the end of the stream.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>isSeekable()</code></td>
+      <td>Returns whether or not the stream is seekable.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>seek($offset, $whence = SEEK_SET)</code></td>
+      <td>Seek to a position in the stream.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>rewind()</code></td>
+      <td>Seek to the beginning of the stream.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>isWritable()</code></td>
+      <td>Returns whether or not the stream is writable.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>write($string)</code></td>
+      <td>Write data to the stream.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>isReadable()</code></td>
+      <td>Returns whether or not the stream is readable.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>read($length)</code></td>
+      <td>Read data from the stream.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getContents()</code></td>
+      <td>Returns the remaining contents in a string</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getMetadata($key = null)()</code></td>
+      <td>Get stream metadata as an associative array or retrieve a specific key.</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="psrhttpmessageuriinterface-methods"><code>Psr\Http\Message\UriInterface</code> Methods</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getScheme()</code></td>
+      <td>Retrieve the scheme component of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getAuthority()</code></td>
+      <td>Retrieve the authority component of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getUserInfo()</code></td>
+      <td>Retrieve the user information component of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getHost()</code></td>
+      <td>Retrieve the host component of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getPort()</code></td>
+      <td>Retrieve the port component of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getPath()</code></td>
+      <td>Retrieve the path component of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getQuery()</code></td>
+      <td>Retrieve the query string of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getFragment()</code></td>
+      <td>Retrieve the fragment component of the URI.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withScheme($scheme)</code></td>
+      <td>Return an instance with the specified scheme.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withUserInfo($user, $password = null)</code></td>
+      <td>Return an instance with the specified user information.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withHost($host)</code></td>
+      <td>Return an instance with the specified host.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withPort($port)</code></td>
+      <td>Return an instance with the specified port.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withPath($path)</code></td>
+      <td>Return an instance with the specified path.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withQuery($query)</code></td>
+      <td>Return an instance with the specified query string.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>withFragment($fragment)</code></td>
+      <td>Return an instance with the specified URI fragment.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>__toString()</code></td>
+      <td>Return the string representation as a URI reference.</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="psrhttpmessageuploadedfileinterface-methods"><code>Psr\Http\Message\UploadedFileInterface</code> Methods</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>Description</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getStream()</code></td>
+      <td>Retrieve a stream representing the uploaded file.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>moveTo($targetPath)</code></td>
+      <td>Move the uploaded file to a new location.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getSize()</code></td>
+      <td>Retrieve the file size.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getError()</code></td>
+      <td>Retrieve the error associated with the uploaded file.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getClientFilename()</code></td>
+      <td>Retrieve the filename sent by the client.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>getClientMediaType()</code></td>
+      <td>Retrieve the media type sent by the client.</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><code>RequestInterface</code>, <code>ServerRequestInterface</code>, <code>ResponseInterface</code> extend <code>MessageInterface</code>  because the <code>Request</code> and the <code>Response</code> are <code>HTTP Messages</code>.
+When using <code>ServerRequestInterface</code>, both <code>RequestInterface</code> and <code>Psr\Http\Message\MessageInterface</code> methods are considered.</p>
+</blockquote>
+

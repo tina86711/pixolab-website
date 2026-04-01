@@ -1,0 +1,211 @@
+<h1 id="changelog">CHANGELOG</h1>
+
+<h2 id="section">2.2.0 - 2025-03-27</h2>
+
+<h3 id="fixed">Fixed</h3>
+
+<ul>
+  <li>Revert "Allow an empty EachPromise to be resolved by running the queue"</li>
+</ul>
+
+<h2 id="section-1">2.1.0 - 2025-03-27</h2>
+
+<h3 id="added">Added</h3>
+
+<ul>
+  <li>Allow an empty EachPromise to be resolved by running the queue</li>
+</ul>
+
+<h2 id="section-2">2.0.4 - 2024-10-17</h2>
+
+<h3 id="fixed-1">Fixed</h3>
+
+<ul>
+  <li>Once settled, don't allow further rejection of additional promises</li>
+</ul>
+
+<h2 id="section-3">2.0.3 - 2024-07-18</h2>
+
+<h3 id="changed">Changed</h3>
+
+<ul>
+  <li>PHP 8.4 support</li>
+</ul>
+
+<h2 id="section-4">2.0.2 - 2023-12-03</h2>
+
+<h3 id="changed-1">Changed</h3>
+
+<ul>
+  <li>Replaced <code>call_user_func*</code> with native calls</li>
+</ul>
+
+<h2 id="section-5">2.0.1 - 2023-08-03</h2>
+
+<h3 id="changed-2">Changed</h3>
+
+<ul>
+  <li>PHP 8.3 support</li>
+</ul>
+
+<h2 id="section-6">2.0.0 - 2023-05-21</h2>
+
+<h3 id="added-1">Added</h3>
+
+<ul>
+  <li>Added PHP 7 type hints</li>
+</ul>
+
+<h3 id="changed-3">Changed</h3>
+
+<ul>
+  <li>All previously non-final non-exception classes have been marked as soft-final</li>
+</ul>
+
+<h3 id="removed">Removed</h3>
+
+<ul>
+  <li>Dropped PHP &lt; 7.2 support</li>
+  <li>All functions in the <code>GuzzleHttp\Promise</code> namespace</li>
+</ul>
+
+<h2 id="section-7">1.5.3 - 2023-05-21</h2>
+
+<h3 id="changed-4">Changed</h3>
+
+<ul>
+  <li>Removed remaining usage of deprecated functions</li>
+</ul>
+
+<h2 id="section-8">1.5.2 - 2022-08-07</h2>
+
+<h3 id="changed-5">Changed</h3>
+
+<ul>
+  <li>Officially support PHP 8.2</li>
+</ul>
+
+<h2 id="section-9">1.5.1 - 2021-10-22</h2>
+
+<h3 id="fixed-2">Fixed</h3>
+
+<ul>
+  <li>Revert "Call handler when waiting on fulfilled/rejected Promise"</li>
+  <li>Fix pool memory leak when empty array of promises provided</li>
+</ul>
+
+<h2 id="section-10">1.5.0 - 2021-10-07</h2>
+
+<h3 id="changed-6">Changed</h3>
+
+<ul>
+  <li>Call handler when waiting on fulfilled/rejected Promise</li>
+  <li>Officially support PHP 8.1</li>
+</ul>
+
+<h3 id="fixed-3">Fixed</h3>
+
+<ul>
+  <li>Fix manually settle promises generated with <code>Utils::task</code></li>
+</ul>
+
+<h2 id="section-11">1.4.1 - 2021-02-18</h2>
+
+<h3 id="fixed-4">Fixed</h3>
+
+<ul>
+  <li>Fixed <code>each_limit</code> skipping promises and failing</li>
+</ul>
+
+<h2 id="section-12">1.4.0 - 2020-09-30</h2>
+
+<h3 id="added-2">Added</h3>
+
+<ul>
+  <li>Support for PHP 8</li>
+  <li>Optional <code>$recursive</code> flag to <code>all</code></li>
+  <li>Replaced functions by static methods</li>
+</ul>
+
+<h3 id="fixed-5">Fixed</h3>
+
+<ul>
+  <li>Fix empty <code>each</code> processing</li>
+  <li>Fix promise handling for Iterators of non-unique keys</li>
+  <li>Fixed <code>method_exists</code> crashes on PHP 8</li>
+  <li>Memory leak on exceptions</li>
+</ul>
+
+<h2 id="section-13">1.3.1 - 2016-12-20</h2>
+
+<h3 id="fixed-6">Fixed</h3>
+
+<ul>
+  <li><code>wait()</code> foreign promise compatibility</li>
+</ul>
+
+<h2 id="section-14">1.3.0 - 2016-11-18</h2>
+
+<h3 id="added-3">Added</h3>
+
+<ul>
+  <li>Adds support for custom task queues.</li>
+</ul>
+
+<h3 id="fixed-7">Fixed</h3>
+
+<ul>
+  <li>Fixed coroutine promise memory leak.</li>
+</ul>
+
+<h2 id="section-15">1.2.0 - 2016-05-18</h2>
+
+<h3 id="changed-7">Changed</h3>
+
+<ul>
+  <li>Update to now catch <code>\Throwable</code> on PHP 7+</li>
+</ul>
+
+<h2 id="section-16">1.1.0 - 2016-03-07</h2>
+
+<h3 id="changed-8">Changed</h3>
+
+<ul>
+  <li>Update EachPromise to prevent recurring on a iterator when advancing, as this
+could trigger fatal generator errors.</li>
+  <li>Update Promise to allow recursive waiting without unwrapping exceptions.</li>
+</ul>
+
+<h2 id="section-17">1.0.3 - 2015-10-15</h2>
+
+<h3 id="changed-9">Changed</h3>
+
+<ul>
+  <li>Update EachPromise to immediately resolve when the underlying promise iterator
+is empty. Previously, such a promise would throw an exception when its <code>wait</code>
+function was called.</li>
+</ul>
+
+<h2 id="section-18">1.0.2 - 2015-05-15</h2>
+
+<h3 id="changed-10">Changed</h3>
+
+<ul>
+  <li>Conditionally require functions.php.</li>
+</ul>
+
+<h2 id="section-19">1.0.1 - 2015-06-24</h2>
+
+<h3 id="changed-11">Changed</h3>
+
+<ul>
+  <li>Updating EachPromise to call next on the underlying promise iterator as late
+as possible to ensure that generators that generate new requests based on
+callbacks are not iterated until after callbacks are invoked.</li>
+</ul>
+
+<h2 id="section-20">1.0.0 - 2015-05-12</h2>
+
+<ul>
+  <li>Initial release</li>
+</ul>
