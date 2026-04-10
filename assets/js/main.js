@@ -935,7 +935,11 @@ function initContactForm() {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
 
-        fetch('http://localhost:3000/api/contact', {
+        // Environment-aware API URL
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiUrl = isLocal ? 'http://localhost:3000/api/contact' : '/api/contact';
+
+        fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
